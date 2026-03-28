@@ -1,0 +1,42 @@
+---
+import { siteConfig, socialLinks } from "../../config/site";
+---
+
+<section id="contact" class="pt-24 md:pt-32 pb-20 md:pb-28">
+  <div class="mx-auto max-w-3xl rounded-3xl border border-accent/20 bg-accent/8 p-6 md:p-8">
+    <div class="space-y-4">
+      <p class="font-heading text-sm tracking-[0.4em] uppercase text-accent/80">
+        Contacto
+      </p>
+      <h2 class="font-heading text-2xl md:text-4xl leading-tight text-text">
+        Hablemos de la próxima versión de tu sitio.
+      </h2>
+      <p class="max-w-2xl text-base md:text-lg leading-relaxed text-text/80">
+        {siteConfig.contact.lead}
+      </p>
+      <p class="text-sm text-text/70">
+        {siteConfig.availability}
+      </p>
+    </div>
+
+    <div class="mt-8 flex flex-wrap gap-3">
+      <a
+        href={`mailto:${siteConfig.email}`}
+        class="inline-flex items-center justify-center rounded-xl border border-accent/30 bg-bg px-5 py-3 text-sm font-medium text-text transition-transform duration-200 ease-out hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
+      >
+        {siteConfig.email}
+      </a>
+
+      {socialLinks.map((link) => (
+        <a
+          href={link.href}
+          target="_blank"
+          rel="noreferrer"
+          class="inline-flex items-center justify-center rounded-xl border border-text/15 px-5 py-3 text-sm font-medium text-text/85 transition-transform duration-200 ease-out hover:-translate-y-0.5 hover:border-text/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
+        >
+          {link.label}
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

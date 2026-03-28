@@ -1,0 +1,75 @@
+---
+import Header from "../components/layout/Header.astro";
+import Sidebar from "../components/layout/Sidebar.astro";
+import { siteConfig } from "../config/site";
+import "../styles/global.css";
+
+const { description, locale, name, siteUrl, seo, title } = siteConfig;
+const pageTitle = seo?.defaultTitle ?? title;
+const baseUrl = siteUrl ? siteUrl.replace(/\/$/, "") : "";
+const pathname = Astro.url.pathname === "/" ? "" : Astro.url.pathname;
+const canonicalUrl = baseUrl ? `${baseUrl}${pathname}` : "";
+const socialImageUrl =
+  baseUrl && seo?.ogImage
+    ? seo.ogImage.startsWith("http")
+      ? seo.ogImage
+      : `${baseUrl}${seo.ogImage}`
+    : "";
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#333333" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content={locale} />
+    <meta property="og:site_name" content={name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    {siteUrl && <link rel="canonical" href={canonicalUrl} />}
+    {siteUrl && <meta property="og:url" content={canonicalUrl} />}
+    {socialImageUrl && <meta property="og:image" content={socialImageUrl} />}
+    {socialImageUrl && <meta name="twitter:image" content={socialImageUrl} />}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Oxanium:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>{pageTitle}</title>
+  </head>
+
+  <body class="bg-bg text-text font-body antialiased">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4
+             focus:rounded-lg focus:bg-bg focus:px-4 focus:py-2
+             focus:ring-2 focus:ring-accent/60 z-50"
+    >
+      Saltar al contenido
+    </a>
+
+    <Header />
+
+    <div class="mx-auto max-w-6xl">
+      <div class="md:grid md:grid-cols-[320px_1fr]">
+        <Sidebar />
+
+        <main id="main" class="px-6 md:px-10 pt-12 md:pt-16">
+          <slot />
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

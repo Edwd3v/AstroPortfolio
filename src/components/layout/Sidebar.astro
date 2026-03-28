@@ -1,0 +1,41 @@
+---
+import { navItems, siteConfig } from "../../config/site";
+
+const name = siteConfig.name ?? "Tu Nombre";
+const role = siteConfig.role ?? "Frontend Developer";
+---
+
+<aside class="hidden md:block md:sticky md:top-0 h-screen">
+  <div class="h-full px-6 lg:px-10 py-10 flex flex-col justify-between">
+    <div class="space-y-8">
+      <div class="space-y-3">
+        <p
+          class="font-heading text-xl tracking-[0.25em] uppercase text-text/90"
+        >
+          {name}
+        </p>
+        <p
+          class="font-heading text-[11px] tracking-[0.35em] uppercase text-accent/80"
+        >
+          {role}
+        </p>
+      </div>
+
+      <nav aria-label="Secciones" class="pt-6 space-y-4">
+        {navItems.map((item) => (
+          <a
+            class="block rounded-md font-heading text-[11px] tracking-[0.35em] uppercase text-text/70 transition-colors hover:text-text focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
+            href={item.href}
+          >
+            {item.label}
+          </a>
+        ))}
+      </nav>
+    </div>
+
+    <p class="text-xs text-text/50">
+      © {new Date().getFullYear()}
+      {name}
+    </p>
+  </div>
+</aside>

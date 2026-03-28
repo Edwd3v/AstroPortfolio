@@ -1,0 +1,87 @@
+---
+import type { Project } from "../../data/projects";
+
+type Props = {
+  title: Project["title"];
+  description: Project["description"];
+  href?: Project["href"];
+  tech?: Project["tech"];
+  status?: Project["status"];
+};
+
+const { title, description, href, tech = [], status } = Astro.props as Props;
+const cardClass =
+  "group block rounded-2xl border border-text/10 bg-bg/30 p-5 md:p-6 transition-transform duration-200 ease-out hover:-translate-y-0.5 hover:border-accent/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/60";
+---
+
+<li>
+  {
+    href ? (
+      <article>
+        <a href={href} target="_blank" rel="noreferrer" class={cardClass}>
+          <div class="flex items-start justify-between gap-4">
+            <div class="space-y-2">
+              <h3 class="font-heading text-base md:text-lg tracking-[0.18em] uppercase text-text/90">
+                {title}
+              </h3>
+              {status && (
+                <p class="text-[11px] font-medium uppercase tracking-[0.25em] text-accent/75">
+                  {status}
+                </p>
+              )}
+            </div>
+            <span
+              class="text-accent/70 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+              aria-hidden="true"
+            >
+              -&gt;
+            </span>
+          </div>
+
+          <p class="mt-3 text-sm md:text-base leading-relaxed text-text/70">
+            {description}
+          </p>
+
+          {tech.length > 0 && (
+            <ul class="mt-4 flex flex-wrap gap-2" aria-label={`Tecnologías usadas en ${title}`}>
+              {tech.map((item) => (
+                <li class="rounded-full border border-text/10 px-3 py-1 text-[11px] text-text/70">
+                  {item}
+                </li>
+              ))}
+            </ul>
+          )}
+        </a>
+      </article>
+    ) : (
+      <article class={cardClass}>
+        <div class="flex items-start justify-between gap-4">
+          <div class="space-y-2">
+            <h3 class="font-heading text-base md:text-lg tracking-[0.18em] uppercase text-text/90">
+              {title}
+            </h3>
+            {status && (
+              <p class="text-[11px] font-medium uppercase tracking-[0.25em] text-accent/75">
+                {status}
+              </p>
+            )}
+          </div>
+        </div>
+
+        <p class="mt-3 text-sm md:text-base leading-relaxed text-text/70">
+          {description}
+        </p>
+
+        {tech.length > 0 && (
+          <ul class="mt-4 flex flex-wrap gap-2" aria-label={`Tecnologías usadas en ${title}`}>
+            {tech.map((item) => (
+              <li class="rounded-full border border-text/10 px-3 py-1 text-[11px] text-text/70">
+                {item}
+              </li>
+            ))}
+          </ul>
+        )}
+      </article>
+    )
+  }
+</li>

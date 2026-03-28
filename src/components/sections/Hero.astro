@@ -1,0 +1,47 @@
+---
+import { siteConfig } from "../../config/site";
+
+const { hero, cta } = siteConfig;
+---
+
+<section aria-labelledby="hero-title">
+  <div class="mx-auto max-w-3xl pt-16 md:pt-24 pb-16 md:pb-20 space-y-6">
+    <p class="font-heading text-sm tracking-[0.4em] uppercase text-accent/80">
+      {hero.eyebrow}
+    </p>
+    <h1
+      id="hero-title"
+      class="font-heading text-3xl md:text-5xl leading-[1.05] tracking-[-0.01em]"
+    >
+      {hero.headline}
+    </h1>
+
+    <p class="max-w-prose text-base md:text-lg leading-relaxed text-text/80">
+      {hero.summary}
+    </p>
+
+    <div class="pt-6 flex flex-wrap gap-3">
+      <a
+        href={cta.primary.href}
+        class="inline-flex items-center justify-center rounded-xl px-5 py-3 text-sm font-medium
+               bg-accent/15 text-text border border-accent/30
+               transition-transform duration-200 ease-out
+               hover:-translate-y-0.5 hover:bg-accent/20
+               focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
+      >
+        {cta.primary.label}
+      </a>
+
+      <a
+        href={cta.secondary.href}
+        class="inline-flex items-center justify-center rounded-xl px-5 py-3 text-sm font-medium
+               border border-text/20 text-text/90
+               transition-transform duration-200 ease-out
+               hover:-translate-y-0.5 hover:border-text/30
+               focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
+      >
+        {cta.secondary.label}
+      </a>
+    </div>
+  </div>
+</section>

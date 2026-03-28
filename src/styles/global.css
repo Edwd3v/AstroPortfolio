@@ -1,0 +1,20 @@
+@import "tailwindcss";
+@config "../../tailwind.config.mjs";
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+}
+
+::selection {
+  background: rgb(108 196 199 / 0.25);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

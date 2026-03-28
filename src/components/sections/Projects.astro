@@ -1,0 +1,24 @@
+---
+import ProjectCard from "../ui/ProjectCard.astro";
+import { projects } from "../../data/projects";
+---
+
+<section id="projects" class="pt-24 md:pt-32">
+  <div class="mx-auto max-w-3xl space-y-8">
+    <header class="space-y-3">
+      <h2
+        class="font-heading text-sm tracking-[0.4em] uppercase text-accent/80"
+      >
+        Proyectos
+      </h2>
+      <p class="text-text/70">
+        Una selección de proyectos centrados en rendimiento, claridad de
+        implementación y una experiencia web fácil de mantener.
+      </p>
+    </header>
+
+    <ul class="space-y-4">
+      {projects.map((project) => <ProjectCard {...project} />)}
+    </ul>
+  </div>
+</section>

@@ -1,0 +1,37 @@
+---
+import { navItems, siteConfig } from "../../config/site";
+const name = siteConfig.name ?? "Tu Nombre";
+---
+
+<header class="sticky top-0 z-50 md:hidden">
+  <div class="border-b border-text/10 bg-bg/70 backdrop-blur">
+    <div class="mx-auto max-w-6xl px-6">
+      <div class="flex h-16 items-center justify-between">
+        <a
+          href="#top"
+          class="group inline-flex items-center gap-3 font-heading text-xs tracking-[0.35em] uppercase text-text/90
+                 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 rounded-md"
+          aria-label={`Ir al inicio de ${name}`}
+        >
+          <span
+            aria-hidden="true"
+            class="h-2 w-2 rounded-sm bg-accent/70 group-hover:bg-accent transition-colors"
+          ></span>
+          <span>{name}</span>
+        </a>
+
+        <nav aria-label="Navegación principal" class="flex items-center gap-4">
+          {navItems.map((item) => (
+            <a
+              href={item.href}
+              class="font-heading text-[10px] tracking-[0.35em] uppercase text-text/70 transition-colors
+                     hover:text-text focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 rounded-md"
+            >
+              {item.label}
+            </a>
+          ))}
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
