@@ -5,34 +5,34 @@ export const navItems = [
 ] as const;
 
 export const socialLinks = [
-  { label: "GitHub", href: "https://github.com/tuusuario" },
-  { label: "LinkedIn", href: "https://www.linkedin.com/in/tuusuario/" },
+  { label: "GitHub", href: "https://github.com/Edwd3v" },
 ] as const;
 
 export const siteConfig = {
-  name: "Nombre Apellido",
-  role: "Desarrollador Frontend",
-  title: "Nombre Apellido | Desarrollador Frontend",
+  name: "Edwdev",
+  role: "Software Engineering Student",
+  title: "Edwdev | Software Engineering Student",
   description:
-    "Portafolio frontend enfocado en interfaces rápidas, accesibles y mantenibles construidas con Astro y una base técnica clara.",
+    "Portafolio de Edwdev, estudiante de Ingeniería de Software enfocado en Python, datos, automatización y desarrollo asistido por IA.",
   locale: "es_CO",
-  siteUrl: "https://tudominio.com",
-  email: "contacto@tudominio.com",
-  availability: "Disponible para proyectos freelance, colaboraciones remotas y trabajo por objetivos.",
+  siteUrl: "" as string,
+  email: "edwd3v@gmail.com",
+  availability:
+    "Disponible para prácticas, proyectos junior, colaboraciones tecnológicas y oportunidades de entrada relacionadas con desarrollo de software, Python, datos, automatización e inteligencia artificial aplicada.",
   identity: {
-    shortName: "Nombre",
-    fullName: "Nombre Apellido",
-    role: "Desarrollador Frontend",
+    shortName: "Edwdev",
+    fullName: "Edwdev",
+    role: "Software Engineering Student | Python, Data & AI-Assisted Development",
     location: "Colombia",
     focus: [
-      "Astro y sitios estáticos de alto rendimiento",
-      "Sistemas de diseño ligeros",
-      "Accesibilidad, performance y SEO técnico",
+      "Python aplicado a software, datos y automatización",
+      "Desarrollo asistido por inteligencia artificial",
+      "Bases de datos, Linux, terminal y flujos con Git/GitHub",
     ],
   },
   seo: {
-    defaultTitle: "Nombre Apellido | Desarrollador Frontend",
-    titleTemplate: "%s | Nombre Apellido",
+    defaultTitle: "Edwdev | Software Engineering Student",
+    titleTemplate: "%s | Edwdev",
     ogImage: "/og-cover.jpg",
   },
   cta: {
@@ -46,23 +46,23 @@ export const siteConfig = {
     },
   },
   hero: {
-    eyebrow: "Desarrollo Frontend",
+    eyebrow: "Python, datos e IA aplicada",
     headline:
-      "Diseño y construyo interfaces rápidas, accesibles y listas para producción.",
+      "Construyo soluciones de software desde Python, datos y desarrollo asistido por IA.",
     summary:
-      "Trabajo en sitios y productos web donde importan la claridad visual, el rendimiento, la mantenibilidad y una implementación sólida desde la primera versión.",
+      "Soy estudiante de Ingeniería de Software con interés en crear aplicaciones, automatizaciones y soluciones prácticas apoyadas en herramientas modernas de desarrollo, análisis de datos e inteligencia artificial.",
   },
   about: {
     intro:
-      "Trabajo en la intersección entre diseño y desarrollo para convertir objetivos de negocio en interfaces claras, veloces y confiables.",
+      "Trabajo principalmente desde entornos Linux y terminal, usando Git, GitHub y Codex para prototipar, depurar, documentar y mejorar proyectos de software. También exploro Astro para construir interfaces y sitios modernos cuando el proyecto lo requiere.",
     focus: [
-      "Arquitectura de componentes y sistemas de diseño ligeros.",
-      "Mejoras de performance, accesibilidad y SEO técnico.",
-      "Implementación de experiencias estáticas y escalables con Astro.",
+      "Python aplicado a desarrollo de software, automatización y análisis de datos.",
+      "Bases de datos, MySQL, terminal, Linux y flujos técnicos reproducibles.",
+      "Integración de herramientas de IA en procesos de desarrollo y aprendizaje.",
     ],
   },
   contact: {
     lead:
-      "Si tienes una landing, portafolio o producto web que necesita una capa frontend más sólida, podemos hablar.",
+      "Busco prácticas, roles junior y proyectos de entrada donde pueda aportar en la construcción de soluciones útiles mientras fortalezco mi criterio técnico en proyectos reales.",
   },
 } as const;

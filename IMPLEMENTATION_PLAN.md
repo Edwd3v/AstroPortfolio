@@ -30,27 +30,34 @@ Estado de la auditoría:
 
 Archivo principal: `src/config/site.ts`
 
-- [ ] Reemplazar `name` por el nombre real
-- [ ] Reemplazar `role` por el rol profesional real
-- [ ] Ajustar `title` y `seo.defaultTitle`
-- [ ] Ajustar `description` para reflejar el perfil real
-- [ ] Reemplazar `siteUrl` por el dominio real o dejar una decisión explícita pendiente
-- [ ] Reemplazar `email` por el correo real de contacto
-- [ ] Reemplazar `availability` por una disponibilidad realista
-- [ ] Completar `identity.shortName`
-- [ ] Completar `identity.fullName`
-- [ ] Completar `identity.role`
-- [ ] Completar `identity.location`
-- [ ] Ajustar `identity.focus` con fortalezas reales
-- [ ] Revisar `cta.primary`
-- [ ] Revisar `cta.secondary`
-- [ ] Reescribir `hero.eyebrow`
-- [ ] Reescribir `hero.headline`
-- [ ] Reescribir `hero.summary`
-- [ ] Reescribir `about.intro`
-- [ ] Reescribir `about.focus`
-- [ ] Reescribir `contact.lead`
-- [ ] Reemplazar enlaces de `socialLinks` por perfiles reales
+- [x] Reemplazar `name` por el nombre real
+- [x] Reemplazar `role` por el rol profesional real
+- [x] Ajustar `title` y `seo.defaultTitle`
+- [x] Ajustar `description` para reflejar el perfil real
+- [x] Reemplazar `siteUrl` por el dominio real o dejar una decisión explícita pendiente
+- [x] Reemplazar `email` por el correo real de contacto
+- [x] Reemplazar `availability` por una disponibilidad realista
+- [x] Completar `identity.shortName`
+- [x] Completar `identity.fullName`
+- [x] Completar `identity.role`
+- [x] Completar `identity.location`
+- [x] Ajustar `identity.focus` con fortalezas reales
+- [x] Revisar `cta.primary`
+- [x] Revisar `cta.secondary`
+- [x] Reescribir `hero.eyebrow`
+- [x] Reescribir `hero.headline`
+- [x] Reescribir `hero.summary`
+- [x] Reescribir `about.intro`
+- [x] Reescribir `about.focus`
+- [x] Reescribir `contact.lead`
+- [x] Reemplazar enlaces de `socialLinks` por perfiles reales
+
+Estado:
+
+- Se actualizó `src/config/site.ts` con la identidad profesional de Edwdev.
+- `siteUrl` queda temporalmente vacío porque el dominio sigue pendiente.
+- LinkedIn no se publica todavía porque el enlace sigue pendiente.
+- `socialLinks` conserva solo GitHub real: `https://github.com/Edwd3v`.
 
 ## Fase 3. Proyectos reales
 
@@ -149,7 +156,7 @@ Plan mode sí tiene sentido si se quiere ejecutar esta lista por bloques y mante
 Secuencia sugerida dentro de Codex:
 
 - [x] Bloque 1: auditoría de placeholders
-- [ ] Bloque 2: identidad y config
+- [x] Bloque 2: identidad y config
 - [ ] Bloque 3: proyectos reales
 - [ ] Bloque 4: copy y consistencia
 - [ ] Bloque 5: SEO y README
