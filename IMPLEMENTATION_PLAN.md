@@ -109,18 +109,19 @@ Archivos:
 - [ ] Revisar consistencia entre Open Graph y Twitter metadata
 - [ ] Confirmar que el idioma del documento sea correcto
 - [x] Implementar un selector visual de idioma sin enlazar rutas inexistentes
-- [x] Definir estructura inicial de idiomas: `/` para español y `/en/` para inglés
+- [x] Definir estructura final de idiomas: `/es/` para español y `/en/` para inglés
 - [x] Preparar contenido estructurado para español e inglés
 - [ ] Agregar `hreflang` cuando existan rutas por idioma
-- [ ] Decidir si `/` redirige por idioma del navegador o a un idioma por defecto
+- [x] Decidir si `/` redirige por idioma del navegador o a un idioma por defecto
 
 Estado:
 
 - Se agregó `LanguageSwitch` como selector ES/EN.
-- `/` queda como versión en español.
-- `/en/` queda como versión en inglés para validar contenido.
+- `/es/` queda como versión en español.
+- `/en/` queda como versión en inglés.
+- `/` queda como entrada de redirección: usa idioma del navegador y cae a `/es/` por defecto.
 - El selector se movió a una franja propia en móvil y al bloque inferior del sidebar en escritorio para evaluar una posición menos saturada.
-- Queda pendiente decidir si la estructura final será `/es/` y `/en/`, o si `/` permanecerá como español por defecto.
+- `hreflang` queda pendiente hasta definir `siteUrl`, para publicarlo con URLs absolutas.
 
 ## Fase 6. Consistencia visual y semántica
 
