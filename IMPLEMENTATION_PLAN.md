@@ -121,7 +121,8 @@ Estado:
 - `/en/` queda como versión en inglés.
 - `/` queda como entrada de redirección: usa idioma del navegador y cae a `/es/` por defecto.
 - El selector se movió a una franja propia en móvil y al bloque inferior del sidebar en escritorio para evaluar una posición menos saturada.
-- `hreflang` queda pendiente hasta definir `siteUrl`, para publicarlo con URLs absolutas.
+- `siteUrl` sigue pendiente hasta el despliegue.
+- `canonical`, `og:url` y `hreflang` quedan pendientes hasta poder publicarlos con URLs absolutas reales.
 
 ## Fase 6. Consistencia visual y semántica
 
