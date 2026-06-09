@@ -54,11 +54,11 @@ export const siteConfig = {
   },
   about: {
     intro:
-      "Trabajo principalmente desde entornos Linux y terminal, usando Git, GitHub y Codex para prototipar, depurar, documentar y mejorar proyectos de software. También exploro Astro para construir interfaces y sitios modernos cuando el proyecto lo requiere.",
+      "Soy estudiante de Ingeniería de Software. Me enfoco en convertir ideas técnicas en proyectos prácticos: aplicaciones, automatizaciones, consultas a bases de datos y flujos de trabajo reproducibles desde Linux, terminal, Git y GitHub.",
     focus: [
-      "Python aplicado a desarrollo de software, automatización y análisis de datos.",
-      "Bases de datos, MySQL, terminal, Linux y flujos técnicos reproducibles.",
-      "Integración de herramientas de IA en procesos de desarrollo y aprendizaje.",
+      "Python para desarrollo de aplicaciones, automatización y análisis de datos.",
+      "Bases de datos, MySQL y organización de información para soluciones prácticas.",
+      "Uso de herramientas de IA para acelerar prototipado, depuración, documentación y aprendizaje técnico.",
     ],
   },
   contact: {

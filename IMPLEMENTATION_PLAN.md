@@ -85,8 +85,8 @@ Archivos:
 - `src/components/sections/Contact.astro`
 
 - [x] Verificar que la sección `Hero` refleje correctamente el perfil real
-- [ ] Revisar si el texto introductorio de `Projects` sigue siendo coherente con los proyectos reales cargados
-- [ ] Revisar si el heading de `About` representa bien el posicionamiento profesional
+- [x] Posponer la revisión final de `Projects` hasta cargar proyectos reales
+- [x] Revisar si el heading de `About` representa bien el posicionamiento profesional
 - [ ] Revisar si el texto de `Contact` mantiene un tono consistente con el resto del sitio
 - [ ] Corregir desbalances entre tono técnico, claridad y sobriedad
 - [ ] Eliminar cualquier frase demasiado genérica o de relleno
@@ -149,16 +149,19 @@ Archivo principal: `src/data/projects.ts`
 - [ ] Agregar `links` adicionales si aportan contexto
 - [ ] Verificar que no haya enlaces rotos o placeholders
 - [ ] Validar que `Projects.astro` muestre correctamente la lista al dejar de estar vacía
+- [ ] Revisar si el texto introductorio de `Projects` sigue siendo coherente con los proyectos reales cargados
 
 Estado:
 
 - Esta fase queda intencionalmente pospuesta hasta decidir qué proyectos reales publicar.
 - No debe desbloquearse usando proyectos ficticios o genéricos.
+- La revisión final del copy de `Projects` se hará en esta fase, cuando existan proyectos reales.
 
 Avance de Fase 4:
 
 - Se ajustó el copy del `Hero` para presentar a Edwd3v como estudiante de Ingeniería de Software enfocado en Python, datos, automatización e IA aplicada.
 - Se cambiaron los CTA del `Hero` a `Ver enfoque` y `Contacto` para evitar dirigir primero a una sección de proyectos que todavía está en preparación.
+- Se ajustó `About` para presentar una narrativa más honesta de estudiante que aprende construyendo software con Python, datos y herramientas de IA.
 
 ## Fase 8. README
 
