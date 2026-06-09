@@ -1,10 +1,16 @@
 ---
 import Header from "../components/layout/Header.astro";
 import Sidebar from "../components/layout/Sidebar.astro";
-import { siteConfig } from "../config/site";
+import { defaultLocale, localizedSite, type Locale } from "../config/site";
 import "../styles/global.css";
 
-const { description, locale, name, siteUrl, seo, title } = siteConfig;
+type Props = {
+  locale?: Locale;
+};
+
+const { locale = defaultLocale } = Astro.props as Props;
+const { labels, siteConfig } = localizedSite[locale];
+const { description, locale: ogLocale, name, siteUrl, seo, title } = siteConfig;
 const pageTitle = seo?.defaultTitle ?? title;
 const baseUrl = siteUrl ? siteUrl.replace(/\/$/, "") : "";
 const pathname = Astro.url.pathname === "/" ? "" : Astro.url.pathname;
@@ -18,7 +24,7 @@ const socialImageUrl =
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang={siteConfig.htmlLang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
@@ -26,7 +32,7 @@ const socialImageUrl =
     <meta name="generator" content={Astro.generator} />
     <meta name="theme-color" content="#333333" />
     <meta property="og:type" content="website" />
-    <meta property="og:locale" content={locale} />
+    <meta property="og:locale" content={ogLocale} />
     <meta property="og:site_name" content={name} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
@@ -57,14 +63,14 @@ const socialImageUrl =
              focus:rounded-lg focus:bg-bg focus:px-4 focus:py-2
              focus:ring-2 focus:ring-accent/60 z-50"
     >
-      Saltar al contenido
+      {labels.skipToContent}
     </a>
 
-    <Header />
+    <Header locale={locale} />
 
     <div class="mx-auto max-w-6xl">
       <div class="md:grid md:grid-cols-[320px_1fr]">
-        <Sidebar />
+        <Sidebar locale={locale} />
 
         <main id="main" class="px-6 md:px-10 pt-12 md:pt-16">
           <slot />

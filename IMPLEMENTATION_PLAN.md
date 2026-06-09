@@ -91,11 +91,14 @@ Archivos:
 - [x] Corregir desbalances entre tono técnico, claridad y sobriedad
 - [x] Eliminar cualquier frase demasiado genérica o de relleno
 
-## Fase 5. SEO básico real
+## Fase 5. SEO e internacionalización básica
 
 Archivos:
 - `src/config/site.ts`
 - `src/layouts/BaseLayout.astro`
+- `src/components/ui/LanguageSwitch.astro`
+- `src/components/layout/Header.astro`
+- `src/components/layout/Sidebar.astro`
 
 - [ ] Confirmar que `siteUrl` sea real y usable en producción
 - [ ] Confirmar que el `title` principal sea final
@@ -105,6 +108,19 @@ Archivos:
 - [ ] Confirmar que `seo.ogImage` apunte a un asset real o tomar una decisión temporal explícita
 - [ ] Revisar consistencia entre Open Graph y Twitter metadata
 - [ ] Confirmar que el idioma del documento sea correcto
+- [x] Implementar un selector visual de idioma sin enlazar rutas inexistentes
+- [x] Definir estructura inicial de idiomas: `/` para español y `/en/` para inglés
+- [x] Preparar contenido estructurado para español e inglés
+- [ ] Agregar `hreflang` cuando existan rutas por idioma
+- [ ] Decidir si `/` redirige por idioma del navegador o a un idioma por defecto
+
+Estado:
+
+- Se agregó `LanguageSwitch` como selector ES/EN.
+- `/` queda como versión en español.
+- `/en/` queda como versión en inglés para validar contenido.
+- El selector se movió a una franja propia en móvil y al bloque inferior del sidebar en escritorio para evaluar una posición menos saturada.
+- Queda pendiente decidir si la estructura final será `/es/` y `/en/`, o si `/` permanecerá como español por defecto.
 
 ## Fase 6. Consistencia visual y semántica
 
@@ -137,25 +153,27 @@ Avance parcial:
 Archivo principal: `src/data/projects.ts`
 
 - [ ] Definir 2 o 3 proyectos reales que refuercen el perfil de Edwd3v
-- [ ] Definir para cada proyecto un título real y claro
-- [ ] Definir una descripción basada en problema, solución y contexto
+- [ ] Definir para cada proyecto un título real y claro en español e inglés
+- [ ] Definir una descripción basada en problema, solución y contexto en español e inglés
 - [ ] Completar `tech` con tecnologías realmente usadas
 - [ ] Completar `status`
 - [ ] Completar `kind`
 - [ ] Completar `year`
-- [ ] Completar `outcome` con un resultado real o aprendizaje defendible
+- [ ] Completar `outcome` con un resultado real o aprendizaje defendible en español e inglés
 - [ ] Agregar `href` si existe demo pública
 - [ ] Agregar `repository` si conviene mostrar repositorio
 - [ ] Agregar `links` adicionales si aportan contexto
 - [ ] Verificar que no haya enlaces rotos o placeholders
 - [ ] Validar que `Projects.astro` muestre correctamente la lista al dejar de estar vacía
 - [ ] Revisar si el texto introductorio de `Projects` sigue siendo coherente con los proyectos reales cargados
+- [ ] Confirmar que la versión ES y la versión EN mantengan el mismo contenido técnico sin traducciones contradictorias
 
 Estado:
 
 - Esta fase queda intencionalmente pospuesta hasta decidir qué proyectos reales publicar.
 - No debe desbloquearse usando proyectos ficticios o genéricos.
 - La revisión final del copy de `Projects` se hará en esta fase, cuando existan proyectos reales.
+- Al cargar proyectos reales, se deben actualizar y validar ambos espacios: español e inglés.
 
 Avance de Fase 4:
 

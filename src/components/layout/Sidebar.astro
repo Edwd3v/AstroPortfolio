@@ -1,6 +1,13 @@
 ---
-import { navItems, siteConfig } from "../../config/site";
+import LanguageSwitch from "../ui/LanguageSwitch.astro";
+import { defaultLocale, localizedSite, type Locale } from "../../config/site";
 
+type Props = {
+  locale?: Locale;
+};
+
+const { locale = defaultLocale } = Astro.props as Props;
+const { labels, navItems, siteConfig } = localizedSite[locale];
 const name = siteConfig.name ?? "Tu Nombre";
 const role = siteConfig.role ?? "Frontend Developer";
 ---
@@ -21,7 +28,7 @@ const role = siteConfig.role ?? "Frontend Developer";
         </p>
       </div>
 
-      <nav aria-label="Secciones" class="pt-6 space-y-4">
+      <nav aria-label={labels.sectionsNavigation} class="pt-6 space-y-4">
         {navItems.map((item) => (
           <a
             class="block rounded-md font-heading text-sm tracking-[0.3em] uppercase text-text/70 transition-colors hover:text-text focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
@@ -31,11 +38,15 @@ const role = siteConfig.role ?? "Frontend Developer";
           </a>
         ))}
       </nav>
+
     </div>
 
-    <p class="text-xs text-text/50">
-      © {new Date().getFullYear()}
-      {name}
-    </p>
+    <div class="space-y-4">
+      <LanguageSwitch locale={locale} />
+      <p class="text-xs text-text/50">
+        © {new Date().getFullYear()}
+        {name}
+      </p>
+    </div>
   </div>
 </aside>

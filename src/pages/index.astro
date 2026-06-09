@@ -3,12 +3,16 @@ import About from "../components/sections/About.astro";
 import Contact from "../components/sections/Contact.astro";
 import Hero from "../components/sections/Hero.astro";
 import Projects from "../components/sections/Projects.astro";
+import { localizedSite } from "../config/site";
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const locale = "es";
+const { siteConfig, socialLinks } = localizedSite[locale];
 ---
 
-<BaseLayout>
-  <Hero />
-  <Projects />
-  <About />
-  <Contact />
+<BaseLayout locale={locale}>
+  <Hero config={siteConfig} />
+  <Projects config={siteConfig} />
+  <About config={siteConfig} />
+  <Contact config={siteConfig} links={socialLinks} />
 </BaseLayout>

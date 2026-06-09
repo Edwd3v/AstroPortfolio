@@ -1,0 +1,42 @@
+---
+import { defaultLocale, type Locale } from "../../config/site";
+
+type Props = {
+  class?: string;
+  locale?: Locale;
+};
+
+const { class: className = "", locale = defaultLocale } = Astro.props as Props;
+const isSpanish = locale === "es";
+const spanishHref = "/";
+const englishHref = "/en/";
+---
+
+<div
+  class={`inline-flex items-center rounded-full border border-text/10 bg-bg/40 p-1 ${className}`}
+  role="group"
+  aria-label={isSpanish ? "Selector de idioma" : "Language selector"}
+>
+  <a
+    href={spanishHref}
+    class={`rounded-full px-3 py-1 font-heading text-[10px] tracking-[0.24em] uppercase transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 ${
+      isSpanish
+        ? "bg-accent/15 text-text"
+        : "text-text/45 hover:text-text"
+    }`}
+    aria-current={isSpanish ? "page" : undefined}
+  >
+    ES
+  </a>
+  <a
+    href={englishHref}
+    class={`rounded-full px-3 py-1 font-heading text-[10px] tracking-[0.24em] uppercase transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 ${
+      isSpanish
+        ? "text-text/45 hover:text-text"
+        : "bg-accent/15 text-text"
+    }`}
+    aria-current={!isSpanish ? "page" : undefined}
+  >
+    EN
+  </a>
+</div>

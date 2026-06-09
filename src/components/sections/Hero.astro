@@ -1,7 +1,12 @@
 ---
-import { siteConfig } from "../../config/site";
+import { siteConfig, type SiteConfig } from "../../config/site";
 
-const { hero, cta } = siteConfig;
+type Props = {
+  config?: SiteConfig;
+};
+
+const { config = siteConfig } = Astro.props as Props;
+const { hero, cta } = config;
 ---
 
 <section aria-labelledby="hero-title">
