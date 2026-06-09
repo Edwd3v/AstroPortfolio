@@ -1,13 +1,15 @@
 ---
 import ProjectCard from "../ui/ProjectCard.astro";
 import { siteConfig, type SiteConfig } from "../../config/site";
-import { projects } from "../../data/projects";
+import { localizedProjects, type ProjectLocale } from "../../data/projects";
 
 type Props = {
   config?: SiteConfig;
+  locale?: ProjectLocale;
 };
 
-const { config = siteConfig } = Astro.props as Props;
+const { config = siteConfig, locale = "es" } = Astro.props as Props;
+const projects = localizedProjects[locale];
 const hasProjects = projects.length > 0;
 ---
 

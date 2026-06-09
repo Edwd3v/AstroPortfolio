@@ -12,7 +12,7 @@ const { siteConfig, socialLinks } = localizedSite[locale];
 
 <BaseLayout locale={locale}>
   <Hero config={siteConfig} />
-  <Projects config={siteConfig} />
+  <Projects config={siteConfig} locale={locale} />
   <About config={siteConfig} />
   <Contact config={siteConfig} links={socialLinks} />
 </BaseLayout>

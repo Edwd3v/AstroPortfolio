@@ -163,28 +163,30 @@ Avance parcial:
 
 Archivo principal: `src/data/projects.ts`
 
-- [ ] Definir 2 o 3 proyectos reales que refuercen el perfil de Edwd3v
-- [ ] Definir para cada proyecto un título real y claro en español e inglés
-- [ ] Definir una descripción basada en problema, solución y contexto en español e inglés
-- [ ] Completar `tech` con tecnologías realmente usadas
-- [ ] Completar `status`
-- [ ] Completar `kind`
-- [ ] Completar `year`
-- [ ] Completar `outcome` con un resultado real o aprendizaje defendible en español e inglés
+- [x] Definir 2 o 3 proyectos reales que refuercen el perfil de Edwd3v
+- [x] Definir para cada proyecto un título real y claro en español e inglés
+- [x] Definir una descripción basada en problema, solución y contexto en español e inglés
+- [x] Completar `tech` con tecnologías realmente usadas
+- [x] Completar `status`
+- [x] Completar `kind`
+- [x] Completar `year`
+- [x] Completar `outcome` con un resultado real o aprendizaje defendible en español e inglés
 - [ ] Agregar `href` si existe demo pública
 - [ ] Agregar `repository` si conviene mostrar repositorio
 - [ ] Agregar `links` adicionales si aportan contexto
-- [ ] Verificar que no haya enlaces rotos o placeholders
-- [ ] Validar que `Projects.astro` muestre correctamente la lista al dejar de estar vacía
-- [ ] Revisar si el texto introductorio de `Projects` sigue siendo coherente con los proyectos reales cargados
-- [ ] Confirmar que la versión ES y la versión EN mantengan el mismo contenido técnico sin traducciones contradictorias
+- [x] Verificar que no haya enlaces rotos o placeholders
+- [x] Validar que `Projects.astro` muestre correctamente la lista al dejar de estar vacía
+- [x] Revisar si el texto introductorio de `Projects` sigue siendo coherente con los proyectos reales cargados
+- [x] Confirmar que la versión ES y la versión EN mantengan el mismo contenido técnico sin traducciones contradictorias
 
 Estado:
 
-- Esta fase queda intencionalmente pospuesta hasta decidir qué proyectos reales publicar.
-- No debe desbloquearse usando proyectos ficticios o genéricos.
-- La revisión final del copy de `Projects` se hará en esta fase, cuando existan proyectos reales.
-- Al cargar proyectos reales, se deben actualizar y validar ambos espacios: español e inglés.
+- Se cargaron tres proyectos reales: Automatización de Indicadores SISBEN, Dashboard Portafolio Trii y M4siv3m553.
+- `src/data/projects.ts` soporta contenido localizado para español e inglés.
+- Los repositorios y demos públicas quedan pendientes de publicación porque actualmente los proyectos se mantienen privados para revisar exposición de datos.
+- `ProjectCard.astro` muestra metadatos compactos: tipo, año, estado, descripción, resultado y tecnologías, sin saturar visualmente las cards.
+- `Projects.astro` selecciona la lista por idioma y conserva el estado vacío como fallback.
+- Validación posterior a la carga de proyectos: `npm run build` y `npm run typecheck` ejecutados correctamente.
 
 Avance de Fase 4:
 

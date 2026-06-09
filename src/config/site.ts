@@ -71,7 +71,7 @@ export const localizedSite = {
       projects: {
         title: "Proyectos",
         intro:
-          "Una selección en construcción de proyectos que reflejen trabajo real con software, Python, datos, automatización e IA aplicada.",
+          "Una selección de proyectos reales enfocados en software, Python, datos, automatización e IA aplicada.",
         emptyStatus: "En preparación",
         emptyText:
           "Estoy seleccionando proyectos reales que representen mejor mi enfoque técnico. Esta sección quedará lista para publicarlos sin cambiar la estructura del sitio.",
@@ -161,7 +161,7 @@ export const localizedSite = {
       projects: {
         title: "Projects",
         intro:
-          "A work-in-progress selection of projects that reflect hands-on work with software, Python, data, automation, and applied AI.",
+          "A selection of real projects focused on software, Python, data, automation, and applied AI.",
         emptyStatus: "In progress",
         emptyText:
           "I am selecting real projects that best represent my technical focus. This section is ready to publish them without changing the site structure.",
