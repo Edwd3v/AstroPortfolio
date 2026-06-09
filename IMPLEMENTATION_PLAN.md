@@ -54,7 +54,7 @@ Archivo principal: `src/config/site.ts`
 
 Estado:
 
-- Se actualizó `src/config/site.ts` con la identidad profesional de Edwdev.
+- Se actualizó `src/config/site.ts` con la identidad profesional de Edwd3v.
 - `siteUrl` queda temporalmente vacío porque el dominio sigue pendiente.
 - LinkedIn no se publica todavía porque el enlace sigue pendiente.
 - `socialLinks` conserva solo GitHub real: `https://github.com/Edwd3v`.
@@ -63,8 +63,8 @@ Estado:
 
 Archivo principal: `src/data/projects.ts`
 
-- [ ] Eliminar o reescribir proyectos que sigan siendo genéricos
-- [ ] Priorizar 2 o 3 proyectos reales sólidos antes que una lista más larga
+- [x] Eliminar o reescribir proyectos que sigan siendo genéricos
+- [x] Priorizar 2 o 3 proyectos reales sólidos antes que una lista más larga
 - [ ] Definir para cada proyecto un título real y claro
 - [ ] Definir una descripción basada en problema, solución y contexto
 - [ ] Completar `tech` con tecnologías realmente usadas
@@ -76,6 +76,13 @@ Archivo principal: `src/data/projects.ts`
 - [ ] Agregar `repository` si conviene mostrar repositorio
 - [ ] Agregar `links` adicionales si aportan contexto
 - [ ] Verificar que no haya enlaces rotos o placeholders
+
+Estado:
+
+- Se decidió no publicar proyectos genéricos mientras se evalúa qué casos reales refuerzan mejor el perfil.
+- `src/data/projects.ts` queda temporalmente vacío.
+- `src/components/sections/Projects.astro` muestra un estado "En preparación" cuando no hay proyectos cargados.
+- La sección queda lista para publicar proyectos reales más adelante sin cambiar la estructura.
 
 ## Fase 4. Ajuste de copy en secciones
 
@@ -116,11 +123,11 @@ Archivos prioritarios:
 - `src/components/layout/Sidebar.astro`
 
 - [x] Revisar jerarquía visual entre `Hero`, `Projects`, `About` y `Contact`
-- [ ] Revisar whitespace general entre bloques
+- [x] Revisar whitespace general entre bloques
 - [ ] Revisar contraste de textos secundarios
 - [ ] Revisar estados `hover` y `focus`
 - [ ] Revisar consistencia del espaciado interno de cards y bloques
-- [ ] Revisar si los headings mantienen una progresión clara
+- [x] Revisar si los headings mantienen una progresión clara
 - [ ] Revisar landmarks y estructura navegable por teclado
 - [ ] Revisar si hay microajustes visuales necesarios sin tocar el sistema global más de la cuenta
 
@@ -128,6 +135,10 @@ Avance parcial:
 
 - Se ajustó `src/components/layout/Sidebar.astro` para alinear el bloque de identidad del sidebar con el inicio visual del `Hero` en desktop.
 - Validación posterior al ajuste: `npm run build` y `npm run typecheck` ejecutados correctamente.
+- Se aumentó la presencia tipográfica del nombre y rol en el sidebar.
+- Se agregaron divisiones sutiles entre `Projects`, `About` y `Contact` para que la separación no dependa solo del whitespace.
+- Se ajustaron headings de `About` y `Contact` para alinearlos con el perfil actual de software, Python, datos e IA aplicada.
+- Validación posterior al ajuste visual: `npm run build` y `npm run typecheck` ejecutados correctamente.
 
 ## Fase 7. README
 

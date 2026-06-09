@@ -9,19 +9,19 @@ export const socialLinks = [
 ] as const;
 
 export const siteConfig = {
-  name: "Edwdev",
+  name: "Edwd3v",
   role: "Software Engineering Student",
-  title: "Edwdev | Software Engineering Student",
+  title: "Edwd3v | Software Engineering Student",
   description:
-    "Portafolio de Edwdev, estudiante de Ingeniería de Software enfocado en Python, datos, automatización y desarrollo asistido por IA.",
+    "Portafolio de Edwd3v, estudiante de Ingeniería de Software enfocado en Python, datos, automatización y desarrollo asistido por IA.",
   locale: "es_CO",
   siteUrl: "" as string,
   email: "edwd3v@gmail.com",
   availability:
     "Disponible para prácticas, proyectos junior, colaboraciones tecnológicas y oportunidades de entrada relacionadas con desarrollo de software, Python, datos, automatización e inteligencia artificial aplicada.",
   identity: {
-    shortName: "Edwdev",
-    fullName: "Edwdev",
+    shortName: "Edwd3v",
+    fullName: "Edwd3v",
     role: "Software Engineering Student | Python, Data & AI-Assisted Development",
     location: "Colombia",
     focus: [
@@ -31,8 +31,8 @@ export const siteConfig = {
     ],
   },
   seo: {
-    defaultTitle: "Edwdev | Software Engineering Student",
-    titleTemplate: "%s | Edwdev",
+    defaultTitle: "Edwd3v | Software Engineering Student",
+    titleTemplate: "%s | Edwd3v",
     ogImage: "/og-cover.jpg",
   },
   cta: {

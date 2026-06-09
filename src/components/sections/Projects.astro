@@ -1,24 +1,41 @@
 ---
 import ProjectCard from "../ui/ProjectCard.astro";
 import { projects } from "../../data/projects";
+
+const hasProjects = projects.length > 0;
 ---
 
-<section id="projects" class="pt-24 md:pt-32">
+<section id="projects" class="border-t border-text/10 pt-16 md:pt-20">
   <div class="mx-auto max-w-3xl space-y-8">
     <header class="space-y-3">
       <h2
-        class="font-heading text-sm tracking-[0.4em] uppercase text-accent/80"
+        class="font-heading text-xl tracking-[0.32em] uppercase text-accent/80"
       >
         Proyectos
       </h2>
       <p class="text-text/70">
-        Una selección de proyectos centrados en rendimiento, claridad de
-        implementación y una experiencia web fácil de mantener.
+        Una selección en construcción de proyectos que reflejen trabajo real
+        con software, Python, datos, automatización e IA aplicada.
       </p>
     </header>
 
-    <ul class="space-y-4">
-      {projects.map((project) => <ProjectCard {...project} />)}
-    </ul>
+    {
+      hasProjects ? (
+        <ul class="space-y-4">
+          {projects.map((project) => <ProjectCard {...project} />)}
+        </ul>
+      ) : (
+        <div class="rounded-2xl border border-dashed border-text/15 bg-bg/30 p-5 md:p-6">
+          <p class="font-heading text-xs tracking-[0.32em] uppercase text-accent/75">
+            En preparación
+          </p>
+          <p class="mt-3 max-w-prose text-sm md:text-base leading-relaxed text-text/70">
+            Estoy seleccionando proyectos reales que representen mejor mi
+            enfoque técnico. Esta sección quedará lista para publicarlos sin
+            cambiar la estructura del sitio.
+          </p>
+        </div>
+      )
+    }
   </div>
 </section>

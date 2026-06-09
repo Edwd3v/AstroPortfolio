@@ -10,12 +10,12 @@ const role = siteConfig.role ?? "Frontend Developer";
     <div class="space-y-8">
       <div class="space-y-3">
         <p
-          class="font-heading text-xl tracking-[0.25em] uppercase text-text/90"
+          class="font-heading text-2xl lg:text-3xl tracking-[0.22em] uppercase text-text/95"
         >
           {name}
         </p>
         <p
-          class="font-heading text-[11px] tracking-[0.35em] uppercase text-accent/80"
+          class="font-heading text-xs tracking-[0.32em] uppercase text-accent/80"
         >
           {role}
         </p>
@@ -24,7 +24,7 @@ const role = siteConfig.role ?? "Frontend Developer";
       <nav aria-label="Secciones" class="pt-6 space-y-4">
         {navItems.map((item) => (
           <a
-            class="block rounded-md font-heading text-[11px] tracking-[0.35em] uppercase text-text/70 transition-colors hover:text-text focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
+            class="block rounded-md font-heading text-sm tracking-[0.3em] uppercase text-text/70 transition-colors hover:text-text focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
             href={item.href}
           >
             {item.label}
