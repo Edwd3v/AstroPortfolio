@@ -37,20 +37,20 @@ export const siteConfig = {
   },
   cta: {
     primary: {
-      label: "Ver proyectos",
-      href: "#projects",
+      label: "Ver enfoque",
+      href: "#about",
     },
     secondary: {
-      label: "Sobre mí",
-      href: "#about",
+      label: "Contacto",
+      href: "#contact",
     },
   },
   hero: {
     eyebrow: "Python, datos e IA aplicada",
     headline:
-      "Construyo soluciones de software desde Python, datos y desarrollo asistido por IA.",
+      "Desarrollo proyectos de software con Python, datos, automatización e IA aplicada.",
     summary:
-      "Soy estudiante de Ingeniería de Software con interés en crear aplicaciones, automatizaciones y soluciones prácticas apoyadas en herramientas modernas de desarrollo, análisis de datos e inteligencia artificial.",
+      "Soy estudiante de Ingeniería de Software enfocado en crear aplicaciones, automatizaciones y flujos técnicos reproducibles desde entornos Linux, terminal, Git y herramientas de desarrollo asistido por IA.",
   },
   about: {
     intro:

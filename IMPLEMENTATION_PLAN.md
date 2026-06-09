@@ -59,23 +59,15 @@ Estado:
 - LinkedIn no se publica todavía porque el enlace sigue pendiente.
 - `socialLinks` conserva solo GitHub real: `https://github.com/Edwd3v`.
 
-## Fase 3. Proyectos reales
+## Fase 3. Plantilla de proyectos preparada
 
 Archivo principal: `src/data/projects.ts`
 
 - [x] Eliminar o reescribir proyectos que sigan siendo genéricos
 - [x] Priorizar 2 o 3 proyectos reales sólidos antes que una lista más larga
-- [ ] Definir para cada proyecto un título real y claro
-- [ ] Definir una descripción basada en problema, solución y contexto
-- [ ] Completar `tech` con tecnologías realmente usadas
-- [ ] Completar `status`
-- [ ] Completar `kind`
-- [ ] Completar `year`
-- [ ] Completar `outcome` con un resultado real o defendible
-- [ ] Agregar `href` si existe demo pública
-- [ ] Agregar `repository` si conviene mostrar repositorio
-- [ ] Agregar `links` adicionales si aportan contexto
-- [ ] Verificar que no haya enlaces rotos o placeholders
+- [x] Dejar `src/data/projects.ts` sin proyectos ficticios
+- [x] Mostrar un estado vacío honesto cuando no hay proyectos cargados
+- [x] Mantener la estructura lista para cargar proyectos reales después
 
 Estado:
 
@@ -92,7 +84,7 @@ Archivos:
 - `src/components/sections/About.astro`
 - `src/components/sections/Contact.astro`
 
-- [ ] Verificar que la sección `Hero` refleje correctamente el perfil real
+- [x] Verificar que la sección `Hero` refleje correctamente el perfil real
 - [ ] Revisar si el texto introductorio de `Projects` sigue siendo coherente con los proyectos reales cargados
 - [ ] Revisar si el heading de `About` representa bien el posicionamiento profesional
 - [ ] Revisar si el texto de `Contact` mantiene un tono consistente con el resto del sitio
@@ -140,7 +132,35 @@ Avance parcial:
 - Se ajustaron headings de `About` y `Contact` para alinearlos con el perfil actual de software, Python, datos e IA aplicada.
 - Validación posterior al ajuste visual: `npm run build` y `npm run typecheck` ejecutados correctamente.
 
-## Fase 7. README
+## Fase 7. Inclusión de proyectos reales
+
+Archivo principal: `src/data/projects.ts`
+
+- [ ] Definir 2 o 3 proyectos reales que refuercen el perfil de Edwd3v
+- [ ] Definir para cada proyecto un título real y claro
+- [ ] Definir una descripción basada en problema, solución y contexto
+- [ ] Completar `tech` con tecnologías realmente usadas
+- [ ] Completar `status`
+- [ ] Completar `kind`
+- [ ] Completar `year`
+- [ ] Completar `outcome` con un resultado real o aprendizaje defendible
+- [ ] Agregar `href` si existe demo pública
+- [ ] Agregar `repository` si conviene mostrar repositorio
+- [ ] Agregar `links` adicionales si aportan contexto
+- [ ] Verificar que no haya enlaces rotos o placeholders
+- [ ] Validar que `Projects.astro` muestre correctamente la lista al dejar de estar vacía
+
+Estado:
+
+- Esta fase queda intencionalmente pospuesta hasta decidir qué proyectos reales publicar.
+- No debe desbloquearse usando proyectos ficticios o genéricos.
+
+Avance de Fase 4:
+
+- Se ajustó el copy del `Hero` para presentar a Edwd3v como estudiante de Ingeniería de Software enfocado en Python, datos, automatización e IA aplicada.
+- Se cambiaron los CTA del `Hero` a `Ver enfoque` y `Contacto` para evitar dirigir primero a una sección de proyectos que todavía está en preparación.
+
+## Fase 8. README
 
 Archivo principal: `README.md`
 
@@ -151,7 +171,7 @@ Archivo principal: `README.md`
 - [ ] Documentar el objetivo actual del proyecto sin hablar como si todo siguiera en placeholder
 - [ ] Mantener el README simple y útil, sin inflarlo innecesariamente
 
-## Fase 8. Validación final
+## Fase 9. Validación final
 
 - [ ] Ejecutar `npm run build`
 - [ ] Ejecutar `npm run typecheck`
@@ -168,9 +188,9 @@ Secuencia sugerida dentro de Codex:
 
 - [x] Bloque 1: auditoría de placeholders
 - [x] Bloque 2: identidad y config
-- [ ] Bloque 3: proyectos reales
+- [x] Bloque 3: plantilla de proyectos
 - [ ] Bloque 4: copy y consistencia
-- [ ] Bloque 5: SEO y README
+- [ ] Bloque 5: SEO, proyectos reales y README
 - [ ] Bloque 6: validación final
 
 ## Sobre una skill de frontend design
