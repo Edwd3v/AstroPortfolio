@@ -101,17 +101,17 @@ Archivos:
 - `src/components/layout/Sidebar.astro`
 
 - [ ] Confirmar que `siteUrl` sea real y usable en producción
-- [ ] Confirmar que el `title` principal sea final
-- [ ] Confirmar que la `description` principal sea final
+- [x] Confirmar que el `title` principal sea final
+- [x] Confirmar que la `description` principal sea final
 - [ ] Confirmar que `canonical` se genere correctamente
 - [ ] Confirmar que `og:url` dependa del dominio real correcto
-- [ ] Confirmar que `seo.ogImage` apunte a un asset real o tomar una decisión temporal explícita
-- [ ] Revisar consistencia entre Open Graph y Twitter metadata
-- [ ] Confirmar que el idioma del documento sea correcto
+- [x] Confirmar que `seo.ogImage` apunte a un asset real o tomar una decisión temporal explícita
+- [x] Revisar consistencia entre Open Graph y Twitter metadata
+- [x] Confirmar que el idioma del documento sea correcto
 - [x] Implementar un selector visual de idioma sin enlazar rutas inexistentes
 - [x] Definir estructura final de idiomas: `/es/` para español y `/en/` para inglés
 - [x] Preparar contenido estructurado para español e inglés
-- [ ] Agregar `hreflang` cuando existan rutas por idioma
+- [x] Agregar `hreflang` cuando existan rutas por idioma
 - [x] Decidir si `/` redirige por idioma del navegador o a un idioma por defecto
 
 Estado:
@@ -121,8 +121,12 @@ Estado:
 - `/en/` queda como versión en inglés.
 - `/` queda como entrada de redirección: usa idioma del navegador y cae a `/es/` por defecto.
 - El selector se movió a una franja propia en móvil y al bloque inferior del sidebar en escritorio para evaluar una posición menos saturada.
-- `siteUrl` sigue pendiente hasta el despliegue.
-- `canonical`, `og:url` y `hreflang` quedan pendientes hasta poder publicarlos con URLs absolutas reales.
+- Se confirmó el título final como `Edwd3v | Software Engineering`.
+- Se mantiene la descripción SEO actual porque refleja el enfoque técnico definido.
+- `seo.ogImage` queda temporalmente vacío para evitar apuntar a un asset inexistente.
+- `siteUrl` sigue pendiente hasta tener dominio y despliegue definidos.
+- `canonical`, `og:url` y `hreflang` quedan preparados en `BaseLayout`, pero solo se publican cuando `siteUrl` tenga un valor real.
+- La imagen OG final queda pospuesta hasta definir una pieza gráfica definitiva para compartir el sitio.
 
 ## Fase 6. Consistencia visual y semántica
 

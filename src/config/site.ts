@@ -26,7 +26,7 @@ export const localizedSite = {
     siteConfig: {
       name: "Edwd3v",
       role: "Software Engineering",
-      title: "Edwd3v | Software Engineering Student",
+      title: "Edwd3v | Software Engineering",
       description:
         "Portafolio de Edwd3v, estudiante de Ingeniería de Software enfocado en Python, datos, automatización y desarrollo asistido por IA.",
       locale: "es_CO",
@@ -47,9 +47,9 @@ export const localizedSite = {
         ],
       },
       seo: {
-        defaultTitle: "Edwd3v | Software Engineering Student",
+        defaultTitle: "Edwd3v | Software Engineering",
         titleTemplate: "%s | Edwd3v",
-        ogImage: "/og-cover.jpg",
+        ogImage: "",
       },
       cta: {
         primary: {
@@ -116,7 +116,7 @@ export const localizedSite = {
     siteConfig: {
       name: "Edwd3v",
       role: "Software Engineering",
-      title: "Edwd3v | Software Engineering Student",
+      title: "Edwd3v | Software Engineering",
       description:
         "Portfolio of Edwd3v, a Software Engineering student focused on Python, data, automation, and AI-assisted development.",
       locale: "en_US",
@@ -137,9 +137,9 @@ export const localizedSite = {
         ],
       },
       seo: {
-        defaultTitle: "Edwd3v | Software Engineering Student",
+        defaultTitle: "Edwd3v | Software Engineering",
         titleTemplate: "%s | Edwd3v",
-        ogImage: "/og-cover.jpg",
+        ogImage: "",
       },
       cta: {
         primary: {

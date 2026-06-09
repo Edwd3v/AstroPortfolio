@@ -15,12 +15,20 @@ const pageTitle = seo?.defaultTitle ?? title;
 const baseUrl = siteUrl ? siteUrl.replace(/\/$/, "") : "";
 const pathname = Astro.url.pathname === "/" ? "" : Astro.url.pathname;
 const canonicalUrl = baseUrl ? `${baseUrl}${pathname}` : "";
+const ogImage = String(seo?.ogImage ?? "");
 const socialImageUrl =
-  baseUrl && seo?.ogImage
-    ? seo.ogImage.startsWith("http")
-      ? seo.ogImage
-      : `${baseUrl}${seo.ogImage}`
+  baseUrl && ogImage
+    ? ogImage.startsWith("http")
+      ? ogImage
+      : `${baseUrl}${ogImage}`
     : "";
+const alternateUrls = baseUrl
+  ? {
+      es: `${baseUrl}/es/`,
+      en: `${baseUrl}/en/`,
+      default: `${baseUrl}/es/`,
+    }
+  : null;
 ---
 
 <!doctype html>
@@ -40,6 +48,9 @@ const socialImageUrl =
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
     {siteUrl && <link rel="canonical" href={canonicalUrl} />}
+    {alternateUrls && <link rel="alternate" hreflang="es" href={alternateUrls.es} />}
+    {alternateUrls && <link rel="alternate" hreflang="en" href={alternateUrls.en} />}
+    {alternateUrls && <link rel="alternate" hreflang="x-default" href={alternateUrls.default} />}
     {siteUrl && <meta property="og:url" content={canonicalUrl} />}
     {socialImageUrl && <meta property="og:image" content={socialImageUrl} />}
     {socialImageUrl && <meta name="twitter:image" content={socialImageUrl} />}
