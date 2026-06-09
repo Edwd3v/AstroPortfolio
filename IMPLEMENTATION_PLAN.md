@@ -134,12 +134,12 @@ Archivos prioritarios:
 
 - [x] Revisar jerarquía visual entre `Hero`, `Projects`, `About` y `Contact`
 - [x] Revisar whitespace general entre bloques
-- [ ] Revisar contraste de textos secundarios
-- [ ] Revisar estados `hover` y `focus`
-- [ ] Revisar consistencia del espaciado interno de cards y bloques
+- [x] Revisar contraste de textos secundarios
+- [x] Revisar estados `hover` y `focus`
+- [x] Revisar consistencia del espaciado interno de cards y bloques
 - [x] Revisar si los headings mantienen una progresión clara
-- [ ] Revisar landmarks y estructura navegable por teclado
-- [ ] Revisar si hay microajustes visuales necesarios sin tocar el sistema global más de la cuenta
+- [x] Revisar landmarks y estructura navegable por teclado
+- [x] Revisar si hay microajustes visuales necesarios sin tocar el sistema global más de la cuenta
 
 Avance parcial:
 
@@ -149,6 +149,11 @@ Avance parcial:
 - Se agregaron divisiones sutiles entre `Projects`, `About` y `Contact` para que la separación no dependa solo del whitespace.
 - Se ajustaron headings de `About` y `Contact` para alinearlos con el perfil actual de software, Python, datos e IA aplicada.
 - Validación posterior al ajuste visual: `npm run build` y `npm run typecheck` ejecutados correctamente.
+- Se revisó la Fase 6 por pasos: contraste de textos secundarios, estados `hover`/`focus`, espaciado interno de cards y bloques, landmarks y navegación por teclado.
+- Se aumentó el contraste de textos secundarios y etiquetas de sección sin cambiar tokens globales.
+- Se reforzaron los estados de foco con `ring-offset` y se unificaron estados interactivos en navegación, selector de idioma, CTAs y cards.
+- Se ajustó ligeramente el padding de cards y estados vacíos para mejorar respiración visual.
+- Validación posterior a Fase 6: `npm run build` y `npm run typecheck` ejecutados correctamente.
 
 ## Fase 7. Inclusión de proyectos reales
 

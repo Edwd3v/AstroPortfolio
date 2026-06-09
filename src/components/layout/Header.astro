@@ -18,7 +18,7 @@ const name = siteConfig.name ?? "Tu Nombre";
         <a
           href="#top"
           class="group inline-flex items-center gap-3 font-heading text-xs tracking-[0.35em] uppercase text-text/90
-                 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 rounded-md"
+                 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-bg rounded-md"
           aria-label={labels.goHome}
         >
           <span
@@ -32,8 +32,8 @@ const name = siteConfig.name ?? "Tu Nombre";
           {navItems.map((item) => (
             <a
               href={item.href}
-              class="font-heading text-[10px] tracking-[0.35em] uppercase text-text/70 transition-colors
-                     hover:text-text focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 rounded-md"
+              class="font-heading text-[10px] tracking-[0.35em] uppercase text-text/75 transition-colors
+                     hover:text-text focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-bg rounded-md"
             >
               {item.label}
             </a>

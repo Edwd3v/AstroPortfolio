@@ -22,7 +22,7 @@ const role = siteConfig.role ?? "Frontend Developer";
           {name}
         </p>
         <p
-          class="font-heading text-sm lg:text-base tracking-[0.3em] uppercase text-accent/80"
+          class="font-heading text-sm lg:text-base tracking-[0.3em] uppercase text-accent/90"
         >
           {role}
         </p>
@@ -31,7 +31,7 @@ const role = siteConfig.role ?? "Frontend Developer";
       <nav aria-label={labels.sectionsNavigation} class="pt-6 space-y-4">
         {navItems.map((item) => (
           <a
-            class="block rounded-md font-heading text-base tracking-[0.28em] uppercase text-text/70 transition-colors hover:text-text focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
+            class="block rounded-md font-heading text-base tracking-[0.28em] uppercase text-text/75 transition-colors hover:text-text focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
             href={item.href}
           >
             {item.label}
@@ -43,7 +43,7 @@ const role = siteConfig.role ?? "Frontend Developer";
 
     <div class="space-y-4">
       <LanguageSwitch locale={locale} />
-      <p class="text-sm text-text/50">
+      <p class="text-sm text-text/60">
         © {new Date().getFullYear()}
         {name}
       </p>

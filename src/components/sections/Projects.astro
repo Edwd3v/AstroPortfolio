@@ -15,11 +15,11 @@ const hasProjects = projects.length > 0;
   <div class="mx-auto max-w-3xl space-y-8">
     <header class="space-y-3">
       <h2
-        class="font-heading text-xl tracking-[0.32em] uppercase text-accent/80"
+        class="font-heading text-xl tracking-[0.32em] uppercase text-accent/90"
       >
         {config.projects.title}
       </h2>
-      <p class="text-text/70">
+      <p class="text-text/75">
         {config.projects.intro}
       </p>
     </header>
@@ -30,11 +30,11 @@ const hasProjects = projects.length > 0;
           {projects.map((project) => <ProjectCard {...project} />)}
         </ul>
       ) : (
-        <div class="rounded-2xl border border-dashed border-text/15 bg-bg/30 p-5 md:p-6">
-          <p class="font-heading text-xs tracking-[0.32em] uppercase text-accent/75">
+        <div class="rounded-2xl border border-dashed border-text/15 bg-bg/30 p-6 md:p-7">
+          <p class="font-heading text-xs tracking-[0.32em] uppercase text-accent/85">
             {config.projects.emptyStatus}
           </p>
-          <p class="mt-3 max-w-prose text-sm md:text-base leading-relaxed text-text/70">
+          <p class="mt-3 max-w-prose text-sm md:text-base leading-relaxed text-text/75">
             {config.projects.emptyText}
           </p>
         </div>
