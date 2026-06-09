@@ -18,7 +18,7 @@ export const siteConfig = {
   siteUrl: "" as string,
   email: "edwd3v@gmail.com",
   availability:
-    "Disponible para prácticas, proyectos junior, colaboraciones tecnológicas y oportunidades de entrada relacionadas con desarrollo de software, Python, datos, automatización e inteligencia artificial aplicada.",
+    "Disponible para proyectos de entrada, colaboraciones tecnológicas, aprendizaje en equipos reales y oportunidades iniciales relacionadas con desarrollo de software, Python, datos, automatización e IA aplicada.",
   identity: {
     shortName: "Edwd3v",
     fullName: "Edwd3v",
@@ -63,6 +63,6 @@ export const siteConfig = {
   },
   contact: {
     lead:
-      "Busco prácticas, roles junior y proyectos de entrada donde pueda aportar en la construcción de soluciones útiles mientras fortalezco mi criterio técnico en proyectos reales.",
+      "Me interesa participar en equipos y proyectos donde pueda aportar con Python, datos, automatización y herramientas de IA mientras aprendo de problemas técnicos reales.",
   },
 } as const;
