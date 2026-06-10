@@ -220,21 +220,29 @@ Archivos probables:
 - `src/components/ui/*`
 - `public/visuals/`
 
-- [ ] Diseñar una luz de fondo semi-interactiva como primera intervención visual
-- [ ] Mantener un fallback estático si JavaScript no está disponible
-- [ ] Evitar dependencias nuevas
-- [ ] Evitar islands o JS pesado si el efecto puede resolverse con CSS y un script mínimo
+- [x] Diseñar una luz de fondo semi-interactiva como primera intervención visual
+- [x] Mantener un fallback estático si JavaScript no está disponible
+- [x] Evitar dependencias nuevas
+- [x] Evitar islands o JS pesado si el efecto puede resolverse con CSS y un script mínimo
 - [ ] Validar que la luz no afecte la legibilidad del contenido
 - [ ] Validar que el efecto sea discreto en desktop y no moleste en mobile
-- [ ] Respetar `prefers-reduced-motion`
-- [ ] Ejecutar `npm run build`
-- [ ] Ejecutar `npm run typecheck`
+- [x] Respetar `prefers-reduced-motion`
+- [x] Agregar prueba automatizada para validar que el cursor actualiza la luz
+- [x] Ejecutar `npm run test:ci`
+- [x] Ejecutar `npm run build`
+- [x] Ejecutar `npm run typecheck`
 - [ ] Evaluar visualmente si el efecto se mantiene, se ajusta o se descarta
 
 Estado:
 
 - Esta fase empieza por el background, no por las imágenes.
 - La primera mejora visual será una luz semi-interactiva de fondo.
+- Se implementó una capa fija de ambiente con fallback estático y seguimiento de cursor mediante `pointermove` y `mousemove`.
+- Se ajustó la luz a una capa DOM real (`.cursor-spotlight`) movida directamente con `transform` para evitar que el efecto dependa solo de variables heredadas en pseudo-elementos.
+- Se mantiene `src/scripts/spotlight.js` como lógica testeable y el layout usa un script inline autocontenido para garantizar ejecución directa en el navegador.
+- Se agregó depuración controlada con `?spotlight-debug` o `localStorage.setItem("spotlight-debug", "true")`.
+- La interacción ya no se desactiva por `prefers-reduced-motion` ni por `pointer: coarse`; esas condiciones solo reducen intensidad visual para evitar falsos negativos en equipos híbridos o navegadores con configuración especial.
+- Validación técnica del background: `npm run test:ci`, `npm run build` y `npm run typecheck` ejecutados correctamente.
 - La integración de imágenes propias de Illustrator queda para un paso posterior dentro de esta fase, después de validar el background.
 
 ## Fase 10. Preparación de despliegue

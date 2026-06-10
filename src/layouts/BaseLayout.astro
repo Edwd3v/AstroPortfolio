@@ -68,6 +68,10 @@ const alternateUrls = baseUrl
   </head>
 
   <body class="bg-bg text-text font-body antialiased">
+    <div class="ambient-background" aria-hidden="true">
+      <div class="cursor-spotlight" data-cursor-spotlight></div>
+    </div>
+
     <a
       href="#main"
       class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4
@@ -88,5 +92,58 @@ const alternateUrls = baseUrl
         </main>
       </div>
     </div>
+
+    <script is:inline>
+      (() => {
+        const root = document.documentElement;
+        const spotlight = document.querySelector("[data-cursor-spotlight]");
+        const debugSpotlight =
+          new URLSearchParams(window.location.search).has("spotlight-debug") ||
+          (() => {
+            try {
+              return window.localStorage.getItem("spotlight-debug") === "true";
+            } catch {
+              return false;
+            }
+          })();
+
+        if (!spotlight) {
+          return;
+        }
+
+        if (debugSpotlight) {
+          console.log("spotlight loaded");
+        }
+
+        let frame = 0;
+
+        const moveSpotlight = (event) => {
+          const x = event.clientX;
+          const y = event.clientY;
+
+          if (!Number.isFinite(x) || !Number.isFinite(y)) {
+            return;
+          }
+
+          window.cancelAnimationFrame(frame);
+          frame = window.requestAnimationFrame(() => {
+            root.style.setProperty("--spotlight-x", `${x}px`);
+            root.style.setProperty("--spotlight-y", `${y}px`);
+            spotlight.style.transform = `translate3d(${x}px, ${y}px, 0) translate3d(-50%, -50%, 0)`;
+            spotlight.dataset.x = String(x);
+            spotlight.dataset.y = String(y);
+            document.body.dataset.spotlight = "active";
+
+            if (debugSpotlight) {
+              console.log("cursor", x, y);
+            }
+          });
+        };
+
+        window.addEventListener("pointermove", moveSpotlight, { passive: true });
+        window.addEventListener("mousemove", moveSpotlight, { passive: true });
+        document.body.dataset.spotlight = "ready";
+      })();
+    </script>
   </body>
 </html>

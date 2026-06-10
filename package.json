@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "test:ci": "node tests/spotlight.test.mjs",
     "typecheck": "astro check",
     "preview": "astro preview",
     "astro": "astro"
