@@ -91,7 +91,7 @@ Archivos:
 - [x] Corregir desbalances entre tono técnico, claridad y sobriedad
 - [x] Eliminar cualquier frase demasiado genérica o de relleno
 
-## Fase 5. SEO e internacionalización básica
+## Fase 5. SEO e internacionalización local
 
 Archivos:
 - `src/config/site.ts`
@@ -100,12 +100,11 @@ Archivos:
 - `src/components/layout/Header.astro`
 - `src/components/layout/Sidebar.astro`
 
-- [ ] Confirmar que `siteUrl` sea real y usable en producción
 - [x] Confirmar que el `title` principal sea final
 - [x] Confirmar que la `description` principal sea final
-- [ ] Confirmar que `canonical` se genere correctamente
-- [ ] Confirmar que `og:url` dependa del dominio real correcto
-- [x] Confirmar que `seo.ogImage` apunte a un asset real o tomar una decisión temporal explícita
+- [x] Confirmar que `canonical` no se publique sin `siteUrl`
+- [x] Confirmar que `og:url` no se publique sin `siteUrl`
+- [x] Confirmar que `seo.ogImage` no apunte a un asset inexistente
 - [x] Revisar consistencia entre Open Graph y Twitter metadata
 - [x] Confirmar que el idioma del documento sea correcto
 - [x] Implementar un selector visual de idioma sin enlazar rutas inexistentes
@@ -123,10 +122,9 @@ Estado:
 - El selector se movió a una franja propia en móvil y al bloque inferior del sidebar en escritorio para evaluar una posición menos saturada.
 - Se confirmó el título final como `Edwd3v | Software Engineering`.
 - Se mantiene la descripción SEO actual porque refleja el enfoque técnico definido.
-- `seo.ogImage` queda temporalmente vacío para evitar apuntar a un asset inexistente.
-- `siteUrl` sigue pendiente hasta tener dominio y despliegue definidos.
-- `canonical`, `og:url` y `hreflang` quedan preparados en `BaseLayout`, pero solo se publican cuando `siteUrl` tenga un valor real.
-- La imagen OG final queda pospuesta hasta definir una pieza gráfica definitiva para compartir el sitio.
+- `siteUrl` queda vacío intencionalmente en entorno local.
+- `canonical`, `og:url`, `hreflang` y `ogImage` no se publican con datos falsos.
+- La parte local de SEO e internacionalización queda cerrada.
 
 ## Fase 6. Consistencia visual y semántica
 
@@ -196,7 +194,32 @@ Avance de Fase 4:
 - Se ajustó `Contact` para comunicar disponibilidad de forma más directa y con menos repetición.
 - Se reemplazó la frase genérica "contextos reales" por "problemas técnicos reales" para cerrar el tono de `Contact`.
 
-## Fase 8. README
+## Fase 8. Preparación de despliegue
+
+Archivos probables:
+- `src/config/site.ts`
+- `src/layouts/BaseLayout.astro`
+- `public/`
+- `src/data/projects.ts`
+
+- [ ] Definir plataforma de despliegue y URL final o temporal
+- [ ] Completar `siteUrl` con una URL real
+- [ ] Confirmar que `canonical` se genere con la URL final
+- [ ] Confirmar que `og:url` dependa del dominio real correcto
+- [ ] Publicar `hreflang` con URLs absolutas reales para `/es/` y `/en/`
+- [ ] Crear o agregar imagen OG final en `public/`
+- [ ] Conectar `seo.ogImage` con el asset real
+- [ ] Revisar preview social de la URL publicada
+- [ ] Decidir si los proyectos tendrán demo pública, repositorio o enlaces externos
+- [ ] Agregar `href`, `repository` o `links` a proyectos si aplica
+- [ ] Verificar que no se expongan datos sensibles en proyectos, enlaces o assets
+
+Estado:
+
+- Esta fase se crea para no dejar la Fase 5 incompleta.
+- Depende de decisiones de publicación: hosting, dominio o URL temporal, asset OG final y exposición pública de proyectos.
+
+## Fase 9. README
 
 Archivo principal: `README.md`
 
@@ -207,7 +230,7 @@ Archivo principal: `README.md`
 - [ ] Documentar el objetivo actual del proyecto sin hablar como si todo siguiera en placeholder
 - [ ] Mantener el README simple y útil, sin inflarlo innecesariamente
 
-## Fase 9. Validación final
+## Fase 10. Validación final
 
 - [ ] Ejecutar `npm run build`
 - [ ] Ejecutar `npm run typecheck`
@@ -226,8 +249,8 @@ Secuencia sugerida dentro de Codex:
 - [x] Bloque 2: identidad y config
 - [x] Bloque 3: plantilla de proyectos
 - [ ] Bloque 4: copy y consistencia
-- [ ] Bloque 5: SEO, proyectos reales y README
-- [ ] Bloque 6: validación final
+- [ ] Bloque 5: SEO local, proyectos reales y README
+- [ ] Bloque 6: despliegue y validación final
 
 ## Sobre una skill de frontend design
 
