@@ -223,12 +223,16 @@ Estado:
 
 Archivo principal: `README.md`
 
-- [ ] Actualizar la descripción general del proyecto
-- [ ] Ajustar la sección de estado actual para reflejar la realidad del repo
-- [ ] Documentar claramente stack y estructura
-- [ ] Confirmar que los comandos actuales sigan siendo correctos
-- [ ] Documentar el objetivo actual del proyecto sin hablar como si todo siguiera en placeholder
-- [ ] Mantener el README simple y útil, sin inflarlo innecesariamente
+- [x] Actualizar la descripción general del proyecto
+- [x] Ajustar la sección de estado actual para reflejar la realidad del repo
+- [x] Documentar claramente stack y estructura
+- [x] Confirmar que los comandos actuales sigan siendo correctos
+- [x] Documentar el objetivo actual del proyecto sin hablar como si todo siguiera en placeholder
+- [x] Mantener el README simple y útil, sin inflarlo innecesariamente
+
+Estado:
+
+- `README.md` refleja el portafolio bilingüe actual, rutas `/es/` y `/en/`, SEO local, proyectos cargados y pendientes de despliegue.
 
 ## Fase 10. Validación final
 

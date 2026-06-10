@@ -1,28 +1,36 @@
 # Technological Trappist
 
-Portafolio personal construido con Astro y Tailwind CSS.
+Portafolio personal de Edwd3v construido con Astro, Tailwind CSS y TypeScript.
 
-El proyecto está planteado como una home estática de una sola página, con una arquitectura simple y mantenible, enfocada en rendimiento, accesibilidad y claridad visual.
+El proyecto funciona como una base estática, bilingüe y mantenible para presentar perfil técnico, proyectos y contacto. La prioridad actual es conservar una arquitectura simple, buen rendimiento, accesibilidad razonable y contenido fácil de actualizar.
 
 ## Estado actual
-- La base del portafolio ya existe y compila correctamente
-- La home actual está compuesta por:
+
+- Portafolio consolidado para trabajo local.
+- Versiones por idioma:
+  - `/es/`: español
+  - `/en/`: inglés
+  - `/`: redirección por idioma del navegador con fallback a `/es/`
+- Home compuesta por:
   - `Hero`
   - `Projects`
   - `About`
   - `Contact`
-- Existe separación entre layout, secciones, componentes reutilizables y datos
-- Existe un `BaseLayout` con metadatos SEO base
-- El contenido principal vive en `src/config/site.ts` y `src/data/projects.ts`
-- Ya se corrigieron varias bases de semántica y accesibilidad
-- Aún hay identidad y enlaces reales por completar antes de considerar cerrada la v1
+- Identidad y copy principal alineados con el perfil de Edwd3v.
+- Contenido centralizado por idioma en `src/config/site.ts`.
+- Proyectos reales cargados en `src/data/projects.ts` con contenido localizado.
+- Layout base con metadatos SEO locales, Open Graph/Twitter base y soporte preparado para canonical/hreflang cuando exista `siteUrl`.
+- Selector ES/EN implementado sin JavaScript de cliente.
+- Pendientes de despliegue: `siteUrl`, canonical definitivo, `og:url`, imagen OG final y revisión pública de enlaces de proyectos.
 
 ## Stack
+
 - Astro 5
 - Tailwind CSS 4
-- TypeScript para tipado de config/data y contratos simples entre componentes
+- TypeScript
 
 ## Estructura del proyecto
+
 ```text
 /
 ├── public/
@@ -35,22 +43,34 @@ El proyecto está planteado como una home estática de una sola página, con una
 │   ├── data/
 │   ├── layouts/
 │   ├── pages/
+│   │   ├── en/
+│   │   ├── es/
+│   │   └── index.astro
 │   └── styles/
 ├── AGENTS.md
+├── IMPLEMENTATION_PLAN.md
 ├── astro.config.mjs
 ├── tailwind.config.mjs
 └── package.json
 ```
 
 ## Archivos clave
-- `src/pages/index.astro`: compone la página principal
-- `src/layouts/BaseLayout.astro`: layout base y metadatos globales
-- `src/config/site.ts`: navegación, copy principal, enlaces y configuración del sitio
-- `src/data/projects.ts`: datos estructurados de proyectos
-- `src/styles/global.css`: estilos globales mínimos
-- `AGENTS.md`: criterios de trabajo, límites de cambio y validación
+
+- `src/pages/index.astro`: redirección por idioma.
+- `src/pages/es/index.astro`: versión en español.
+- `src/pages/en/index.astro`: versión en inglés.
+- `src/layouts/BaseLayout.astro`: estructura HTML global, metadatos y marco general.
+- `src/config/site.ts`: navegación, SEO local, copy por idioma, contacto y enlaces sociales.
+- `src/data/projects.ts`: datos estructurados de proyectos por idioma.
+- `src/components/sections/*`: secciones principales de la home.
+- `src/components/ui/LanguageSwitch.astro`: selector ES/EN.
+- `src/components/ui/ProjectCard.astro`: presentación reutilizable de proyectos.
+- `src/styles/global.css`: estilos globales mínimos.
+- `IMPLEMENTATION_PLAN.md`: checklist de consolidación y fases pendientes.
+- `AGENTS.md`: reglas de trabajo y límites de cambio para Codex.
 
 ## Comandos
+
 Todos los comandos se ejecutan desde la raíz del proyecto.
 
 ```sh
@@ -61,23 +81,43 @@ npm run typecheck
 npm run preview
 ```
 
-## Objetivo inmediato
-La prioridad actual no es rehacer la arquitectura, sino consolidar una primera versión real del portafolio:
+## Flujo local
 
-1. Reemplazar identidad provisional por información real
-2. Cargar enlaces reales de proyectos y perfiles
-3. Completar assets sociales finales como imagen OG si aplica
-4. Mantener consistencia visual, semántica y textual
-5. Dejar una base limpia para futuras iteraciones sin rehacer la arquitectura
+Iniciar servidor de desarrollo:
+
+```sh
+npm run dev
+```
+
+Rutas principales:
+
+```text
+http://localhost:4321/
+http://localhost:4321/es/
+http://localhost:4321/en/
+```
+
+## Pendientes antes de despliegue
+
+- Definir plataforma de despliegue y URL final o temporal.
+- Completar `siteUrl` en `src/config/site.ts`.
+- Activar canonical, `og:url` y `hreflang` con URLs absolutas reales.
+- Crear o agregar imagen OG final en `public/`.
+- Revisar preview social de la URL publicada.
+- Decidir qué demos, repositorios o enlaces externos de proyectos se harán públicos.
+- Verificar que no se expongan datos sensibles en proyectos, enlaces o assets.
 
 ## Criterios del proyecto
-- Mantener una arquitectura simple
-- Evitar JavaScript innecesario en cliente
-- Preservar performance y accesibilidad
-- Favorecer cambios incrementales
-- Mantener una estética sobria, técnica y minimalista
+
+- Mantener arquitectura simple.
+- Evitar JavaScript de cliente innecesario.
+- Preservar performance y accesibilidad.
+- Favorecer cambios incrementales.
+- Mantener una estética sobria, técnica y minimalista.
+- No introducir dependencias sin una justificación clara.
 
 ## Validación
+
 Antes de cerrar cambios importantes:
 
 ```sh
@@ -85,4 +125,4 @@ npm run build
 npm run typecheck
 ```
 
-Si en el futuro se agrega `lint`, también debería ejecutarse como parte de la validación habitual.
+Si en el futuro se agrega `lint`, también debe ejecutarse como parte de la validación.
