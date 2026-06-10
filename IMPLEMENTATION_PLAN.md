@@ -208,7 +208,36 @@ Estado:
 
 - `README.md` refleja el portafolio bilingüe actual, rutas `/es/` y `/en/`, SEO local, proyectos cargados y pendientes de despliegue.
 
-## Fase 9. Preparación de despliegue
+## Fase 9. Exploración visual del background
+
+Objetivo:
+
+Explorar una mejora visual incremental sobre la plantilla actual sin romper la arquitectura, el contraste ni el rendimiento.
+
+Archivos probables:
+- `src/layouts/BaseLayout.astro`
+- `src/styles/global.css`
+- `src/components/ui/*`
+- `public/visuals/`
+
+- [ ] Diseñar una luz de fondo semi-interactiva como primera intervención visual
+- [ ] Mantener un fallback estático si JavaScript no está disponible
+- [ ] Evitar dependencias nuevas
+- [ ] Evitar islands o JS pesado si el efecto puede resolverse con CSS y un script mínimo
+- [ ] Validar que la luz no afecte la legibilidad del contenido
+- [ ] Validar que el efecto sea discreto en desktop y no moleste en mobile
+- [ ] Respetar `prefers-reduced-motion`
+- [ ] Ejecutar `npm run build`
+- [ ] Ejecutar `npm run typecheck`
+- [ ] Evaluar visualmente si el efecto se mantiene, se ajusta o se descarta
+
+Estado:
+
+- Esta fase empieza por el background, no por las imágenes.
+- La primera mejora visual será una luz semi-interactiva de fondo.
+- La integración de imágenes propias de Illustrator queda para un paso posterior dentro de esta fase, después de validar el background.
+
+## Fase 10. Preparación de despliegue
 
 Archivos probables:
 - `src/config/site.ts`
@@ -233,7 +262,7 @@ Estado:
 - Esta fase se crea para no dejar la Fase 5 incompleta.
 - Depende de decisiones de publicación: hosting, dominio o URL temporal, asset OG final y exposición pública de proyectos.
 
-## Fase 10. Validación final
+## Fase 11. Validación final
 
 - [ ] Ejecutar `npm run build`
 - [ ] Ejecutar `npm run typecheck`
@@ -253,7 +282,8 @@ Secuencia sugerida dentro de Codex:
 - [x] Bloque 3: plantilla de proyectos
 - [x] Bloque 4: copy y consistencia
 - [x] Bloque 5: SEO local, proyectos reales y README
-- [ ] Bloque 6: despliegue y validación final
+- [ ] Bloque 6: exploración visual
+- [ ] Bloque 7: despliegue y validación final
 
 ## Sobre una skill de frontend design
 
