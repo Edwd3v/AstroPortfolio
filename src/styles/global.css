@@ -68,6 +68,10 @@ body::before {
   will-change: transform;
 }
 
+.brand-watermark {
+  display: none;
+}
+
 body[data-spotlight="ready"] .ambient-background {
   opacity: 0.54;
 }
@@ -81,7 +85,7 @@ body[data-spotlight="active"] .cursor-spotlight {
   opacity: 0.44;
 }
 
-body > :not(.ambient-background):not(script) {
+body > :not(.ambient-background):not(.brand-watermark):not(script) {
   position: relative;
   z-index: 1;
 }
@@ -115,5 +119,48 @@ body > :not(.ambient-background):not(script) {
     width: 18rem;
     height: 18rem;
     opacity: 0.28;
+  }
+}
+
+@media (min-width: 48rem) {
+  .brand-watermark {
+    display: block;
+    position: absolute;
+    z-index: 0;
+    height: auto;
+    filter: blur(0.2px) saturate(0.82);
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .brand-watermark-primary {
+    top: 16rem;
+    right: max(-4rem, calc((100vw - 72rem) / 2 - 11rem));
+    width: min(30vw, 19rem);
+    opacity: 0.052;
+  }
+
+  .brand-watermark-reflection {
+    right: max(-4rem, calc((100vw - 72rem) / 2 - 11rem));
+    bottom: 3rem;
+    width: min(30vw, 19rem);
+    opacity: 0.04;
+    transform: rotate(180deg);
+  }
+}
+
+@media (min-width: 80rem) {
+  .brand-watermark-primary {
+    top: 12rem;
+    right: max(-5rem, calc((100vw - 72rem) / 2 - 14rem));
+    width: 22rem;
+    opacity: 0.058;
+  }
+
+  .brand-watermark-reflection {
+    right: max(-5rem, calc((100vw - 72rem) / 2 - 14rem));
+    bottom: 4rem;
+    width: 22rem;
+    opacity: 0.044;
   }
 }

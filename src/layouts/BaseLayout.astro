@@ -1,6 +1,7 @@
 ---
 import Header from "../components/layout/Header.astro";
 import Sidebar from "../components/layout/Sidebar.astro";
+import brandVertical from "../assets/brand/edwd3v-vertical.png";
 import { defaultLocale, localizedSite, type Locale } from "../config/site";
 import "../styles/global.css";
 
@@ -71,6 +72,22 @@ const alternateUrls = baseUrl
     <div class="ambient-background" aria-hidden="true">
       <div class="cursor-spotlight" data-cursor-spotlight></div>
     </div>
+    <img
+      src={brandVertical.src}
+      alt=""
+      class="brand-watermark brand-watermark-primary"
+      loading="eager"
+      decoding="async"
+      aria-hidden="true"
+    />
+    <img
+      src={brandVertical.src}
+      alt=""
+      class="brand-watermark brand-watermark-reflection"
+      loading="eager"
+      decoding="async"
+      aria-hidden="true"
+    />
 
     <a
       href="#main"
