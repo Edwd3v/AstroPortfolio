@@ -169,9 +169,7 @@ Archivo principal: `src/data/projects.ts`
 - [x] Completar `kind`
 - [x] Completar `year`
 - [x] Completar `outcome` con un resultado real o aprendizaje defendible en español e inglés
-- [ ] Agregar `href` si existe demo pública
-- [ ] Agregar `repository` si conviene mostrar repositorio
-- [ ] Agregar `links` adicionales si aportan contexto
+- [x] Posponer `href`, `repository` y `links` públicos hasta definir exposición de proyectos
 - [x] Verificar que no haya enlaces rotos o placeholders
 - [x] Validar que `Projects.astro` muestre correctamente la lista al dejar de estar vacía
 - [x] Revisar si el texto introductorio de `Projects` sigue siendo coherente con los proyectos reales cargados
@@ -185,6 +183,7 @@ Estado:
 - `ProjectCard.astro` muestra metadatos compactos: tipo, año, estado, descripción, resultado y tecnologías, sin saturar visualmente las cards.
 - `Projects.astro` selecciona la lista por idioma y conserva el estado vacío como fallback.
 - Validación posterior a la carga de proyectos: `npm run build` y `npm run typecheck` ejecutados correctamente.
+- La inclusión local de proyectos queda cerrada. La publicación de demos, repositorios o enlaces externos se mueve a la fase de despliegue.
 
 Avance de Fase 4:
 
@@ -194,7 +193,22 @@ Avance de Fase 4:
 - Se ajustó `Contact` para comunicar disponibilidad de forma más directa y con menos repetición.
 - Se reemplazó la frase genérica "contextos reales" por "problemas técnicos reales" para cerrar el tono de `Contact`.
 
-## Fase 8. Preparación de despliegue
+## Fase 8. README
+
+Archivo principal: `README.md`
+
+- [x] Actualizar la descripción general del proyecto
+- [x] Ajustar la sección de estado actual para reflejar la realidad del repo
+- [x] Documentar claramente stack y estructura
+- [x] Confirmar que los comandos actuales sigan siendo correctos
+- [x] Documentar el objetivo actual del proyecto sin hablar como si todo siguiera en placeholder
+- [x] Mantener el README simple y útil, sin inflarlo innecesariamente
+
+Estado:
+
+- `README.md` refleja el portafolio bilingüe actual, rutas `/es/` y `/en/`, SEO local, proyectos cargados y pendientes de despliegue.
+
+## Fase 9. Preparación de despliegue
 
 Archivos probables:
 - `src/config/site.ts`
@@ -219,21 +233,6 @@ Estado:
 - Esta fase se crea para no dejar la Fase 5 incompleta.
 - Depende de decisiones de publicación: hosting, dominio o URL temporal, asset OG final y exposición pública de proyectos.
 
-## Fase 9. README
-
-Archivo principal: `README.md`
-
-- [x] Actualizar la descripción general del proyecto
-- [x] Ajustar la sección de estado actual para reflejar la realidad del repo
-- [x] Documentar claramente stack y estructura
-- [x] Confirmar que los comandos actuales sigan siendo correctos
-- [x] Documentar el objetivo actual del proyecto sin hablar como si todo siguiera en placeholder
-- [x] Mantener el README simple y útil, sin inflarlo innecesariamente
-
-Estado:
-
-- `README.md` refleja el portafolio bilingüe actual, rutas `/es/` y `/en/`, SEO local, proyectos cargados y pendientes de despliegue.
-
 ## Fase 10. Validación final
 
 - [ ] Ejecutar `npm run build`
@@ -252,8 +251,8 @@ Secuencia sugerida dentro de Codex:
 - [x] Bloque 1: auditoría de placeholders
 - [x] Bloque 2: identidad y config
 - [x] Bloque 3: plantilla de proyectos
-- [ ] Bloque 4: copy y consistencia
-- [ ] Bloque 5: SEO local, proyectos reales y README
+- [x] Bloque 4: copy y consistencia
+- [x] Bloque 5: SEO local, proyectos reales y README
 - [ ] Bloque 6: despliegue y validación final
 
 ## Sobre una skill de frontend design
