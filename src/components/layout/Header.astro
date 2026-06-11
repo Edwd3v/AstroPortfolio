@@ -32,10 +32,12 @@ const name = siteConfig.name ?? "Tu Nombre";
           {navItems.map((item) => (
             <a
               href={item.href}
-              class="font-heading text-[10px] tracking-[0.35em] uppercase text-text/75 transition-colors
+              data-label={item.label}
+              data-nav-section={item.href.replace("#", "")}
+              class="nav-signal font-heading text-[10px] tracking-[0.35em] uppercase text-text/75 transition-colors
                      hover:text-text focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-bg rounded-md"
             >
-              {item.label}
+              <span class="nav-signal__text">{item.label}</span>
             </a>
           ))}
         </nav>

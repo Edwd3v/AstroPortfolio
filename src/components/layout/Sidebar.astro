@@ -15,14 +15,14 @@ const role = siteConfig.role ?? "Frontend Developer";
 <aside class="hidden md:block md:sticky md:top-0 h-screen">
   <div class="h-full px-6 lg:px-10 pt-40 pb-10 flex flex-col justify-between">
     <div class="space-y-8">
-      <div class="space-y-3">
+      <div class="space-y-5">
         <p
           class="font-heading text-5xl lg:text-6xl tracking-[0.18em] uppercase text-text/95"
         >
           {name}
         </p>
         <p
-          class="font-heading text-sm lg:text-base tracking-[0.3em] uppercase text-accent/90"
+          class="font-heading text-lg lg:text-xl tracking-[0.34em] uppercase text-accent/90"
         >
           {role}
         </p>
@@ -31,10 +31,12 @@ const role = siteConfig.role ?? "Frontend Developer";
       <nav aria-label={labels.sectionsNavigation} class="pt-6 space-y-4">
         {navItems.map((item) => (
           <a
-            class="block rounded-md font-heading text-base tracking-[0.28em] uppercase text-text/75 transition-colors hover:text-text focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
+            class="nav-signal block rounded-md font-heading text-base tracking-[0.28em] uppercase text-text/75 transition-colors hover:text-text focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
             href={item.href}
+            data-label={item.label}
+            data-nav-section={item.href.replace("#", "")}
           >
-            {item.label}
+            <span class="nav-signal__text">{item.label}</span>
           </a>
         ))}
       </nav>

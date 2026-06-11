@@ -165,8 +165,10 @@ const alternateUrls = baseUrl
     </script>
     <script>
       import { initNeuralNetwork } from "../scripts/neural-network.js";
+      import { initSectionNavigation } from "../scripts/section-nav.js";
 
       initNeuralNetwork(document.querySelector("[data-neural-network]"));
+      initSectionNavigation();
     </script>
   </body>
 </html>
