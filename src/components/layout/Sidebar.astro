@@ -18,8 +18,10 @@ const role = siteConfig.role ?? "Frontend Developer";
       <div class="space-y-5">
         <p
           class="font-heading text-5xl lg:text-6xl tracking-[0.18em] uppercase text-text/95"
+          data-logo-decode
+          data-logo-final={name.toUpperCase()}
         >
-          {name}
+          {name.toUpperCase()}
         </p>
         <p
           class="font-heading text-lg lg:text-xl tracking-[0.34em] uppercase text-accent/90"

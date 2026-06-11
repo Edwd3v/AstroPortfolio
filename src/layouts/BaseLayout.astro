@@ -164,9 +164,11 @@ const alternateUrls = baseUrl
       })();
     </script>
     <script>
+      import { initLogoDecode } from "../scripts/logo-decode.js";
       import { initNeuralNetwork } from "../scripts/neural-network.js";
       import { initSectionNavigation } from "../scripts/section-nav.js";
 
+      initLogoDecode();
       initNeuralNetwork(document.querySelector("[data-neural-network]"));
       initSectionNavigation();
     </script>
