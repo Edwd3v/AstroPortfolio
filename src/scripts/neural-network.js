@@ -107,6 +107,32 @@ function drawSignalBurst(context, point, intensity) {
   }
 }
 
+function getZoneIntensity(point, canvas) {
+  const width = canvas.width;
+  const height = canvas.height;
+  const contentCenterX = width * 0.57;
+  const contentCenterY = height * 0.44;
+  const normalizedX = (point.x - contentCenterX) / (width * 0.34);
+  const normalizedY = (point.y - contentCenterY) / (height * 0.46);
+  const contentPressure = Math.max(0, 1 - Math.hypot(normalizedX, normalizedY));
+
+  return 1 - contentPressure * 0.42;
+}
+
+function hasDebugEnabled(win = window) {
+  const params = new URLSearchParams(win.location.search);
+
+  if (params.has("neural-debug")) {
+    return true;
+  }
+
+  try {
+    return win.localStorage.getItem("neural-debug") === "true";
+  } catch {
+    return false;
+  }
+}
+
 export function createNeuralNetwork({
   height,
   nodeCount,
@@ -287,7 +313,8 @@ export function createNeuralNetwork({
           idle: 0.68 + random() * 0.18,
           layer: segments.reduce((total, segment) => total + segment.depth, 0) / segments.length,
           segments,
-          speed: 0.000045 + random() * 0.000018,
+          speed: 0.00004 + random() * 0.000016,
+          type: "local",
         });
       }
     }
@@ -355,7 +382,8 @@ export function createNeuralNetwork({
         idle: 0.34 + random() * 0.22,
         layer: segments.reduce((total, segment) => total + segment.depth, 0) / segments.length,
         segments,
-        speed: 0.000048 + random() * 0.00002,
+        speed: 0.000038 + random() * 0.000016,
+        type: "long",
       });
     }
   }
@@ -363,7 +391,7 @@ export function createNeuralNetwork({
   return { connections, hubs, nodes, routes };
 }
 
-function drawNetwork(context, network, { offsetY = 0, time = 0 } = {}) {
+function drawNetwork(context, network, { debug = false, offsetY = 0, stats = null, time = 0 } = {}) {
   const { connections, nodes, routes } = network;
 
   context.save();
@@ -378,10 +406,15 @@ function drawNetwork(context, network, { offsetY = 0, time = 0 } = {}) {
   for (const connection of connections) {
     const start = getNodePosition(connection.start, time);
     const end = getNodePosition(connection.end, time);
+    const midpoint = {
+      x: (start.x + end.x) / 2,
+      y: (start.y + end.y) / 2,
+    };
+    const zoneIntensity = getZoneIntensity(midpoint, context.canvas);
     const depthWeight = 0.62 + connection.depth * 0.72;
-    const alpha = connection.route
+    const alpha = (connection.route
       ? Math.max(0.035, 0.096 * depthWeight - connection.distance / 5600)
-      : Math.max(0.018, 0.082 * depthWeight - connection.distance / 3200);
+      : Math.max(0.018, 0.082 * depthWeight - connection.distance / 3200)) * zoneIntensity;
 
     context.beginPath();
     context.moveTo(start.x, start.y);
@@ -392,6 +425,8 @@ function drawNetwork(context, network, { offsetY = 0, time = 0 } = {}) {
   }
 
   const activeSignalHeads = [];
+  let burstCount = 0;
+  let fadedSignalCount = 0;
 
   for (const route of routes) {
     const cycle = ((time * route.speed + route.delay) % 1 + 1) % 1;
@@ -409,7 +444,7 @@ function drawNetwork(context, network, { offsetY = 0, time = 0 } = {}) {
 
     const routeLength = getRouteLength(route);
     const headDistance = activeProgress * routeLength;
-    const tailDistance = Math.min(170, routeLength * 0.24);
+    const tailDistance = route.type === "local" ? Math.min(120, routeLength * 0.2) : Math.min(210, routeLength * 0.28);
     const tailDistanceOnRoute = Math.max(0, headDistance - tailDistance);
     const tail = getRoutePointAtDistance(route, tailDistanceOnRoute, time).point;
     const head = getRoutePointAtDistance(route, headDistance, time).point;
@@ -429,7 +464,13 @@ function drawNetwork(context, network, { offsetY = 0, time = 0 } = {}) {
     const trail = context.createLinearGradient(tail.x, tail.y, head.x, head.y);
 
     const routeDepth = route.layer ?? 0.5;
-    const routeAlpha = (0.76 + routeDepth * 0.42) * signalEnvelope * proximityFade;
+    const zoneIntensity = getZoneIntensity(head, context.canvas);
+    const routeScale = route.type === "local" ? 0.72 : 1.08;
+    const routeAlpha = (0.76 + routeDepth * 0.42) * signalEnvelope * proximityFade * zoneIntensity * routeScale;
+
+    if (proximityFade < 0.65) {
+      fadedSignalCount += 1;
+    }
 
     trail.addColorStop(0, "rgba(108, 196, 199, 0)");
     trail.addColorStop(0.36, `rgba(108, 196, 199, ${0.08 * routeAlpha})`);
@@ -437,7 +478,7 @@ function drawNetwork(context, network, { offsetY = 0, time = 0 } = {}) {
     trail.addColorStop(1, `rgba(205, 204, 204, ${0.58 * routeAlpha})`);
 
     context.strokeStyle = trail;
-    context.lineWidth = (1.15 + routeDepth * 1.05) * (0.55 + signalEnvelope * 0.45);
+    context.lineWidth = (route.type === "local" ? 0.78 : 1.18) * (1 + routeDepth * 0.72) * (0.55 + signalEnvelope * 0.45);
     context.beginPath();
 
     const samples = 14;
@@ -469,11 +510,25 @@ function drawNetwork(context, network, { offsetY = 0, time = 0 } = {}) {
       const burstWindow = 74;
       const distanceToBoundary = Math.abs(headDistance - boundaryDistance);
 
-      if (distanceToBoundary <= burstWindow) {
+      if (distanceToBoundary <= burstWindow && burstCount < 2) {
         const boundary = getRoutePointAtDistance(route, boundaryDistance, time).point;
         drawSignalBurst(context, boundary, Math.sin((1 - distanceToBoundary / burstWindow) * Math.PI) * routeAlpha);
+        burstCount += 1;
       }
     }
+  }
+
+  if (stats) {
+    stats.activeSignals = activeSignalHeads.length;
+    stats.bursts = burstCount;
+    stats.fadedSignals = fadedSignalCount;
+    stats.routes = routes.length;
+  }
+
+  if (debug) {
+    context.strokeStyle = "rgba(255, 92, 205, 0.18)";
+    context.lineWidth = 1;
+    context.strokeRect(context.canvas.width * 0.23, context.canvas.height * 0.07, context.canvas.width * 0.68, context.canvas.height * 0.72);
   }
 
   for (const node of nodes) {
@@ -481,7 +536,8 @@ function drawNetwork(context, network, { offsetY = 0, time = 0 } = {}) {
     const depthWeight = 0.7 + (node.depth ?? 0.5) * 0.7;
     const typeWeight = (node.type === "hub" ? 1.8 : node.type === "secondary" ? 1 : 0.55) * depthWeight;
     const pulse = node.type === "hub" ? (Math.sin(time * 0.0012 + node.phase) + 1) * 0.018 : 0;
-    const glow = 0.034 * typeWeight + pulse;
+    const zoneIntensity = getZoneIntensity(point, context.canvas);
+    const glow = (0.034 * typeWeight + pulse) * zoneIntensity;
 
     context.fillStyle = `rgba(205, 204, 204, ${glow})`;
     context.beginPath();
@@ -509,8 +565,16 @@ export function initNeuralNetwork(canvas, win = window) {
     return false;
   }
 
+  const debug = hasDebugEnabled(win);
   const reducedMotion = win.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
   const pixelRatio = Math.min(win.devicePixelRatio || 1, 1.5);
+  const stats = {
+    activeSignals: 0,
+    bursts: 0,
+    fadedSignals: 0,
+    lastLog: 0,
+    routes: 0,
+  };
   let animationFrame = 0;
   let network = null;
 
@@ -519,7 +583,17 @@ export function initNeuralNetwork(canvas, win = window) {
       return;
     }
 
-    drawNetwork(context, network, { time: reducedMotion ? 0 : time });
+    drawNetwork(context, network, { debug, stats, time: reducedMotion ? 0 : time });
+
+    if (debug && time - stats.lastLog > 1200) {
+      stats.lastLog = time;
+      console.info("neural-network", {
+        activeSignals: stats.activeSignals,
+        bursts: stats.bursts,
+        fadedSignals: stats.fadedSignals,
+        routes: stats.routes,
+      });
+    }
 
     if (!reducedMotion && !win.document.hidden) {
       animationFrame = win.requestAnimationFrame(render);
