@@ -70,6 +70,7 @@ const alternateUrls = baseUrl
 
   <body class="bg-bg text-text font-body antialiased">
     <div class="ambient-background" aria-hidden="true">
+      <canvas class="neural-network" data-neural-network></canvas>
       <div class="cursor-spotlight" data-cursor-spotlight></div>
     </div>
     <img
@@ -161,6 +162,11 @@ const alternateUrls = baseUrl
         window.addEventListener("mousemove", moveSpotlight, { passive: true });
         document.body.dataset.spotlight = "ready";
       })();
+    </script>
+    <script>
+      import { initNeuralNetwork } from "../scripts/neural-network.js";
+
+      initNeuralNetwork(document.querySelector("[data-neural-network]"));
     </script>
   </body>
 </html>

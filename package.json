@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "test:ci": "node tests/spotlight.test.mjs",
+    "test:ci": "node tests/spotlight.test.mjs && node tests/neural-network.test.mjs",
     "typecheck": "astro check",
     "preview": "astro preview",
     "astro": "astro"
