@@ -3,40 +3,39 @@ import { defaultLocale, type Locale } from "../../config/site";
 
 type Props = {
   class?: string;
+  decode?: boolean;
   locale?: Locale;
 };
 
-const { class: className = "", locale = defaultLocale } = Astro.props as Props;
+const { class: className = "", decode = false, locale = defaultLocale } = Astro.props as Props;
 const isSpanish = locale === "es";
-const spanishHref = "/es/";
-const englishHref = "/en/";
+const targetHref = isSpanish ? "/en/" : "/es/";
+const currentLocale = locale.toUpperCase();
+const nextLocale = isSpanish ? "EN" : "ES";
 ---
 
-<div
-  class={`inline-flex items-center rounded-full border border-text/10 bg-bg/40 p-1 ${className}`}
-  role="group"
-  aria-label={isSpanish ? "Selector de idioma" : "Language selector"}
+<a
+  href={targetHref}
+  class={`inline-flex items-center gap-2 rounded-full border border-text/10 bg-bg/40 px-4 py-2 font-heading text-[12px] tracking-[0.24em] uppercase transition-all hover:border-accent/30 hover:bg-accent/10 hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-bg ${className}`}
+  aria-label={isSpanish ? "Cambiar a inglés" : "Switch to Spanish"}
 >
-  <a
-    href={spanishHref}
-    class={`rounded-full px-3 py-1 font-heading text-[10px] tracking-[0.24em] uppercase transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-bg ${
-      isSpanish
-        ? "bg-accent/20 text-text"
-        : "text-text/65 hover:text-text"
-    }`}
-    aria-current={isSpanish ? "page" : undefined}
-  >
-    ES
-  </a>
-  <a
-    href={englishHref}
-    class={`rounded-full px-3 py-1 font-heading text-[10px] tracking-[0.24em] uppercase transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-bg ${
-      isSpanish
-        ? "text-text/65 hover:text-text"
-        : "bg-accent/20 text-text"
-    }`}
-    aria-current={!isSpanish ? "page" : undefined}
-  >
-    EN
-  </a>
-</div>
+  <span class="font-bold text-accent">
+    {
+      decode ? (
+        <span data-logo-decode data-logo-final={currentLocale}>{currentLocale}</span>
+      ) : (
+        currentLocale
+      )
+    }
+  </span>
+  <span class="text-text/30">|</span>
+  <span class="opacity-60 hover:opacity-100 transition-opacity">
+    {
+      decode ? (
+        <span data-logo-decode data-logo-final={nextLocale}>{nextLocale}</span>
+      ) : (
+        nextLocale
+      )
+    }
+  </span>
+</a>
