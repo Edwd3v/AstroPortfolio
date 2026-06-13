@@ -25,7 +25,7 @@ export const localizedSite = {
     },
     siteConfig: {
       name: "Edwd3v",
-      role: "Software Engineering",
+      role: "Ingeniero de Software",
       title: "Edwd3v | Software Engineering",
       description:
         "Portafolio de Edwd3v, estudiante de Ingeniería de Software enfocado en Python, datos, automatización y desarrollo asistido por IA.",
@@ -115,7 +115,7 @@ export const localizedSite = {
     },
     siteConfig: {
       name: "Edwd3v",
-      role: "Software Engineering",
+      role: "Software Engineer",
       title: "Edwd3v | Software Engineering",
       description:
         "Portfolio of Edwd3v, a Software Engineering student focused on Python, data, automation, and AI-assisted development.",
