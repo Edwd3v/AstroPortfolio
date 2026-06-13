@@ -41,7 +41,9 @@ const currentYear = new Date().getFullYear();
             data-label={item.label}
             data-nav-section={item.href.replace("#", "")}
           >
-            <span class="nav-signal__text" data-logo-decode data-logo-final={item.label.toUpperCase()}>{item.label}</span>
+            <span class="nav-signal__text">
+              <span data-logo-decode data-logo-final={item.label.toUpperCase()}>{item.label}</span>
+            </span>
           </a>
         ))}
       </nav>

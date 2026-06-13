@@ -211,12 +211,15 @@ body > :not(.ambient-background):not(.brand-watermark):not(script) {
 
 .nav-signal:hover::before,
 .nav-signal:hover::after,
+.nav-signal:focus-visible::before,
+.nav-signal:focus-visible::after,
 .nav-signal.is-distorting::before,
 .nav-signal.is-distorting::after {
   animation: nav-hologram-stabilize 360ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .nav-signal:hover .nav-signal__text,
+.nav-signal:focus-visible .nav-signal__text,
 .nav-signal.is-distorting .nav-signal__text {
   animation: nav-signal-core-stabilize 360ms cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -406,15 +409,6 @@ body > :not(.ambient-background):not(.brand-watermark):not(script) {
 
   [data-logo-decode].is-decoding,
   [data-logo-decode].is-decoded {
-    animation: none;
-  }
-
-  .nav-signal:hover::before,
-  .nav-signal:hover::after,
-  .nav-signal.is-distorting::before,
-  .nav-signal.is-distorting::after,
-  .nav-signal:hover .nav-signal__text,
-  .nav-signal.is-distorting .nav-signal__text {
     animation: none;
   }
 
