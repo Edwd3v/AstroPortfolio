@@ -1,4 +1,5 @@
 ---
+import { ClientRouter } from "astro:transitions";
 import Header from "../components/layout/Header.astro";
 import Sidebar from "../components/layout/Sidebar.astro";
 import brandVertical from "../assets/brand/edwd3v-vertical.png";
@@ -66,6 +67,16 @@ const alternateUrls = baseUrl
     />
 
     <title>{pageTitle}</title>
+    <ClientRouter />
+    <noscript>
+      <style>
+        .sidebar-footer-controls {
+          opacity: 1;
+          pointer-events: auto;
+          transform: none;
+        }
+      </style>
+    </noscript>
   </head>
 
   <body class="bg-bg text-text font-body antialiased">
@@ -111,66 +122,64 @@ const alternateUrls = baseUrl
       </div>
     </div>
 
-    <script is:inline>
-      (() => {
-        const root = document.documentElement;
-        const spotlight = document.querySelector("[data-cursor-spotlight]");
-        const debugSpotlight =
-          new URLSearchParams(window.location.search).has("spotlight-debug") ||
-          (() => {
-            try {
-              return window.localStorage.getItem("spotlight-debug") === "true";
-            } catch {
-              return false;
-            }
-          })();
+    <script>
+      import { DEFAULT_DURATION, initLogoDecode } from "../scripts/logo-decode.js";
+      import { initNeuralNetwork } from "../scripts/neural-network.js";
+      import { initSectionNavigation } from "../scripts/section-nav.js";
+      import { initSpotlight } from "../scripts/spotlight.js";
 
-        if (!spotlight) {
+      const SIDEBAR_FOOTER_REVEAL_DELAY = DEFAULT_DURATION + 220;
+      const pageState = window as Window & typeof globalThis & {
+        __sidebarFooterRevealed?: boolean;
+      };
+      let cleanupPageEffects: Array<() => void> = [];
+      let handledInitialPageLoad = false;
+
+      function runCleanup() {
+        for (const cleanup of cleanupPageEffects) {
+          cleanup();
+        }
+
+        cleanupPageEffects = [];
+      }
+
+      function trackCleanup(cleanup: unknown) {
+        if (typeof cleanup === "function") {
+          cleanupPageEffects.push(cleanup as () => void);
+        }
+      }
+
+      function initPageEffects() {
+        runCleanup();
+        document.body.dataset.sidebarFooterReady = pageState.__sidebarFooterRevealed
+          ? "true"
+          : "false";
+        initLogoDecode();
+
+        if (!pageState.__sidebarFooterRevealed) {
+          const footerRevealTimer = window.setTimeout(() => {
+            pageState.__sidebarFooterRevealed = true;
+            document.body.dataset.sidebarFooterReady = "true";
+          }, SIDEBAR_FOOTER_REVEAL_DELAY);
+
+          trackCleanup(() => window.clearTimeout(footerRevealTimer));
+        }
+
+        trackCleanup(initSpotlight());
+        trackCleanup(initNeuralNetwork(document.querySelector("[data-neural-network]")));
+        trackCleanup(initSectionNavigation());
+      }
+
+      initPageEffects();
+
+      document.addEventListener("astro:page-load", () => {
+        if (!handledInitialPageLoad) {
+          handledInitialPageLoad = true;
           return;
         }
 
-        if (debugSpotlight) {
-          console.log("spotlight loaded");
-        }
-
-        let frame = 0;
-
-        const moveSpotlight = (event) => {
-          const x = event.clientX;
-          const y = event.clientY;
-
-          if (!Number.isFinite(x) || !Number.isFinite(y)) {
-            return;
-          }
-
-          window.cancelAnimationFrame(frame);
-          frame = window.requestAnimationFrame(() => {
-            root.style.setProperty("--spotlight-x", `${x}px`);
-            root.style.setProperty("--spotlight-y", `${y}px`);
-            spotlight.style.transform = `translate3d(${x}px, ${y}px, 0) translate3d(-50%, -50%, 0)`;
-            spotlight.dataset.x = String(x);
-            spotlight.dataset.y = String(y);
-            document.body.dataset.spotlight = "active";
-
-            if (debugSpotlight) {
-              console.log("cursor", x, y);
-            }
-          });
-        };
-
-        window.addEventListener("pointermove", moveSpotlight, { passive: true });
-        window.addEventListener("mousemove", moveSpotlight, { passive: true });
-        document.body.dataset.spotlight = "ready";
-      })();
-    </script>
-    <script>
-      import { initLogoDecode } from "../scripts/logo-decode.js";
-      import { initNeuralNetwork } from "../scripts/neural-network.js";
-      import { initSectionNavigation } from "../scripts/section-nav.js";
-
-      initLogoDecode();
-      initNeuralNetwork(document.querySelector("[data-neural-network]"));
-      initSectionNavigation();
+        initPageEffects();
+      });
     </script>
   </body>
 </html>

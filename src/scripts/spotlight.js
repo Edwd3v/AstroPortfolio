@@ -41,5 +41,9 @@ export function initSpotlight(win = window, doc = document) {
   win.addEventListener("mousemove", updatePosition, { passive: true });
   doc.body.dataset.spotlight = "ready";
 
-  return true;
+  return () => {
+    win.cancelAnimationFrame(frame);
+    win.removeEventListener("pointermove", updatePosition);
+    win.removeEventListener("mousemove", updatePosition);
+  };
 }

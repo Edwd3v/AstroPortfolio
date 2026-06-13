@@ -50,13 +50,9 @@ const currentYear = new Date().getFullYear();
 
     </div>
 
-    <div class="space-y-4">
-      <LanguageSwitch locale={locale} decode />
-      <p
-        class="text-sm text-text/60"
-        data-logo-decode
-        data-logo-final={`© ${currentYear} ${name.toUpperCase()}`}
-      >
+    <div class="sidebar-footer-controls space-y-4">
+      <LanguageSwitch locale={locale} />
+      <p class="text-sm text-text/60">
         © {currentYear} {name.toUpperCase()}
       </p>
     </div>
