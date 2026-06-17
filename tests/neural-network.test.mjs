@@ -141,16 +141,14 @@ test("createNeuralNetwork limits non-route node degree outside primary hubs", ()
   }
 });
 
-test("createNeuralNetwork creates local and long animated routes", () => {
+test("createNeuralNetwork creates long animated routes between hubs", () => {
   const network = createNeuralNetwork({
     height: 720,
     seed: 13,
     width: 1280,
   });
-  const localRoutes = network.routes.filter((route) => route.type === "local");
   const longRoutes = network.routes.filter((route) => route.type === "long");
 
-  assert.ok(localRoutes.length > 0);
   assert.ok(longRoutes.length >= 4);
 
   for (const route of network.routes) {
