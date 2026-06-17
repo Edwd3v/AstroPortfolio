@@ -1,6 +1,5 @@
 const ACTIVE_CLASS = "is-active";
 const DISTORTING_CLASS = "is-distorting";
-const MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 
 export function getMostVisibleSection(entries) {
   return [...entries]
@@ -15,10 +14,6 @@ export function getMostVisibleSectionFromRatios(ratios) {
 }
 
 function triggerDistortion(link, win) {
-  if (typeof win.matchMedia === "function" && win.matchMedia(MOTION_QUERY).matches) {
-    return;
-  }
-
   link.classList.remove(DISTORTING_CLASS);
   void link.offsetWidth;
   link.classList.add(DISTORTING_CLASS);

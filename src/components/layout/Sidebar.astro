@@ -41,20 +41,18 @@ const currentYear = new Date().getFullYear();
             data-label={item.label}
             data-nav-section={item.href.replace("#", "")}
           >
-            <span class="nav-signal__text" data-logo-decode data-logo-final={item.label.toUpperCase()}>{item.label}</span>
+            <span class="nav-signal__text">
+              <span data-logo-decode data-logo-final={item.label.toUpperCase()}>{item.label}</span>
+            </span>
           </a>
         ))}
       </nav>
 
     </div>
 
-    <div class="space-y-4">
-      <LanguageSwitch locale={locale} decode />
-      <p
-        class="text-sm text-text/60"
-        data-logo-decode
-        data-logo-final={`© ${currentYear} ${name.toUpperCase()}`}
-      >
+    <div class="sidebar-footer-controls space-y-4">
+      <LanguageSwitch locale={locale} />
+      <p class="text-sm text-text/60">
         © {currentYear} {name.toUpperCase()}
       </p>
     </div>

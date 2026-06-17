@@ -24,6 +24,11 @@ function createHarness({ reducedMotion = false } = {}) {
       callback();
       return 1;
     },
+    removeEventListener(type, handler) {
+      if (listeners.get(type) === handler) {
+        listeners.delete(type);
+      }
+    },
   };
 
   const doc = {
@@ -51,7 +56,7 @@ function createHarness({ reducedMotion = false } = {}) {
 test("initSpotlight updates CSS variables on pointer movement", () => {
   const { doc, listeners, spotlight, win } = createHarness();
 
-  assert.equal(initSpotlight(win, doc), true);
+  assert.equal(typeof initSpotlight(win, doc), "function");
   assert.equal(doc.body.dataset.spotlight, "ready");
   assert.equal(typeof listeners.get("pointermove"), "function");
 
@@ -81,7 +86,20 @@ test("initSpotlight also supports mousemove fallback", () => {
 test("initSpotlight keeps cursor tracking when reduced motion is requested", () => {
   const { doc, listeners, win } = createHarness({ reducedMotion: true });
 
-  assert.equal(initSpotlight(win, doc), true);
+  assert.equal(typeof initSpotlight(win, doc), "function");
   assert.equal(doc.body.dataset.spotlight, "ready");
   assert.equal(typeof listeners.get("pointermove"), "function");
+});
+
+test("initSpotlight cleanup removes cursor listeners", () => {
+  const { listeners, win, doc } = createHarness();
+  const cleanup = initSpotlight(win, doc);
+
+  assert.equal(typeof listeners.get("pointermove"), "function");
+  assert.equal(typeof listeners.get("mousemove"), "function");
+
+  cleanup();
+
+  assert.equal(listeners.has("pointermove"), false);
+  assert.equal(listeners.has("mousemove"), false);
 });

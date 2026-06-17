@@ -1,16 +1,98 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { createNeuralNetwork } from "../src/scripts/neural-network.js";
+import { createNeuralNetwork, initNeuralNetwork } from "../src/scripts/neural-network.js";
 
-function countDegrees(connections) {
+function countDegrees(connections, { includeRoutes = true } = {}) {
   const degrees = new Map();
 
   for (const connection of connections) {
+    if (!includeRoutes && connection.route) {
+      continue;
+    }
+
     degrees.set(connection.start, (degrees.get(connection.start) ?? 0) + 1);
     degrees.set(connection.end, (degrees.get(connection.end) ?? 0) + 1);
   }
 
   return degrees;
+}
+
+function createCanvasHarness({ reducedMotion = false } = {}) {
+  let animationFrames = 0;
+  const context = {
+    canvas: null,
+    save() {},
+    setTransform() {},
+    clearRect() {},
+    restore() {},
+    translate() {},
+    beginPath() {},
+    moveTo() {},
+    lineTo() {},
+    stroke() {},
+    arc() {},
+    fill() {},
+    strokeRect() {},
+    createRadialGradient() {
+      return { addColorStop() {} };
+    },
+    createLinearGradient() {
+      return { addColorStop() {} };
+    },
+    set fillStyle(_value) {},
+    set lineCap(_value) {},
+    set lineWidth(_value) {},
+    set strokeStyle(_value) {},
+  };
+  const canvas = {
+    height: 0,
+    width: 0,
+    getBoundingClientRect() {
+      return { height: 720, width: 1280 };
+    },
+    getContext() {
+      context.canvas = canvas;
+      return context;
+    },
+  };
+  const win = {
+    cancelAnimationFrame() {},
+    devicePixelRatio: 1,
+    document: {
+      hidden: false,
+      addEventListener() {},
+      removeEventListener() {},
+    },
+    innerHeight: 720,
+    innerWidth: 1280,
+    localStorage: {
+      getItem() {
+        return null;
+      },
+    },
+    location: {
+      search: "",
+    },
+    matchMedia(query) {
+      return {
+        matches: query === "(prefers-reduced-motion: reduce)" && reducedMotion,
+      };
+    },
+    requestAnimationFrame() {
+      animationFrames += 1;
+      return animationFrames;
+    },
+    addEventListener() {},
+    removeEventListener() {},
+  };
+
+  return {
+    canvas,
+    getAnimationFrames() {
+      return animationFrames;
+    },
+    win,
+  };
 }
 
 test("createNeuralNetwork generates a semi-hierarchical open topology", () => {
@@ -36,13 +118,13 @@ test("createNeuralNetwork generates a semi-hierarchical open topology", () => {
   assert.ok(network.routes.length > 0);
 });
 
-test("createNeuralNetwork limits node degree outside primary hubs", () => {
+test("createNeuralNetwork limits non-route node degree outside primary hubs", () => {
   const network = createNeuralNetwork({
     height: 720,
     seed: 11,
     width: 1280,
   });
-  const degrees = countDegrees(network.connections);
+  const degrees = countDegrees(network.connections, { includeRoutes: false });
 
   assert.ok(network.connections.length > 0);
 
@@ -59,14 +141,17 @@ test("createNeuralNetwork limits node degree outside primary hubs", () => {
   }
 });
 
-test("createNeuralNetwork keeps structural routes between hub connections only", () => {
+test("createNeuralNetwork creates local and long animated routes", () => {
   const network = createNeuralNetwork({
     height: 720,
     seed: 13,
     width: 1280,
   });
+  const localRoutes = network.routes.filter((route) => route.type === "local");
+  const longRoutes = network.routes.filter((route) => route.type === "long");
 
-  assert.ok(network.routes.length >= 4);
+  assert.ok(localRoutes.length > 0);
+  assert.ok(longRoutes.length >= 4);
 
   for (const route of network.routes) {
     assert.ok(route.speed > 0);
@@ -74,8 +159,25 @@ test("createNeuralNetwork keeps structural routes between hub connections only",
 
     for (const segment of route.segments) {
       assert.equal(segment.route, true);
+    }
+  }
+
+  for (const route of longRoutes) {
+    for (const segment of route.segments) {
       assert.equal(segment.start.type, "hub");
       assert.equal(segment.end.type, "hub");
     }
   }
+});
+
+test("initNeuralNetwork keeps a slower animation loop when reduced motion is requested", () => {
+  const { canvas, getAnimationFrames, win } = createCanvasHarness({ reducedMotion: true });
+  const cleanup = initNeuralNetwork(canvas, win);
+
+  assert.equal(typeof cleanup, "function");
+  assert.equal(canvas.width, 1280);
+  assert.equal(canvas.height, 720);
+  assert.equal(getAnimationFrames(), 1);
+
+  cleanup();
 });

@@ -3,39 +3,28 @@ import { defaultLocale, type Locale } from "../../config/site";
 
 type Props = {
   class?: string;
-  decode?: boolean;
   locale?: Locale;
 };
 
-const { class: className = "", decode = false, locale = defaultLocale } = Astro.props as Props;
+const { class: className = "", locale = defaultLocale } = Astro.props as Props;
 const isSpanish = locale === "es";
 const targetHref = isSpanish ? "/en/" : "/es/";
-const currentLocale = locale.toUpperCase();
-const nextLocale = isSpanish ? "EN" : "ES";
+const spanishState = isSpanish ? "is-active" : "is-idle";
+const englishState = isSpanish ? "is-idle" : "is-active";
+const spanishLabel = "ES";
+const englishLabel = "EN";
 ---
 
 <a
   href={targetHref}
-  class={`inline-flex items-center gap-2 rounded-full border border-text/10 bg-bg/40 px-4 py-2 font-heading text-[12px] tracking-[0.24em] uppercase transition-all hover:border-accent/30 hover:bg-accent/10 hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-bg ${className}`}
+  class={`language-switch ${isSpanish ? "language-switch--es" : "language-switch--en"} ${className}`}
   aria-label={isSpanish ? "Cambiar a inglés" : "Switch to Spanish"}
+  data-language-switch
 >
-  <span class="font-bold text-accent">
-    {
-      decode ? (
-        <span data-logo-decode data-logo-final={currentLocale}>{currentLocale}</span>
-      ) : (
-        currentLocale
-      )
-    }
+  <span class={`language-switch__option ${spanishState}`} aria-current={isSpanish ? "page" : undefined}>
+    {spanishLabel}
   </span>
-  <span class="text-text/30">|</span>
-  <span class="opacity-60 hover:opacity-100 transition-opacity">
-    {
-      decode ? (
-        <span data-logo-decode data-logo-final={nextLocale}>{nextLocale}</span>
-      ) : (
-        nextLocale
-      )
-    }
+  <span class={`language-switch__option ${englishState}`} aria-current={!isSpanish ? "page" : undefined}>
+    {englishLabel}
   </span>
 </a>

@@ -171,3 +171,42 @@ test("initSectionNavigation triggers distortion from hover and focus listeners",
 
   assert.equal(links[1].classList.contains("is-distorting"), true);
 });
+
+test("initSectionNavigation keeps nav distortion when reduced motion is requested", () => {
+  const links = [createLink("projects"), createLink("about"), createLink("contact")];
+  const sections = {
+    projects: { id: "projects" },
+    about: { id: "about" },
+    contact: { id: "contact" },
+  };
+
+  class FakeIntersectionObserver {
+    disconnect() {}
+
+    observe() {}
+  }
+
+  const doc = {
+    getElementById(id) {
+      return sections[id];
+    },
+    querySelectorAll(selector) {
+      return selector === "[data-nav-section]" ? links : [];
+    },
+  };
+  const win = {
+    IntersectionObserver: FakeIntersectionObserver,
+    location: { hash: "" },
+    matchMedia() {
+      return { matches: true };
+    },
+    setTimeout() {
+      return 1;
+    },
+  };
+
+  initSectionNavigation(doc, win);
+  links[0].dispatchEvent("pointerenter");
+
+  assert.equal(links[0].classList.contains("is-distorting"), true);
+});

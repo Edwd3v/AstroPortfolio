@@ -566,13 +566,14 @@ export function initNeuralNetwork(canvas, win = window) {
   };
   let animationFrame = 0;
   let network = null;
+  const motionScale = reducedMotion ? 0.35 : 1;
 
   const render = (time = 0) => {
     if (!network) {
       return;
     }
 
-    drawNetwork(context, network, { debug, stats, time: reducedMotion ? 0 : time });
+    drawNetwork(context, network, { debug, stats, time: time * motionScale });
 
     if (debug && time - stats.lastLog > 1200) {
       stats.lastLog = time;
@@ -584,7 +585,7 @@ export function initNeuralNetwork(canvas, win = window) {
       });
     }
 
-    if (!reducedMotion && !win.document.hidden) {
+    if (!win.document.hidden) {
       animationFrame = win.requestAnimationFrame(render);
     }
   };
@@ -609,7 +610,7 @@ export function initNeuralNetwork(canvas, win = window) {
   const handleVisibilityChange = () => {
     win.cancelAnimationFrame(animationFrame);
 
-    if (!reducedMotion && !win.document.hidden) {
+    if (!win.document.hidden) {
       animationFrame = win.requestAnimationFrame(render);
     }
   };
