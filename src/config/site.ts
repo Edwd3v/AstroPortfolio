@@ -95,6 +95,9 @@ export const localizedSite = {
         lead:
           "Me interesa participar en equipos y proyectos donde pueda aportar con Python, datos, automatización y herramientas de IA mientras aprendo de problemas técnicos reales.",
       },
+      footer: {
+        tagline: "Construyo con Python, datos e IA.",
+      },
     },
   },
   en: {
@@ -184,6 +187,9 @@ export const localizedSite = {
           "Open to entry-level projects, learning, and technical collaboration.",
         lead:
           "I am interested in joining teams and projects where I can contribute with Python, data, automation, and AI tools while learning from real technical problems.",
+      },
+      footer: {
+        tagline: "Built with Python, data, and AI.",
       },
     },
   },

@@ -1,0 +1,61 @@
+---
+import {
+  type Locale,
+  type SiteConfig,
+  type SiteContent,
+} from "../../config/site";
+
+type Props = {
+  config: SiteConfig;
+  links: SiteContent["socialLinks"];
+  locale: Locale;
+};
+
+const { config, links, locale } = Astro.props as Props;
+const currentYear = new Date().getFullYear();
+
+const footerNavLabels: Record<Locale, string> = {
+  es: "Enlaces del pie",
+  en: "Footer links",
+};
+---
+
+<footer
+  class="mt-16 md:mt-20 border-t border-text/10 px-6 md:px-10 py-8 md:py-10"
+>
+  <div
+    class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
+  >
+    <div class="space-y-1">
+      <p class="text-xs text-text/50">
+        © {currentYear} {config.name} — {config.identity.location}
+      </p>
+      <p class="text-xs text-text/50">{config.footer.tagline}</p>
+    </div>
+
+    <nav aria-label={footerNavLabels[locale]}>
+      <ul class="flex flex-wrap items-center gap-3 text-xs text-text/50">
+        <li>
+          <a
+            href={`mailto:${config.email}`}
+            class="transition-colors hover:text-text focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
+          >
+            {config.email}
+          </a>
+        </li>
+        {links.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              target="_blank"
+              rel="noreferrer"
+              class="transition-colors hover:text-text focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
+            >
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</footer>

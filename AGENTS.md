@@ -121,6 +121,24 @@ Si una mejora requiere un refactor mayor:
 - Mantener DOM razonablemente limpio
 - No introducir librerías pesadas sin una justificación clara
 
+### Excepción documentada: neural background visual
+
+Se declara como excepción consciente, acotada y revisable:
+
+- Archivo único: `src/scripts/neural-network.js`.
+- Propósito: capa visual decorativa de fondo, parte de la identidad del portafolio.
+- Carga: script plano importado por `BaseLayout.astro`, sin `client:*`, sin islas Astro.
+- Sin dependencias externas nuevas.
+- Sin interacción de usuario: solo render en canvas.
+- Accesibilidad: respetar `prefers-reduced-motion` y pausar cuando `document.hidden`.
+- Estricciones duras:
+  - no agregar nuevos scripts decorativos;
+  - no expandir este archivo con lógica de negocio;
+  - no usar como atajo para evitar HTML/CSS donde sí sea posible;
+  - cualquier cambio debe mantener o reducir el JS, nunca crecerlo;
+  - ante refactor futuro, preferir migrar a SVG/CSS si fuera viable.
+- Esta excepción no es un permiso general: aplicar `Evitar JS en cliente cuando HTML y CSS basten` en todo el resto del proyecto.
+
 ## Modo de intervención
 Para cambios medianos o grandes:
 1. analizar primero el estado actual

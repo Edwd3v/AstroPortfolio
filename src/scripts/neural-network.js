@@ -192,7 +192,7 @@ export function createNeuralNetwork({
       return exists;
     }
 
-    if (!route && (degree.get(start) >= maxDegree(start) || degree.get(end) >= maxDegree(end))) {
+    if (degree.get(start) >= maxDegree(start) || degree.get(end) >= maxDegree(end)) {
       return null;
     }
 
@@ -295,7 +295,7 @@ export function createNeuralNetwork({
       }
     }
 
-    for (const [railIndex, node] of sortedCluster.slice(0, 4).entries()) {
+    for (const node of sortedCluster.slice(0, 4)) {
       const localCandidates = sortedCluster
         .filter((candidate) => candidate !== node)
         .map((candidate) => ({
@@ -303,20 +303,9 @@ export function createNeuralNetwork({
           distance: Math.hypot(candidate.x - node.x, candidate.y - node.y),
         }))
         .sort((first, second) => first.distance - second.distance);
-      const spoke = connect(hub, node, { route: true, strength: 0.74 });
-      const branch = connect(node, localCandidates[0]?.candidate, { route: true, strength: 0.58 });
-      const segments = [spoke, branch].filter(Boolean);
 
-      if (segments.length > 0) {
-        routes.push({
-          delay: index * 0.26 + railIndex * 0.17 + random() * 0.46,
-          idle: 0.68 + random() * 0.18,
-          layer: segments.reduce((total, segment) => total + segment.depth, 0) / segments.length,
-          segments,
-          speed: 0.00004 + random() * 0.000016,
-          type: "local",
-        });
-      }
+      connect(hub, node, { strength: 0.74 });
+      connect(node, localCandidates[0]?.candidate, { strength: 0.58 });
     }
   }
 
