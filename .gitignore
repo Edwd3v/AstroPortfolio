@@ -25,3 +25,6 @@ pnpm-debug.log*
 
 # local Codex state
 .codex
+
+# local agent/tooling state
+.atl/
