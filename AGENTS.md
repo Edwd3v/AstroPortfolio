@@ -144,7 +144,139 @@ Priorizar intervenciones sobre:
 - `src/layouts/BaseLayout.astro`
 - `src/styles/global.css`
 - `README.md`
+<<<<<<< HEAD
 - `IMPLEMENTATION_PLAN.md`
+=======
+
+## Criterios de decisión
+Si una mejora puede resolverse modificando contenido, copy, config o pequeños componentes:
+- preferir esa solución
+
+Si una mejora requiere un refactor mayor:
+- explicar primero por qué el costo está justificado
+- describir impacto en estructura y mantenimiento
+- evitar hacerlo sin necesidad clara
+
+## Reglas de UI
+- Mucho whitespace
+- Jerarquía visual clara
+- Tipografía sobria y técnica
+- Hover y focus sutiles pero visibles
+- Animaciones discretas
+- No recargar la interfaz
+- Mantener coherencia entre secciones
+
+## Accesibilidad y semántica
+- Revisar landmarks y headings
+- Usar enlaces y botones correctamente
+- Mantener foco visible
+- No abusar de aria
+- Preservar contraste adecuado
+- Mantener estructura navegable por teclado
+
+## Performance
+- Evitar islands si no hay interactividad real
+- Evitar JS en cliente cuando HTML y CSS basten
+- Mantener DOM razonablemente limpio
+- No introducir librerías pesadas sin una justificación clara
+
+### Excepción documentada: neural background visual
+
+Se declara como excepción consciente, acotada y revisable:
+
+- Archivo único: `src/scripts/neural-network.js`.
+- Propósito: capa visual decorativa de fondo, parte de la identidad del portafolio.
+- Carga: script plano importado por `BaseLayout.astro`, sin `client:*`, sin islas Astro.
+- Sin dependencias externas nuevas.
+- Sin interacción de usuario: solo render en canvas.
+- Accesibilidad: respetar `prefers-reduced-motion` y pausar cuando `document.hidden`.
+- Estricciones duras:
+  - no agregar nuevos scripts decorativos;
+  - no expandir este archivo con lógica de negocio;
+  - no usar como atajo para evitar HTML/CSS donde sí sea posible;
+  - cualquier cambio debe mantener o reducir el JS, nunca crecerlo;
+  - ante refactor futuro, preferir migrar a SVG/CSS si fuera viable.
+- Esta excepción no es un permiso general: aplicar `Evitar JS en cliente cuando HTML y CSS basten` en todo el resto del proyecto.
+
+## Modo de intervención
+Para cambios medianos o grandes:
+1. analizar primero el estado actual
+2. explicar enfoque y archivos a tocar
+3. aplicar el cambio mínimo necesario
+4. validar build y consistencia
+5. proponer mejoras opcionales por separado
+
+Evitar cambios masivos sin explicación previa.
+
+## Límites de cambio
+Los siguientes elementos no deben modificarse sin justificación explícita:
+
+- Estructura general de carpetas en `src/`
+- Separación entre `sections`, `ui`, `config` y `data`
+- `BaseLayout` como layout principal
+- Configuración base de Astro cuando el cambio:
+  - afecte la arquitectura del proyecto
+  - modifique el comportamiento del build o renderizado
+  - introduzca nuevas integraciones o complejidad global
+- Configuración de Tailwind cuando el cambio:
+  - altere tokens de diseño como colores, spacing o tipografía
+  - modifique el sistema visual global
+  - afecte estilos compartidos entre múltiples componentes
+
+Si una tarea requiere modificar alguno de estos puntos:
+1. explicar por qué es necesario
+2. describir impacto en el proyecto
+3. proponer una alternativa más simple si existe
+
+Evitar cambios estructurales o de configuración global sin necesidad clara.
+
+## Reglas específicas de Astro
+
+### Uso de Islands
+- No usar `client:*` por defecto
+- Solo usar islands cuando haya:
+  - interactividad real del usuario que no pueda resolverse bien con HTML y CSS nativos
+  - comportamiento dinámico que requiera ejecución en cliente de forma justificada
+- Si un componente es estático, debe permanecer como Astro puro
+
+### Composición de componentes
+- `sections/`:
+  - representan bloques grandes de la página
+  - no deben contener lógica compleja reutilizable
+
+- `ui/`:
+  - componentes pequeños y reutilizables
+  - deben ser independientes de contexto siempre que sea posible
+
+### Props vs Config/Data
+- Si el contenido es global o editable → usar `config/` o `data/`
+- Si es específico del componente → usar props
+- Si un texto o bloque es estrictamente local y extraerlo no mejora claridad ni mantenimiento, puede quedarse en el componente
+- Evitar hardcodear contenido directamente en los componentes
+
+### Layout
+- `BaseLayout` es responsable de:
+  - estructura HTML global
+  - metadatos SEO base
+  - recursos compartidos globales como fuentes, favicon o configuración común del documento
+  - no debe contener lógica de negocio
+
+### HTML sobre JavaScript
+- Preferir soluciones con:
+  - HTML + CSS
+  - atributos nativos
+  - pseudo-clases
+- Evitar JS si no hay una necesidad clara de interactividad
+
+## Definition of done
+Una tarea no está terminada si:
+- rompe build
+- empeora accesibilidad
+- introduce JS innecesario
+- complica la arquitectura sin ganancia real
+- deja inconsistencias visuales o textuales
+- no explica cómo validar el cambio
+>>>>>>> 2429b85d136f395986c440b55170d1a60cf3f9ca
 
 ## Validación
 

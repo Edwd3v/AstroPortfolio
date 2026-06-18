@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "test:ci": "node tests/spotlight.test.mjs && node tests/neural-network.test.mjs && node tests/section-nav.test.mjs && node tests/logo-decode.test.mjs",
+    "test:ci": "npm run build && node tests/spotlight.test.mjs && node tests/neural-network.test.mjs && node tests/section-nav.test.mjs && node tests/logo-decode.test.mjs && FOOTER_TEST_SKIP_BUILD=1 node tests/footer.test.mjs",
     "typecheck": "astro check",
     "preview": "astro preview",
     "astro": "astro"
