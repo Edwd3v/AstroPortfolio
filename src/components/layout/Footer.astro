@@ -35,14 +35,6 @@ const footerNavLabels: Record<Locale, string> = {
 
     <nav aria-label={footerNavLabels[locale]}>
       <ul class="flex flex-wrap items-center gap-3 text-xs text-text/50">
-        <li>
-          <a
-            href={`mailto:${config.email}`}
-            class="transition-colors hover:text-text focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
-          >
-            {config.email}
-          </a>
-        </li>
         {links.map((link) => (
           <li>
             <a

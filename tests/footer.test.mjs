@@ -64,16 +64,16 @@ test("footer includes the GitHub link from the social config", () => {
   assert.match(footer, /https:\/\/github\.com\/Edwd3v/);
 });
 
-test("footer includes a mailto link from the site config", () => {
+test("footer does not expose the email address as visible text", () => {
   const footer = getFooter(readHtml(distEs));
   assert.notEqual(footer, null, "Expected a <footer> element");
-  assert.match(footer, /mailto:edwd3v@gmail\.com/);
+  assert.doesNotMatch(footer, /edwd3v@gmail\.com/);
 });
 
-test("footer omits LinkedIn when no URL is configured", () => {
+test("footer includes LinkedIn when URL is configured", () => {
   const footer = getFooter(readHtml(distEs));
   assert.notEqual(footer, null, "Expected a <footer> element");
-  assert.doesNotMatch(footer, /linkedin/i);
+  assert.match(footer, /linkedin\.com\/in\/edward-torres-b12b5b417/);
 });
 
 test("footer links are wrapped in a nav with a localized aria-label", () => {

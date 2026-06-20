@@ -6,12 +6,26 @@ type Props = {
 };
 
 const { config = siteConfig } = Astro.props as Props;
+const icons = {
+  target: {
+    viewBox: "0 0 24 24",
+    path: "M12 3a9 9 0 1 0 9 9h-2.2a6.8 6.8 0 1 1-1.99-4.81L14 10h7V3l-2.63 2.63A9 9 0 0 0 12 3Zm0 5.25A3.75 3.75 0 1 0 15.75 12 3.75 3.75 0 0 0 12 8.25Zm0 2A1.75 1.75 0 1 1 10.25 12 1.75 1.75 0 0 1 12 10.25Z",
+  },
+  checklist: {
+    viewBox: "0 0 24 24",
+    path: "M9.7 7.3 8.29 5.88 5 9.17l-1.29-1.3L2.3 9.29 5 12l4.7-4.7ZM11 7h10v2H11V7Zm0 8h10v2H11v-2ZM9.7 15.3l-1.41-1.42L5 17.17l-1.29-1.3-1.41 1.42L5 20l4.7-4.7Z",
+  },
+  spark: {
+    viewBox: "0 0 24 24",
+    path: "m12 2 1.76 5.24L19 9l-5.24 1.76L12 16l-1.76-5.24L5 9l5.24-1.76L12 2Zm7 12 1 3 3 1-3 1-1 3-1-3-3-1 3-1 1-3ZM5 13l1.18 2.82L9 17l-2.82 1.18L5 21l-1.18-2.82L1 17l2.82-1.18L5 13Z",
+  },
+} as const;
 ---
 
 <section id="about" class="mt-16 border-t border-text/10 pt-16 md:mt-20 md:pt-20">
   <div class="mx-auto max-w-3xl space-y-8">
     <header class="space-y-3">
-      <p class="font-heading text-xl tracking-[0.32em] uppercase text-accent/90">
+      <p class="font-heading text-2xl md:text-3xl tracking-[0.24em] uppercase text-accent/90">
         {config.about.title}
       </p>
       <h2 class="font-heading text-2xl md:text-4xl leading-tight text-text">
@@ -24,9 +38,26 @@ const { config = siteConfig } = Astro.props as Props;
     </p>
 
     <ul class="grid gap-4 md:grid-cols-3">
-      {config.about.focus.map((item) => (
-        <li class="rounded-2xl border border-text/12 bg-bg/35 p-5 md:p-6 text-sm leading-relaxed text-text/75">
-          {item}
+      {config.about.principles.map((item) => (
+        <li class="rounded-2xl border border-text/12 bg-bg/35 p-5 md:p-6 space-y-3">
+          <span class="flex items-center gap-3">
+            <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-accent/20 bg-accent/10 text-accent">
+              <svg
+                aria-hidden="true"
+                class="h-5 w-5"
+                viewBox={icons[item.icon].viewBox}
+                fill="currentColor"
+              >
+                <path d={icons[item.icon].path}></path>
+              </svg>
+            </span>
+            <span class="font-heading text-sm tracking-[0.18em] uppercase text-text/95">
+              {item.label}
+            </span>
+          </span>
+          <p class="text-sm leading-relaxed text-text/75">
+            {item.text}
+          </p>
         </li>
       ))}
     </ul>

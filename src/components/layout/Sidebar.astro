@@ -10,7 +10,6 @@ const { locale = defaultLocale } = Astro.props as Props;
 const { labels, navItems, siteConfig } = localizedSite[locale];
 const name = siteConfig.name ?? "Tu Nombre";
 const role = siteConfig.role ?? "Frontend Developer";
-const currentYear = new Date().getFullYear();
 ---
 
 <aside class="hidden md:block md:sticky md:top-0 h-screen">
@@ -52,9 +51,6 @@ const currentYear = new Date().getFullYear();
 
     <div class="sidebar-footer-controls space-y-4">
       <LanguageSwitch locale={locale} />
-      <p class="text-sm text-text/60">
-        © {currentYear} {name.toUpperCase()}
-      </p>
     </div>
   </div>
 </aside>

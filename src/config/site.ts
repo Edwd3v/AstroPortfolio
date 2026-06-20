@@ -1,10 +1,23 @@
 export type Locale = "es" | "en";
 
+export type SocialLink = {
+  label: "GitHub" | "LinkedIn";
+  href: string;
+};
+
 export const defaultLocale: Locale = "es";
 
-const sharedSocialLinks = [
-  { label: "GitHub", href: "https://github.com/Edwd3v" },
-] as const;
+const linkedInUrl = "https://www.linkedin.com/in/edward-torres-b12b5b417/";
+
+const sharedSocialLinks: ReadonlyArray<SocialLink> = (() => {
+  const links: SocialLink[] = [{ label: "GitHub", href: "https://github.com/Edwd3v" }];
+
+  if (linkedInUrl) {
+    links.push({ label: "LinkedIn", href: linkedInUrl });
+  }
+
+  return links;
+})();
 
 export const localizedSite = {
   es: {
@@ -33,8 +46,6 @@ export const localizedSite = {
       htmlLang: "es",
       siteUrl: "" as string,
       email: "edwd3v@gmail.com",
-      availability:
-        "Disponible para proyectos de entrada, colaboraciones tecnológicas, aprendizaje en equipos reales y oportunidades iniciales relacionadas con desarrollo de software, Python, datos, automatización e IA aplicada.",
       identity: {
         shortName: "Edwd3v",
         fullName: "Edwd3v",
@@ -64,14 +75,12 @@ export const localizedSite = {
       hero: {
         eyebrow: "Software para problemas reales",
         headline:
-          "No construyo demos: construyo herramientas para reducir trabajo manual, ordenar datos y tomar mejores decisiones.",
+          "Transformo procesos manuales en herramientas claras, útiles y medibles.",
         summary:
-          "Mis proyectos nacen de necesidades concretas: contactar cientos de personas, medir indicadores que una plataforma no muestra o reemplazar controles manuales en Excel por sistemas más claros.",
+          "Trabajo sobre necesidades concretas: automatizar tareas, ordenar datos y convertir operación manual en software que se pueda usar y medir.",
       },
       projects: {
         title: "Proyectos",
-        intro:
-          "Una selección de proyectos reales enfocados en software, Python, datos, automatización e IA aplicada.",
         emptyStatus: "En preparación",
         emptyText:
           "Estoy seleccionando proyectos reales que representen mejor mi enfoque técnico. Esta sección quedará lista para publicarlos sin cambiar la estructura del sitio.",
@@ -82,18 +91,32 @@ export const localizedSite = {
           "Construir criterio antes que acumular herramientas.",
         intro:
           "No me interesa acumular herramientas por moda. Me interesa construir criterio: entender qué problema vale la pena resolver, diseñar una solución clara y poder defender cada decisión técnica con evidencia.",
-        focus: [
-          "Pienso primero en el problema, el usuario y el resultado esperado antes de elegir herramientas.",
-          "Busco que cada proyecto tenga estructura, documentación y una forma clara de validarse.",
-          "Uso IA como apoyo para aprender, revisar y acelerar, manteniendo criterio propio sobre las decisiones técnicas.",
+        principles: [
+          {
+            icon: "target",
+            label: "Problema primero",
+            text: "Defino necesidad, usuario y resultado esperado antes de elegir herramientas.",
+          },
+          {
+            icon: "checklist",
+            label: "Estructura verificable",
+            text: "Busco sistemas con documentación, criterios claros y una forma concreta de validarlos.",
+          },
+          {
+            icon: "spark",
+            label: "IA con criterio",
+            text: "Uso IA para acelerar y revisar, sin soltar el criterio sobre decisiones técnicas.",
+          },
         ],
       },
       contact: {
         title: "Contacto",
-        heading:
-          "Abierto a proyectos de entrada, aprendizaje y colaboración técnica.",
-        lead:
-          "Me interesa participar en equipos y proyectos donde pueda aportar con Python, datos, automatización y herramientas de IA mientras aprendo de problemas técnicos reales.",
+        cta:
+          "Si necesitás automatizar tareas, ordenar datos o convertir un proceso manual en software útil, escribime.",
+        copyEmailLabel: "Copiar correo",
+        copiedEmailLabel: "Correo copiado",
+        githubLabel: "Abrir GitHub",
+        linkedInLabel: "Abrir LinkedIn",
       },
       footer: {
         tagline: "Construyo con Python, datos e IA.",
@@ -126,8 +149,6 @@ export const localizedSite = {
       htmlLang: "en",
       siteUrl: "" as string,
       email: "edwd3v@gmail.com",
-      availability:
-        "Available for entry-level projects, technical collaboration, learning in real teams, and early opportunities related to software development, Python, data, automation, and applied AI.",
       identity: {
         shortName: "Edwd3v",
         fullName: "Edwd3v",
@@ -157,14 +178,12 @@ export const localizedSite = {
       hero: {
         eyebrow: "Software for real problems",
         headline:
-          "I do not build demos: I build tools to reduce manual work, organize data, and support better decisions.",
+          "I turn manual processes into clear, useful, measurable tools.",
         summary:
-          "My projects come from concrete needs: contacting hundreds of people, measuring indicators a platform does not show, or replacing manual Excel tracking with clearer systems.",
+          "I work on concrete needs: automate tasks, organize data, and turn manual operations into software people can use and measure.",
       },
       projects: {
         title: "Projects",
-        intro:
-          "A selection of real projects focused on software, Python, data, automation, and applied AI.",
         emptyStatus: "In progress",
         emptyText:
           "I am selecting real projects that best represent my technical focus. This section is ready to publish them without changing the site structure.",
@@ -175,18 +194,32 @@ export const localizedSite = {
           "Build judgment before collecting tools.",
         intro:
           "I am not interested in collecting tools because they are trending. I care about building technical judgment: understanding which problems are worth solving, designing clear solutions, and defending each technical decision with evidence.",
-        focus: [
-          "I think first about the problem, the user, and the expected outcome before choosing tools.",
-          "I want each project to have structure, documentation, and a clear way to validate it.",
-          "I use AI as support for learning, reviewing, and accelerating work while keeping ownership of technical decisions.",
+        principles: [
+          {
+            icon: "target",
+            label: "Problem first",
+            text: "I define the need, user, and expected outcome before choosing tools.",
+          },
+          {
+            icon: "checklist",
+            label: "Verifiable structure",
+            text: "I aim for systems with documentation, clear criteria, and a concrete way to validate them.",
+          },
+          {
+            icon: "spark",
+            label: "AI with judgment",
+            text: "I use AI to accelerate and review without giving up ownership of technical decisions.",
+          },
         ],
       },
       contact: {
         title: "Contact",
-        heading:
-          "Open to entry-level projects, learning, and technical collaboration.",
-        lead:
-          "I am interested in joining teams and projects where I can contribute with Python, data, automation, and AI tools while learning from real technical problems.",
+        cta:
+          "If you need to automate tasks, organize data, or turn a manual process into useful software, write to me.",
+        copyEmailLabel: "Copy email",
+        copiedEmailLabel: "Email copied",
+        githubLabel: "Open GitHub",
+        linkedInLabel: "Open LinkedIn",
       },
       footer: {
         tagline: "Built with Python, data, and AI.",

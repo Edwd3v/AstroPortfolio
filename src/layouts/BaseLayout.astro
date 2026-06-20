@@ -127,6 +127,7 @@ const alternateUrls = baseUrl
 
     <script>
       import { DEFAULT_DURATION, initLogoDecode } from "../scripts/logo-decode.js";
+      import { initEmailCopy } from "../scripts/email-copy.js";
       import { initNeuralNetwork } from "../scripts/neural-network.js";
       import { initSectionNavigation } from "../scripts/section-nav.js";
       import { initSpotlight } from "../scripts/spotlight.js";
@@ -168,6 +169,7 @@ const alternateUrls = baseUrl
           trackCleanup(() => window.clearTimeout(footerRevealTimer));
         }
 
+        trackCleanup(initEmailCopy());
         trackCleanup(initSpotlight());
         trackCleanup(initNeuralNetwork(document.querySelector("[data-neural-network]")));
         trackCleanup(initSectionNavigation());
