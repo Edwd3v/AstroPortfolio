@@ -14,7 +14,6 @@ const {
   href,
   tech = [],
   status,
-  outcome,
   repository,
   links = [],
   locale = "es",
@@ -63,7 +62,7 @@ const labels = {
 const detailItems = [
   { label: labels.problem, value: problem ?? description },
   { label: labels.solution, value: solution ?? description },
-  { label: labels.result, value: result ?? outcome },
+  { label: labels.result, value: result },
 ].filter((item): item is { label: string; value: string } => Boolean(item.value));
 ---
 
@@ -252,8 +251,14 @@ const detailItems = [
 
   @media (prefers-reduced-motion: reduce) {
     .project-card,
+    .project-card__summary,
     .project-card__reveal {
       transition: none;
+    }
+
+    .project-card__reveal {
+      max-height: none;
+      opacity: 1;
       transform: none;
     }
   }
