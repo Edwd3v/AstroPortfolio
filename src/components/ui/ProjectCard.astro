@@ -33,29 +33,26 @@ const projectLinks = [
   ...(repository ? [{ label: "Repository", href: repository }] : []),
   ...links,
 ];
-const primaryTech = tech[0];
 const labels = {
   es: {
     problem: "Problema",
     solution: "Solución",
     result: "Resultado",
     stack: "Stack técnico",
-    detailCue: "Ver detalles →",
+    detailCue: "Ver detalles",
     preview: "Vista provisional",
     placeholder: `Vista provisional de ${title}`,
     tech: `Tecnologías usadas en ${title}`,
-    primaryTech: "Tecnología principal",
   },
   en: {
     problem: "Problem",
     solution: "Solution",
     result: "Result",
     stack: "Stack",
-    detailCue: "View details →",
+    detailCue: "View details",
     preview: "Temporary preview",
     placeholder: `Temporary preview of ${title}`,
     tech: `Technologies used in ${title}`,
-    primaryTech: "Primary technology",
   },
 }[locale];
 
@@ -69,38 +66,45 @@ const detailItems = [
 <li>
   <details class={cardClass}>
     <summary class="project-card__summary min-w-0 cursor-pointer list-none rounded-2xl p-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-bg md:p-5">
-      <span class="flex flex-wrap items-start justify-between gap-3">
-        <span class="min-w-0 space-y-2">
-          <span
-            id={headingId}
-            role="heading"
-            aria-level="3"
-            class="block font-heading text-base tracking-[0.14em] uppercase text-text/92"
-          >
-            {title}
-          </span>
-          {primaryTech && (
-            <span class="block text-xs text-text/62" aria-label={labels.primaryTech}>
-              {primaryTech}
+      <span class="flex flex-col gap-4">
+        <span class="space-y-4">
+          <span class="block space-y-2">
+            <span
+              id={headingId}
+              role="heading"
+              aria-level="3"
+              class="block max-w-[26rem] font-heading text-base tracking-[0.14em] uppercase text-text/92"
+            >
+              {title}
             </span>
-          )}
-        </span>
-        {status && (
-          <span class="rounded-full border border-accent/20 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.16em] text-accent/82">
-            {status}
+            {status && (
+              <span class="inline-flex w-fit rounded-full border border-accent/20 bg-accent/8 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.16em] text-accent/82">
+                {status}
+              </span>
+            )}
           </span>
-        )}
-      </span>
 
-      <span class="mt-3 block font-heading text-[10px] uppercase tracking-[0.18em] text-text/46 transition-colors group-open:text-accent/78">
-        {labels.detailCue}
+          <span class="block max-w-[34rem] text-sm leading-relaxed text-text/74">
+            {description}
+          </span>
+
+        </span>
+
+        <span>
+          <span class="inline-flex w-fit items-center gap-2 rounded-xl border border-accent/28 bg-accent/12 px-3.5 py-2 font-heading text-[10px] uppercase tracking-[0.18em] text-accent/90 transition duration-200 ease-out group-hover:border-accent/40 group-hover:bg-accent/16 group-open:border-accent/45 group-open:bg-accent/18 group-open:text-accent focus-visible:border-accent/45">
+            <span>{labels.detailCue}</span>
+            <span class="inline-flex h-4 w-4 items-center justify-center rounded-full border border-current text-[11px] leading-none">
+              +
+            </span>
+          </span>
+        </span>
       </span>
     </summary>
 
     <div class="project-card__reveal min-w-0">
-      <div class="project-card__reveal-inner grid gap-5 border-t border-text/10 px-6 pb-6 pt-5 md:block md:h-full md:border-l md:border-t-0 md:px-6 md:py-6">
+      <div class="project-card__reveal-inner grid gap-5 border-t border-text/10 px-6 pb-6 pt-5 md:px-6 md:py-6 lg:grid-cols-[minmax(15rem,18rem)_minmax(0,1fr)] lg:gap-6 lg:border-l lg:border-t-0">
         <div
-          class="relative min-h-36 overflow-hidden rounded-xl border border-text/10 bg-text/[0.045] md:min-h-28"
+          class="relative min-h-36 overflow-hidden rounded-xl border border-text/10 bg-text/[0.045] md:min-h-40 lg:min-h-full"
           role="img"
           aria-label={labels.placeholder}
         >
@@ -115,22 +119,49 @@ const detailItems = [
           </p>
         </div>
 
-        <div class="space-y-4 md:mt-5">
-          <div class="space-y-3">
-            {detailItems.map((item) => (
-              <div class="space-y-1.5">
-                <p class="font-heading text-[10px] uppercase tracking-[0.22em] text-accent/75">
-                  {item.label}
-                </p>
-                <p class="text-sm leading-relaxed text-text/74">
-                  {item.value}
-                </p>
+        <div class="flex min-h-full flex-col gap-5 lg:justify-between">
+          <div class="space-y-4">
+            <div class="space-y-3">
+              {detailItems.map((item) => (
+                <div class="space-y-1.5">
+                  <p class="font-heading text-[10px] uppercase tracking-[0.22em] text-accent/75">
+                    {item.label}
+                  </p>
+                  <p class="text-sm leading-relaxed text-text/74">
+                    {item.value}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            {(href || projectLinks.length > 0) && (
+              <div class="flex flex-wrap gap-3 pt-1">
+                {href && (
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noreferrer"
+                    class="rounded-md font-heading text-[11px] uppercase tracking-[0.22em] text-accent/85 transition-colors hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
+                  >
+                    Demo
+                  </a>
+                )}
+                {projectLinks.map((link) => (
+                  <a
+                    href={link.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    class="rounded-md font-heading text-[11px] uppercase tracking-[0.22em] text-accent/85 transition-colors hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
+                  >
+                    {link.label}
+                  </a>
+                ))}
               </div>
-            ))}
+            )}
           </div>
 
           {tech.length > 0 && (
-            <div class="space-y-2">
+            <div class="space-y-2 border-t border-text/10 pt-4">
               <p class="font-heading text-[10px] uppercase tracking-[0.22em] text-text/48">
                 {labels.stack}
               </p>
@@ -143,31 +174,6 @@ const detailItems = [
               </ul>
             </div>
           )}
-
-          {(href || projectLinks.length > 0) && (
-            <div class="flex flex-wrap gap-3 pt-1">
-              {href && (
-                <a
-                  href={href}
-                  target="_blank"
-                  rel="noreferrer"
-                  class="rounded-md font-heading text-[11px] uppercase tracking-[0.22em] text-accent/85 transition-colors hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
-                >
-                  Demo
-                </a>
-              )}
-              {projectLinks.map((link) => (
-                <a
-                  href={link.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  class="rounded-md font-heading text-[11px] uppercase tracking-[0.22em] text-accent/85 transition-colors hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
-                >
-                  {link.label}
-                </a>
-              ))}
-            </div>
-          )}
         </div>
       </div>
     </div>
@@ -177,7 +183,6 @@ const detailItems = [
 <style>
   .project-card {
     --project-card-reveal-max-height: 44rem;
-    --project-card-panel-width: minmax(18rem, 1fr);
     display: block;
     overflow: hidden;
   }
@@ -215,10 +220,7 @@ const detailItems = [
 
   @media (min-width: 768px) {
     .project-card {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 0fr;
       transition:
-        grid-template-columns 360ms cubic-bezier(0.16, 1, 0.3, 1),
         transform 300ms ease-out,
         border-color 300ms ease-out,
         background-color 300ms ease-out;
@@ -228,24 +230,18 @@ const detailItems = [
       max-height: none;
       min-width: 0;
       opacity: 0;
-      transform: translateX(0.5rem);
+      transform: translateY(-0.35rem);
     }
 
     .project-card__reveal-inner {
-      min-width: 18rem;
-      height: 100%;
       background: rgb(205 204 204 / 0.025);
-    }
-
-    .project-card[open] {
-      grid-template-columns: minmax(0, 0.85fr) var(--project-card-panel-width);
     }
 
     .project-card[open] .project-card__reveal {
       max-height: none;
       opacity: 1;
       pointer-events: auto;
-      transform: translateX(0);
+      transform: translateY(0);
     }
   }
 

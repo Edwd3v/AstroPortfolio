@@ -29,6 +29,14 @@ function hasBooleanAttribute(attributes, name) {
   return new RegExp(`(?:^|\\s)${name}(?:\\s|=|$)`, "i").test(withoutQuotedValues);
 }
 
+function getSummaryHtml(cardHtml) {
+  const match = cardHtml.match(/<summary[^>]*>([\s\S]*?)<\/summary>/);
+
+  assert.ok(match, "Expected project card summary markup");
+
+  return match[1];
+}
+
 function getReducedMotionCss(css) {
   const match = css.match(/@media\(prefers-reduced-motion:reduce\)\{([\s\S]*?)\}\}/);
 
@@ -53,6 +61,7 @@ function assertProjectCards(locale, cueText, labels, expectedCards) {
   for (const [index, match] of cards.entries()) {
     const attributes = match[1] ?? "";
     const cardHtml = match[0];
+    const summaryHtml = getSummaryHtml(cardHtml);
     const expectedCard = expectedCards[index];
 
     assert.equal(
@@ -61,10 +70,34 @@ function assertProjectCards(locale, cueText, labels, expectedCards) {
       `Expected closed project card by default in ${locale}`,
     );
     assert.match(
-      cardHtml,
-      new RegExp(`<summary[^>]*>[\\s\\S]*?${cueText}[\\s\\S]*?<\\/summary>`),
+      summaryHtml,
+      new RegExp(escapeRegExp(cueText)),
       `Expected localized summary cue in ${locale}`,
     );
+    assert.match(
+      summaryHtml,
+      />\s*\+\s*</,
+      `Expected visible disclosure plus symbol in ${locale} project card ${expectedCard.title}`,
+    );
+    assert.doesNotMatch(
+      summaryHtml,
+      /<(?:div|p|ul|li)\b/i,
+      `Expected summary to avoid block/list elements in ${locale} project card ${expectedCard.title}`,
+    );
+
+    assert.match(
+      summaryHtml,
+      new RegExp(`>\\s*${escapeRegExp(expectedCard.status)}\\s*<`),
+      `Expected status badge inside summary in ${locale} project card ${expectedCard.title}`,
+    );
+
+    for (const tech of expectedCard.stack) {
+      assert.doesNotMatch(
+        summaryHtml,
+        new RegExp(`>\\s*${escapeRegExp(tech)}\\s*<`),
+        `Expected collapsed summary to avoid repeated stack item ${tech} in ${locale} project card ${expectedCard.title}`,
+      );
+    }
 
       for (const label of labels) {
         assert.match(
@@ -106,7 +139,7 @@ function assertProjectCards(locale, cueText, labels, expectedCards) {
 test("Spanish project cards render closed details with localized summary cues", () => {
   assertProjectCards(
     "es",
-    "Ver detalles →",
+    "Ver detalles",
     ["Problema", "Solución", "Resultado"],
     [
       {
@@ -115,6 +148,8 @@ test("Spanish project cards render closed details with localized summary cues", 
           "Había que contactar cerca de 400 personas para depurar errores del SISBÉN",
           "Construí una automatización sobre WhatsApp Web",
         ],
+        status: "Funcional / Mantenimiento",
+        stack: ["Python", "Selenium", "PyAutoGUI"],
       },
       {
         title: "Automatización de Indicadores SISBEN",
@@ -122,6 +157,8 @@ test("Spanish project cards render closed details with localized summary cues", 
           "no mostraba tiempos de respuesta, pendientes, rechazos ni evolución de gestión",
           "Procesé los datos históricos con scripts en Python",
         ],
+        status: "Funcional / En evolución",
+        stack: ["Python", "Pandas", "OpenPyXL"],
       },
       {
         title: "Dashboard de Portafolio de Inversión",
@@ -129,6 +166,8 @@ test("Spanish project cards render closed details with localized summary cues", 
           "La app del bróker no segmentaba la información como se necesitaba",
           "Estoy construyendo un dashboard en Django",
         ],
+        status: "Beta / Desarrollo activo",
+        stack: ["Django", "PostgreSQL", "HTMX"],
       },
     ],
   );
@@ -137,7 +176,7 @@ test("Spanish project cards render closed details with localized summary cues", 
 test("English project cards render closed details with localized summary cues", () => {
   assertProjectCards(
     "en",
-    "View details →",
+    "View details",
     ["Problem", "Solution", "Result"],
     [
       {
@@ -146,6 +185,8 @@ test("English project cards render closed details with localized summary cues", 
           "I needed to contact around 400 people to clean SISBÉN data errors",
           "I built a WhatsApp Web automation",
         ],
+        status: "Functional / Maintenance",
+        stack: ["Python", "Selenium", "PyAutoGUI"],
       },
       {
         title: "SISBEN Indicators Automation",
@@ -153,6 +194,8 @@ test("English project cards render closed details with localized summary cues", 
           "it did not show response times, pending work, rejections, or process evolution",
           "I processed historical request data with Python scripts",
         ],
+        status: "Functional / Evolving",
+        stack: ["Python", "Pandas", "OpenPyXL"],
       },
       {
         title: "Investment Portfolio Dashboard",
@@ -160,6 +203,8 @@ test("English project cards render closed details with localized summary cues", 
           "The broker app did not segment information the way we needed",
           "each participant signs in to see only their own data",
         ],
+        status: "Beta / Active development",
+        stack: ["Django", "PostgreSQL", "HTMX"],
       },
     ],
   );
