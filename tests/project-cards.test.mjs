@@ -76,8 +76,8 @@ function assertProjectCards(locale, cueText, labels, expectedCards) {
     );
     assert.match(
       summaryHtml,
-      />\s*\+\s*</,
-      `Expected visible disclosure plus symbol in ${locale} project card ${expectedCard.title}`,
+      /<svg\b[\s\S]*?aria-hidden="true"/,
+      `Expected visible decorative disclosure icon in ${locale} project card ${expectedCard.title}`,
     );
     assert.doesNotMatch(
       summaryHtml,

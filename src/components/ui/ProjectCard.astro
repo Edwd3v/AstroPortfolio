@@ -73,7 +73,7 @@ const detailItems = [
               id={headingId}
               role="heading"
               aria-level="3"
-              class="block max-w-[26rem] font-heading text-base tracking-[0.14em] uppercase text-text/92"
+              class="block max-w-[30rem] font-heading text-xl leading-tight tracking-[0.04em] text-text/95 md:text-2xl"
             >
               {title}
             </span>
@@ -91,10 +91,23 @@ const detailItems = [
         </span>
 
         <span>
-          <span class="inline-flex w-fit items-center gap-2 rounded-xl border border-accent/28 bg-accent/12 px-3.5 py-2 font-heading text-[10px] uppercase tracking-[0.18em] text-accent/90 transition duration-200 ease-out group-hover:border-accent/40 group-hover:bg-accent/16 group-open:border-accent/45 group-open:bg-accent/18 group-open:text-accent focus-visible:border-accent/45">
+          <span class="inline-flex w-fit items-center gap-2 rounded-full border border-text/16 bg-text/[0.055] px-3.5 py-2 font-heading text-[10px] uppercase tracking-[0.18em] text-text/82 transition duration-200 ease-out group-hover:border-text/28 group-hover:bg-text/10 group-open:border-text/30 group-open:bg-text/10 group-open:text-text/95">
             <span>{labels.detailCue}</span>
-            <span class="inline-flex h-4 w-4 items-center justify-center rounded-full border border-current text-[11px] leading-none">
-              +
+            <span class="inline-flex h-4 w-4 items-center justify-center rounded-full border border-text/18 bg-bg/35 text-text/72 transition-transform duration-200 ease-out group-open:rotate-180">
+              <svg
+                class="h-2.5 w-2.5"
+                viewBox="0 0 10 6"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M1 1L5 5L9 1"
+                  stroke="currentColor"
+                  stroke-width="1.4"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
             </span>
           </span>
         </span>
