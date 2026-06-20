@@ -29,7 +29,7 @@ const hasProjects = projects.length > 0;
     {
       hasProjects ? (
         <ul class="space-y-4">
-          {projects.map((project) => <ProjectCard {...project} />)}
+          {projects.map((project) => <ProjectCard {...project} locale={locale} />)}
         </ul>
       ) : (
         <div class="rounded-2xl border border-dashed border-text/15 bg-bg/30 p-6 md:p-7">

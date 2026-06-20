@@ -1,94 +1,260 @@
 ---
-import type { Project } from "../../data/projects";
+import type { Project, ProjectLocale } from "../../data/projects";
 
-type Props = Project;
+type Props = Project & {
+  locale?: ProjectLocale;
+};
 
 const {
   title,
   description,
+  problem,
+  solution,
+  result,
   href,
   tech = [],
   status,
-  kind,
-  year,
   outcome,
   repository,
   links = [],
+  locale = "es",
 } = Astro.props as Props;
+
+const titleSlug = title
+  .toLowerCase()
+  .normalize("NFD")
+  .replace(/[\u0300-\u036f]/g, "")
+  .replace(/[^a-z0-9]+/g, "-")
+  .replace(/(^-|-$)/g, "");
+const headingId = `project-card-${titleSlug || "item"}`;
+
 const cardClass =
-  "group block rounded-2xl border border-text/12 bg-bg/35 p-6 md:p-7 transition-transform duration-200 ease-out hover:-translate-y-0.5 hover:border-accent/45 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-bg";
+  "project-card group rounded-2xl border border-text/12 bg-bg/35 transition duration-300 ease-out open:border-accent/35 open:bg-bg/45";
 const projectLinks = [
   ...(repository ? [{ label: "Repository", href: repository }] : []),
   ...links,
 ];
-const meta = [kind, year].filter(Boolean).join(" / ");
+const primaryTech = tech[0];
+const labels = {
+  es: {
+    problem: "Problema",
+    solution: "Solución",
+    result: "Resultado",
+    stack: "Stack técnico",
+    detailCue: "Ver detalles →",
+    preview: "Vista provisional",
+    placeholder: `Vista provisional de ${title}`,
+    tech: `Tecnologías usadas en ${title}`,
+    primaryTech: "Tecnología principal",
+  },
+  en: {
+    problem: "Problem",
+    solution: "Solution",
+    result: "Result",
+    stack: "Stack",
+    detailCue: "View details →",
+    preview: "Temporary preview",
+    placeholder: `Temporary preview of ${title}`,
+    tech: `Technologies used in ${title}`,
+    primaryTech: "Primary technology",
+  },
+}[locale];
+
+const detailItems = [
+  { label: labels.problem, value: problem ?? description },
+  { label: labels.solution, value: solution ?? description },
+  { label: labels.result, value: result ?? outcome },
+].filter((item): item is { label: string; value: string } => Boolean(item.value));
 ---
 
 <li>
-  <article class={cardClass}>
-    <div class="space-y-3">
-      <div class="flex flex-wrap items-start justify-between gap-3">
-        <div class="space-y-2">
-          <h3 class="font-heading text-base md:text-lg tracking-[0.18em] uppercase text-text/90">
+  <details class={cardClass}>
+    <summary class="project-card__summary min-w-0 cursor-pointer list-none rounded-2xl p-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-bg md:p-5">
+      <span class="flex flex-wrap items-start justify-between gap-3">
+        <span class="min-w-0 space-y-2">
+          <span
+            id={headingId}
+            role="heading"
+            aria-level="3"
+            class="block font-heading text-base tracking-[0.14em] uppercase text-text/92"
+          >
             {title}
-          </h3>
-          {meta && (
-            <p class="text-[11px] font-medium uppercase tracking-[0.24em] text-text/60">
-              {meta}
-            </p>
+          </span>
+          {primaryTech && (
+            <span class="block text-xs text-text/62" aria-label={labels.primaryTech}>
+              {primaryTech}
+            </span>
           )}
-        </div>
+        </span>
         {status && (
-          <p class="rounded-full border border-accent/20 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.22em] text-accent/85">
+          <span class="rounded-full border border-accent/20 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.16em] text-accent/82">
             {status}
-          </p>
+          </span>
         )}
-      </div>
+      </span>
 
-      <p class="text-sm md:text-base leading-relaxed text-text/75">
-        {description}
-      </p>
+      <span class="mt-3 block font-heading text-[10px] uppercase tracking-[0.18em] text-text/46 transition-colors group-open:text-accent/78">
+        {labels.detailCue}
+      </span>
+    </summary>
 
-      {outcome && (
-        <p class="border-l border-accent/25 pl-4 text-sm leading-relaxed text-text/70">
-          {outcome}
-        </p>
-      )}
-
-      {tech.length > 0 && (
-        <ul class="flex flex-wrap gap-2 pt-1" aria-label={`Tecnologías usadas en ${title}`}>
-          {tech.map((item) => (
-            <li class="rounded-full border border-text/10 px-3 py-1 text-[11px] text-text/75">
-              {item}
-            </li>
-          ))}
-        </ul>
-      )}
-
-      {(href || projectLinks.length > 0) && (
-        <div class="flex flex-wrap gap-3 pt-2">
-          {href && (
-            <a
-              href={href}
-              target="_blank"
-              rel="noreferrer"
-              class="font-heading text-[11px] uppercase tracking-[0.24em] text-accent/85 transition-colors hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-bg rounded-md"
-            >
-              Demo
-            </a>
-          )}
-          {projectLinks.map((link) => (
-            <a
-              href={link.href}
-              target="_blank"
-              rel="noreferrer"
-              class="font-heading text-[11px] uppercase tracking-[0.24em] text-accent/85 transition-colors hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-bg rounded-md"
-            >
-              {link.label}
-            </a>
-          ))}
+    <div class="project-card__reveal min-w-0">
+      <div class="project-card__reveal-inner grid gap-5 border-t border-text/10 px-6 pb-6 pt-5 md:block md:h-full md:border-l md:border-t-0 md:px-6 md:py-6">
+        <div
+          class="relative min-h-36 overflow-hidden rounded-xl border border-text/10 bg-text/[0.045] md:min-h-28"
+          role="img"
+          aria-label={labels.placeholder}
+        >
+          <div class="absolute inset-0 bg-[radial-gradient(circle_at_24%_20%,rgba(108,196,199,0.18),transparent_34%),linear-gradient(135deg,rgba(205,204,204,0.11),rgba(205,204,204,0.025))]"></div>
+          <div class="absolute inset-x-4 top-4 h-2 rounded-full bg-text/10"></div>
+          <div class="absolute bottom-4 left-4 right-4 space-y-2">
+            <span class="block h-2 w-2/3 rounded-full bg-text/14"></span>
+            <span class="block h-2 w-1/2 rounded-full bg-accent/20"></span>
+          </div>
+          <p class="absolute right-4 top-4 font-heading text-[10px] uppercase tracking-[0.2em] text-text/45">
+            {labels.preview}
+          </p>
         </div>
-      )}
+
+        <div class="space-y-4 md:mt-5">
+          <div class="space-y-3">
+            {detailItems.map((item) => (
+              <div class="space-y-1.5">
+                <p class="font-heading text-[10px] uppercase tracking-[0.22em] text-accent/75">
+                  {item.label}
+                </p>
+                <p class="text-sm leading-relaxed text-text/74">
+                  {item.value}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          {tech.length > 0 && (
+            <div class="space-y-2">
+              <p class="font-heading text-[10px] uppercase tracking-[0.22em] text-text/48">
+                {labels.stack}
+              </p>
+              <ul class="flex flex-wrap gap-1.5" aria-label={labels.tech}>
+                {tech.map((item) => (
+                  <li class="rounded-full border border-text/10 px-2.5 py-1 text-[10px] text-text/68">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {(href || projectLinks.length > 0) && (
+            <div class="flex flex-wrap gap-3 pt-1">
+              {href && (
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noreferrer"
+                  class="rounded-md font-heading text-[11px] uppercase tracking-[0.22em] text-accent/85 transition-colors hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
+                >
+                  Demo
+                </a>
+              )}
+              {projectLinks.map((link) => (
+                <a
+                  href={link.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  class="rounded-md font-heading text-[11px] uppercase tracking-[0.22em] text-accent/85 transition-colors hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
+                >
+                  {link.label}
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
     </div>
-  </article>
+  </details>
 </li>
+
+<style>
+  .project-card {
+    --project-card-reveal-max-height: 44rem;
+    --project-card-panel-width: minmax(18rem, 1fr);
+    display: block;
+    overflow: hidden;
+  }
+
+  .project-card__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .project-card__summary::marker {
+    content: "";
+  }
+
+  .project-card__reveal {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-0.35rem);
+    transition:
+      max-height 360ms cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 220ms ease-out,
+      transform 220ms ease-out;
+  }
+
+  .project-card__summary {
+    transition: padding 260ms ease-out;
+  }
+
+  .project-card[open] .project-card__reveal {
+    max-height: var(--project-card-reveal-max-height);
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  @media (min-width: 768px) {
+    .project-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 0fr;
+      transition:
+        grid-template-columns 360ms cubic-bezier(0.16, 1, 0.3, 1),
+        transform 300ms ease-out,
+        border-color 300ms ease-out,
+        background-color 300ms ease-out;
+    }
+
+    .project-card__reveal {
+      max-height: none;
+      min-width: 0;
+      opacity: 0;
+      transform: translateX(0.5rem);
+    }
+
+    .project-card__reveal-inner {
+      min-width: 18rem;
+      height: 100%;
+      background: rgb(205 204 204 / 0.025);
+    }
+
+    .project-card[open] {
+      grid-template-columns: minmax(0, 0.85fr) var(--project-card-panel-width);
+    }
+
+    .project-card[open] .project-card__reveal {
+      max-height: none;
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .project-card,
+    .project-card__reveal {
+      transition: none;
+      transform: none;
+    }
+  }
+</style>
