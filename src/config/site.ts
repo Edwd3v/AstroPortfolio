@@ -62,11 +62,11 @@ export const localizedSite = {
         },
       },
       hero: {
-        eyebrow: "Python, datos e IA aplicada",
+        eyebrow: "Software para problemas reales",
         headline:
-          "Desarrollo proyectos de software con Python, datos, automatización e IA aplicada.",
+          "No construyo demos: construyo herramientas para reducir trabajo manual, ordenar datos y tomar mejores decisiones.",
         summary:
-          "Soy estudiante de Ingeniería de Software enfocado en crear aplicaciones, automatizaciones y flujos técnicos reproducibles desde entornos Linux, terminal, Git y herramientas de desarrollo asistido por IA.",
+          "Mis proyectos nacen de necesidades concretas: contactar cientos de personas, medir indicadores que una plataforma no muestra o reemplazar controles manuales en Excel por sistemas más claros.",
       },
       projects: {
         title: "Proyectos",
@@ -79,13 +79,13 @@ export const localizedSite = {
       about: {
         title: "Sobre mí",
         heading:
-          "Aprendo construyendo software con Python, datos y herramientas de IA.",
+          "Construir criterio antes que acumular herramientas.",
         intro:
-          "Soy estudiante de Ingeniería de Software. Me enfoco en convertir ideas técnicas en proyectos prácticos: aplicaciones, automatizaciones, consultas a bases de datos y flujos de trabajo reproducibles desde Linux, terminal, Git y GitHub.",
+          "No me interesa acumular herramientas por moda. Me interesa construir criterio: entender qué problema vale la pena resolver, diseñar una solución clara y poder defender cada decisión técnica con evidencia.",
         focus: [
-          "Python para desarrollo de aplicaciones, automatización y análisis de datos.",
-          "Bases de datos, MySQL y organización de información para soluciones prácticas.",
-          "Uso de herramientas de IA para acelerar prototipado, depuración, documentación y aprendizaje técnico.",
+          "Pienso primero en el problema, el usuario y el resultado esperado antes de elegir herramientas.",
+          "Busco que cada proyecto tenga estructura, documentación y una forma clara de validarse.",
+          "Uso IA como apoyo para aprender, revisar y acelerar, manteniendo criterio propio sobre las decisiones técnicas.",
         ],
       },
       contact: {
@@ -155,11 +155,11 @@ export const localizedSite = {
         },
       },
       hero: {
-        eyebrow: "Python, data, and applied AI",
+        eyebrow: "Software for real problems",
         headline:
-          "I build software projects with Python, data, automation, and applied AI.",
+          "I do not build demos: I build tools to reduce manual work, organize data, and support better decisions.",
         summary:
-          "I am a Software Engineering student focused on building applications, automations, and reproducible technical workflows using Linux, the terminal, Git, and AI-assisted development tools.",
+          "My projects come from concrete needs: contacting hundreds of people, measuring indicators a platform does not show, or replacing manual Excel tracking with clearer systems.",
       },
       projects: {
         title: "Projects",
@@ -172,13 +172,13 @@ export const localizedSite = {
       about: {
         title: "About",
         heading:
-          "I learn by building software with Python, data, and AI tools.",
+          "Build judgment before collecting tools.",
         intro:
-          "I am a Software Engineering student. I focus on turning technical ideas into practical projects: applications, automations, database queries, and reproducible workflows using Linux, the terminal, Git, and GitHub.",
+          "I am not interested in collecting tools because they are trending. I care about building technical judgment: understanding which problems are worth solving, designing clear solutions, and defending each technical decision with evidence.",
         focus: [
-          "Python for application development, automation, and data analysis.",
-          "Databases, MySQL, and information organization for practical solutions.",
-          "AI tools for faster prototyping, debugging, documentation, and technical learning.",
+          "I think first about the problem, the user, and the expected outcome before choosing tools.",
+          "I want each project to have structure, documentation, and a clear way to validate it.",
+          "I use AI as support for learning, reviewing, and accelerating work while keeping ownership of technical decisions.",
         ],
       },
       contact: {
