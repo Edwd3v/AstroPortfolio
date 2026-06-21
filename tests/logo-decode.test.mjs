@@ -64,6 +64,10 @@ function createLogoDocument(logos = [], logoMarks = []) {
         return logos;
       }
 
+      if (selector === "[data-logo-cycle]") {
+        return logos.filter((logo) => logo.dataset.logoCycle);
+      }
+
       if (selector === "[data-logo-mark]") {
         return logoMarks;
       }
@@ -155,7 +159,7 @@ test("initLogoDecode keeps character decoding when reduced motion is requested",
     },
   };
 
-  assert.equal(initLogoDecode(doc, win), true);
+  assert.equal(typeof initLogoDecode(doc, win), "function");
   assert.equal(logo.classList.contains("is-decoding"), true);
   assert.equal(logo.dataset.logoDecodeState, "active");
   assert.equal(logoMark.classList.contains("is-decoding"), true);
@@ -206,7 +210,7 @@ test("initLogoDecode decodes the logo and stabilizes at the final text", () => {
     },
   };
 
-  assert.equal(initLogoDecode(doc, win), true);
+  assert.equal(typeof initLogoDecode(doc, win), "function");
   assert.equal(timers.length, 2);
   assert.equal(timers[0].delay, 1630);
   assert.equal(timers[1].delay, 130);
@@ -377,7 +381,7 @@ test("initLogoDecode exposes debug logs when logo-debug query is present", () =>
     },
   };
 
-  initLogoDecode(doc, win);
+  assert.equal(typeof initLogoDecode(doc, win), "function");
   timers[1].callback();
   currentTime = 1500;
   callbacks.shift()(currentTime);
@@ -386,4 +390,74 @@ test("initLogoDecode exposes debug logs when logo-debug query is present", () =>
   assert.equal(logs.some(([message]) => message === "logo decode loaded"), true);
   assert.equal(logs.some(([message]) => message === "logo decode start"), true);
   assert.equal(logs.some(([message]) => message === "logo decode finished"), true);
+});
+
+test("initLogoDecode starts cycling when data-logo-cycle is present", () => {
+  const logo = createLogo();
+  logo.dataset.logoCycle = '["EDWD3V","EDWARD"]';
+  const callbacks = [];
+  const timers = [];
+  let currentTime = 0;
+  const doc = createLogoDocument([logo], []);
+  const win = {
+    matchMedia() {
+      return { matches: false };
+    },
+    performance: {
+      now() {
+        return currentTime;
+      },
+    },
+    requestAnimationFrame(callback) {
+      callbacks.push(callback);
+      return callbacks.length;
+    },
+    setTimeout(callback, delay = 0) {
+      timers.push({ callback, delay });
+      return timers.length;
+    },
+    clearTimeout(id) {
+      timers.splice(id - 1, 1);
+    },
+  };
+
+  const cleanup = initLogoDecode(doc, win);
+  assert.equal(typeof cleanup, "function");
+
+  const startTimer = timers.find((t) => t.delay === 130);
+  assert.notEqual(startTimer, undefined);
+  startTimer.callback();
+
+  // Fast-forward to end of initial decode
+  currentTime = 1500;
+  callbacks.shift()(currentTime);
+
+  assert.equal(logo.textContent, "EDWD3V");
+  assert.equal(logo.dataset.logoDecodeState, "done");
+
+  // First cycle timer should be scheduled (3s from now)
+  assert.equal(timers.length >= 1, true);
+  const cycleTimer = timers.find(t => t.delay === 3000);
+  assert.notEqual(cycleTimer, undefined);
+
+  // Execute the cycle timer
+  cycleTimer.callback();
+
+  // RAF for scramble should fire
+  assert.equal(callbacks.length >= 1, true);
+  const scrambleFrame = callbacks.pop();
+  assert.notEqual(scrambleFrame, undefined);
+
+  // Run scramble to completion (400ms elapsed)
+  currentTime += 400;
+  scrambleFrame(currentTime);
+
+  assert.equal(logo.textContent, "EDWARD");
+
+  // Run the next scheduled cycle
+  const cycleTimer2 = timers.find(t => t.delay === 3000);
+  assert.notEqual(cycleTimer2, undefined);
+
+  // Cleanup should stop everything
+  cleanup();
 });

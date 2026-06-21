@@ -168,7 +168,7 @@ const alternateUrls = baseUrl
         runCleanup();
         document.body.dataset.sidebarBrandReady = "false";
         document.body.dataset.sidebarFooterReady = "false";
-        initLogoDecode();
+        trackCleanup(initLogoDecode());
         requestAnimationFrame(() => {
           document.body.dataset.sidebarBrandReady = "true";
         });

@@ -6,6 +6,8 @@ export const DEFAULT_DURATION = 1500;
 const FRAME_INTERVAL = 56;
 const START_DELAY = 130;
 const RESOLVE_TIMES = [500, 675, 850, 1025, 1200, 1400];
+const CYCLE_INTERVAL = 3000;
+const CYCLE_SCRAMBLE_DURATION = 400;
 const LOGO_MARK_SELECTOR = "[data-logo-mark]";
 const TEXT_LOGO_SELECTOR = "[data-logo-decode]";
 
@@ -67,6 +69,72 @@ export function getDecodedCharacters(target, elapsedMs, random = Math.random) {
   });
 }
 
+function cycleWithScramble(element, values, win) {
+  if (values.length < 2) return null;
+
+  const reduceMotion = typeof win.matchMedia === "function" && win.matchMedia(MOTION_QUERY).matches;
+  let index = 0;
+  let handle = null;
+  let active = true;
+
+  function toggle() {
+    if (!active) return;
+
+    const fromIdx = index;
+    const toIdx = (index + 1) % values.length;
+    const fromValue = values[fromIdx];
+    const toValue = values[toIdx];
+
+    if (reduceMotion) {
+      element.textContent = toValue;
+      element.setAttribute("aria-label", toValue);
+      index = toIdx;
+      handle = win.setTimeout(toggle, CYCLE_INTERVAL);
+      return;
+    }
+
+    const start = win.performance?.now?.() ?? Date.now();
+    const maxLen = Math.max(fromValue.length, toValue.length);
+    const varying = [];
+
+    for (let i = 0; i < maxLen; i++) {
+      if (fromValue[i] !== toValue[i]) varying.push(i);
+    }
+
+    function frame(timestamp) {
+      if (!active) return;
+      const elapsed = timestamp - start;
+
+      if (elapsed >= CYCLE_SCRAMBLE_DURATION) {
+        element.textContent = toValue;
+        element.setAttribute("aria-label", toValue);
+        index = toIdx;
+        handle = win.setTimeout(toggle, CYCLE_INTERVAL);
+        return;
+      }
+
+      const chars = [...toValue];
+      for (const i of varying) {
+        chars[i] = getRandomGlyph();
+      }
+      element.textContent = chars.join("");
+      win.requestAnimationFrame(frame);
+    }
+
+    win.requestAnimationFrame(frame);
+  }
+
+  handle = win.setTimeout(toggle, CYCLE_INTERVAL);
+
+  return function cleanup() {
+    active = false;
+    if (handle !== null) {
+      win.clearTimeout(handle);
+      handle = null;
+    }
+  };
+}
+
 function renderLogoFrame(element, target, elapsedMs, random = Math.random) {
   const doc = element.ownerDocument ?? document;
   const fragment = doc.createDocumentFragment();
@@ -100,6 +168,15 @@ function stabilizeLogo(element, target, win, runId, debug = false) {
   element.dataset.logoDecodeState = "done";
   element.classList.remove(DECODING_CLASS);
   element.classList.add(STABILIZED_CLASS);
+
+  if (element.dataset.logoCycle) {
+    try {
+      const values = JSON.parse(element.dataset.logoCycle);
+      element.__logoCycleCleanup = cycleWithScramble(element, values, win);
+    } catch {
+      // invalid cycle data, skip
+    }
+  }
 
   if (debug) {
     win.console?.log?.("logo decode finished", target);
@@ -195,7 +272,7 @@ export function initLogoDecode(doc = document, win = window) {
   const logoMarks = [...doc.querySelectorAll(LOGO_MARK_SELECTOR)];
 
   if (!logos.length && !logoMarks.length) {
-    return false;
+    return () => {};
   }
 
   const runId = (win.__logoDecodeRunId ?? 0) + 1;
@@ -256,5 +333,13 @@ export function initLogoDecode(doc = document, win = window) {
     }
   }
 
-  return true;
+  return function cleanup() {
+    const cycling = doc.querySelectorAll("[data-logo-cycle]");
+    for (const el of cycling) {
+      if (typeof el.__logoCycleCleanup === "function") {
+        el.__logoCycleCleanup();
+        el.__logoCycleCleanup = null;
+      }
+    }
+  };
 }
