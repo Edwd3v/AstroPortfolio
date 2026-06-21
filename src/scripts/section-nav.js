@@ -72,7 +72,7 @@ export function initSectionNavigation(doc = document, win = window) {
       setActiveSection(sectionId);
     },
     {
-      rootMargin: "-30% 0px -45% 0px",
+      rootMargin: "-30% 0px -20% 0px",
       threshold: [0.12, 0.28, 0.44, 0.6],
     },
   );
