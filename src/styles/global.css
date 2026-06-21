@@ -538,9 +538,9 @@ body[data-sidebar-footer-ready="true"] .sidebar-footer-controls {
   }
 
   .brand-watermark-primary {
-    top: 16rem;
+    top: 14rem;
     right: max(-4rem, calc((100vw - 72rem) / 2 - 11rem));
-    width: min(30vw, 19rem);
+    width: min(24vw, 15rem);
     --brand-watermark-opacity-rest: 0.078;
     --brand-watermark-opacity-glow: 0.13;
     --brand-watermark-glow: rgb(108 196 199 / 0.28);
@@ -550,8 +550,8 @@ body[data-sidebar-footer-ready="true"] .sidebar-footer-controls {
 
   .brand-watermark-reflection {
     right: max(-4rem, calc((100vw - 72rem) / 2 - 11rem));
-    bottom: 3rem;
-    width: min(30vw, 19rem);
+    bottom: 2rem;
+    width: min(24vw, 15rem);
     --brand-watermark-opacity-rest: 0.056;
     --brand-watermark-opacity-glow: 0.092;
     --brand-watermark-glow: rgb(205 204 204 / 0.18);
@@ -563,17 +563,17 @@ body[data-sidebar-footer-ready="true"] .sidebar-footer-controls {
 
 @media (min-width: 80rem) {
   .brand-watermark-primary {
-    top: 12rem;
+    top: 10rem;
     right: max(-5rem, calc((100vw - 72rem) / 2 - 14rem));
-    width: 22rem;
+    width: 18rem;
     --brand-watermark-opacity-rest: 0.088;
     --brand-watermark-opacity-glow: 0.145;
   }
 
   .brand-watermark-reflection {
     right: max(-5rem, calc((100vw - 72rem) / 2 - 14rem));
-    bottom: 4rem;
-    width: 22rem;
+    bottom: 3rem;
+    width: 18rem;
     --brand-watermark-opacity-rest: 0.062;
     --brand-watermark-opacity-glow: 0.1;
   }

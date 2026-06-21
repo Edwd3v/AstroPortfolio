@@ -114,7 +114,7 @@ export const localizedSite = {
         cta:
           "Si necesitás automatizar tareas, ordenar datos o convertir un proceso manual en software útil, escribime.",
         copyEmailLabel: "Copiar correo",
-        copiedEmailLabel: "Correo copiado",
+        copiedEmailLabel: "Copiado",
         githubLabel: "Abrir GitHub",
         linkedInLabel: "Abrir LinkedIn",
       },
@@ -217,7 +217,7 @@ export const localizedSite = {
         cta:
           "If you need to automate tasks, organize data, or turn a manual process into useful software, write to me.",
         copyEmailLabel: "Copy email",
-        copiedEmailLabel: "Email copied",
+        copiedEmailLabel: "Copied",
         githubLabel: "Open GitHub",
         linkedInLabel: "Open LinkedIn",
       },

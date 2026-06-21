@@ -14,7 +14,7 @@ test("Spanish home uses the shorter hero positioning and copy-email contact butt
 
   assert.match(html, /Transformo procesos manuales en herramientas claras, útiles y medibles\./);
   assert.match(html, /data-copy-email-button/);
-  assert.match(html, /Correo copiado/);
+  assert.match(html, /Copiado/);
   assert.match(html, /Problema primero/);
   assert.doesNotMatch(html, /Una selección de proyectos reales enfocados/);
 });
@@ -23,7 +23,7 @@ test("English home uses the shorter hero positioning and copy-email contact butt
   const html = readHtml("en");
 
   assert.match(html, /I turn manual processes into clear, useful, measurable tools\./);
-  assert.match(html, /Email copied/);
+  assert.match(html, /Copied/);
   assert.match(html, /Problem first/);
   assert.doesNotMatch(html, /A selection of real projects focused on software/);
 });
