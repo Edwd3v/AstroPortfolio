@@ -50,6 +50,29 @@ function createLogo(text = "Edwd3v") {
   };
 }
 
+function createLogoMark() {
+  return {
+    classList: createClassList(),
+    dataset: { logoMarkState: "" },
+  };
+}
+
+function createLogoDocument(logos = [], logoMarks = []) {
+  return {
+    querySelectorAll(selector) {
+      if (selector === "[data-logo-decode]") {
+        return logos;
+      }
+
+      if (selector === "[data-logo-mark]") {
+        return logoMarks;
+      }
+
+      return [];
+    },
+  };
+}
+
 function createFakeDocument() {
   return {
     createDocumentFragment() {
@@ -113,13 +136,10 @@ test("default logo decode duration is close to one and a half seconds", () => {
 
 test("initLogoDecode keeps character decoding when reduced motion is requested", () => {
   const logo = createLogo();
+  const logoMark = createLogoMark();
   const callbacks = [];
   let currentTime = 0;
-  const doc = {
-    querySelectorAll(selector) {
-      return selector === "[data-logo-decode]" ? [logo] : [];
-    },
-  };
+  const doc = createLogoDocument([logo], [logoMark]);
   const win = {
     matchMedia() {
       return { matches: true };
@@ -138,25 +158,28 @@ test("initLogoDecode keeps character decoding when reduced motion is requested",
   assert.equal(initLogoDecode(doc, win), true);
   assert.equal(logo.classList.contains("is-decoding"), true);
   assert.equal(logo.dataset.logoDecodeState, "active");
+  assert.equal(logoMark.classList.contains("is-decoding"), true);
+  assert.equal(logoMark.dataset.logoMarkState, "active");
   assert.notEqual(logo.textContent, "EDWD3V");
 
   currentTime = 1500;
+  callbacks.shift()(currentTime);
   callbacks.shift()(currentTime);
 
   assert.equal(logo.textContent, "EDWD3V");
   assert.equal(logo.dataset.logoDecodeState, "done");
   assert.equal(logo.classList.contains("is-decoded"), true);
+  assert.equal(logoMark.dataset.logoMarkState, "done");
+  assert.equal(logoMark.classList.contains("is-decoded"), true);
 });
 
 test("initLogoDecode decodes the logo and stabilizes at the final text", () => {
   const logo = createLogo();
+  const logoMark = createLogoMark();
   const callbacks = [];
   let currentTime = 0;
-  const doc = {
-    querySelectorAll(selector) {
-      return selector === "[data-logo-decode]" ? [logo] : [];
-    },
-  };
+  const timers = [];
+  const doc = createLogoDocument([logo], [logoMark]);
   const win = {
     matchMedia() {
       return { matches: false };
@@ -177,17 +200,25 @@ test("initLogoDecode decodes the logo and stabilizes at the final text", () => {
       callbacks.push(callback);
       return callbacks.length;
     },
-    setTimeout(callback) {
-      callback();
-      return 1;
+    setTimeout(callback, delay = 0) {
+      timers.push({ callback, delay });
+      return timers.length;
     },
   };
 
   assert.equal(initLogoDecode(doc, win), true);
+  assert.equal(timers.length, 2);
+  assert.equal(timers[0].delay, 1630);
+  assert.equal(timers[1].delay, 130);
   assert.equal(logo.classList.contains("is-decoding"), true);
   assert.equal(logo.dataset.logoDecodeState, "active");
   assert.equal(logo.ariaLabel, "EDWD3V");
   assert.equal(logo.children.length, 6);
+  assert.equal(logoMark.classList.contains("is-decoding"), true);
+  assert.equal(logoMark.dataset.logoMarkState, "active");
+
+  timers[1].callback();
+  assert.equal(callbacks.length, 1);
 
   currentTime = 750;
   callbacks.shift()(currentTime);
@@ -196,6 +227,7 @@ test("initLogoDecode decodes the logo and stabilizes at the final text", () => {
   assert.equal(logo.children.length, 6);
   assert.equal(logo.classList.contains("is-decoding"), true);
   assert.equal(logo.classList.contains("is-decoded"), false);
+  assert.equal(logoMark.dataset.logoMarkState, "active");
 
   currentTime = 1500;
   callbacks.shift()(currentTime);
@@ -205,18 +237,115 @@ test("initLogoDecode decodes the logo and stabilizes at the final text", () => {
   assert.equal(logo.dataset.logoDecodeState, "done");
   assert.equal(logo.classList.contains("is-decoding"), false);
   assert.equal(logo.classList.contains("is-decoded"), true);
+
+  timers[0].callback();
+  assert.equal(logoMark.dataset.logoMarkState, "done");
+  assert.equal(logoMark.classList.contains("is-decoding"), false);
+  assert.equal(logoMark.classList.contains("is-decoded"), true);
+});
+
+test("initLogoDecode ignores stale callbacks after a second init", () => {
+  const logo = createLogo();
+  const logoMark = createLogoMark();
+  const callbacks = [];
+  const timers = [];
+  let currentTime = 0;
+  const doc = createLogoDocument([logo], [logoMark]);
+  const win = {
+    matchMedia() {
+      return { matches: false };
+    },
+    performance: {
+      now() {
+        return currentTime;
+      },
+    },
+    requestAnimationFrame(callback) {
+      callbacks.push(callback);
+      return callbacks.length;
+    },
+    setTimeout(callback, delay = 0) {
+      timers.push({ callback, delay });
+      return timers.length;
+    },
+  };
+
+  initLogoDecode(doc, win);
+  initLogoDecode(doc, win);
+
+  assert.equal(logo.dataset.logoDecodeRun, "2");
+  assert.equal(logoMark.dataset.logoDecodeRun, "2");
+
+  timers[1].callback();
+  timers[3].callback();
+  currentTime = 1500;
+  callbacks[0](currentTime);
+
+  assert.equal(logo.dataset.logoDecodeState, "active");
+  assert.equal(logo.dataset.logoDecodeRun, "2");
+  assert.equal(logoMark.dataset.logoMarkState, "active");
+
+  callbacks[1](currentTime);
+  timers[0].callback();
+  timers[2].callback();
+
+  assert.equal(logo.dataset.logoDecodeState, "done");
+  assert.equal(logo.dataset.logoDecodeRun, "2");
+  assert.equal(logoMark.dataset.logoMarkState, "done");
+  assert.equal(logoMark.dataset.logoDecodeRun, "2");
+});
+
+test("initLogoDecode stabilizes text and mark when requestAnimationFrame stalls", () => {
+  const logo = createLogo();
+  const logoMark = createLogoMark();
+  const timers = [];
+  const doc = createLogoDocument([logo], [logoMark]);
+  const win = {
+    matchMedia() {
+      return { matches: false };
+    },
+    performance: {
+      now() {
+        return 0;
+      },
+    },
+    requestAnimationFrame() {
+      return 1;
+    },
+    setTimeout(callback, delay = 0) {
+      timers.push({ callback, delay });
+      return timers.length;
+    },
+  };
+
+  initLogoDecode(doc, win);
+
+  assert.deepEqual(
+    timers.map(({ delay }) => delay),
+    [1630, 130],
+  );
+
+  timers[1].callback();
+
+  assert.equal(logo.dataset.logoDecodeState, "active");
+  assert.equal(logoMark.dataset.logoMarkState, "active");
+
+  timers[2].callback();
+  timers[0].callback();
+
+  assert.equal(logo.dataset.logoDecodeState, "done");
+  assert.equal(logo.textContent, "EDWD3V");
+  assert.equal(logoMark.dataset.logoMarkState, "done");
 });
 
 test("initLogoDecode exposes debug logs when logo-debug query is present", () => {
   const logo = createLogo();
+  const logoMark = createLogoMark();
   const callbacks = [];
   const logs = [];
   let currentTime = 0;
-  const doc = {
-    querySelectorAll(selector) {
-      return selector === "[data-logo-decode]" ? [logo] : [];
-    },
-  };
+  const timers = [];
+  const doc = createLogoDocument([logo], [logoMark]);
   const win = {
     console: {
       log(...args) {
@@ -242,15 +371,17 @@ test("initLogoDecode exposes debug logs when logo-debug query is present", () =>
       callbacks.push(callback);
       return callbacks.length;
     },
-    setTimeout(callback) {
-      callback();
-      return 1;
+    setTimeout(callback, delay = 0) {
+      timers.push({ callback, delay });
+      return timers.length;
     },
   };
 
   initLogoDecode(doc, win);
+  timers[1].callback();
   currentTime = 1500;
   callbacks.shift()(currentTime);
+  timers[0].callback();
 
   assert.equal(logs.some(([message]) => message === "logo decode loaded"), true);
   assert.equal(logs.some(([message]) => message === "logo decode start"), true);

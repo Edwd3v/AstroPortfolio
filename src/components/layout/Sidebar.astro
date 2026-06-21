@@ -15,18 +15,19 @@ const role = siteConfig.role ?? "Frontend Developer";
 
 <aside class="hidden md:block md:sticky md:top-0 h-screen">
   <div class="h-full px-6 lg:px-10 pt-40 pb-10 flex flex-col justify-between">
-      <div class="space-y-8">
-        <div class="space-y-5">
-          <img
-            src={principalLogo.src}
-            alt="Edwd3v logo"
-            class="h-auto w-24 lg:w-28"
-            loading="eager"
-            decoding="async"
-          />
-          <p
-            class="font-heading text-5xl lg:text-6xl tracking-[0.18em] uppercase text-text/95"
-            data-logo-decode
+    <div class="space-y-8">
+      <div class="space-y-5">
+        <img
+          src={principalLogo.src}
+          alt="Edwd3v logo"
+          class="h-auto w-24 lg:w-28"
+          loading="eager"
+          decoding="async"
+          data-logo-mark
+        />
+        <p
+          class="font-heading text-5xl lg:text-6xl tracking-[0.18em] uppercase text-text/95"
+          data-logo-decode
           data-logo-final={name.toUpperCase()}
         >
           {name.toUpperCase()}

@@ -70,10 +70,13 @@ const alternateUrls = baseUrl
     <ClientRouter />
     <noscript>
       <style>
+        [data-logo-decode],
+        [data-logo-mark],
         .sidebar-footer-controls {
           opacity: 1;
           pointer-events: auto;
           transform: none;
+          filter: none;
         }
       </style>
     </noscript>
@@ -123,16 +126,12 @@ const alternateUrls = baseUrl
     </div>
 
     <script>
-      import { DEFAULT_DURATION, initLogoDecode } from "../scripts/logo-decode.js";
+      import { initLogoDecode } from "../scripts/logo-decode.js";
       import { initEmailCopy } from "../scripts/email-copy.js";
       import { initNeuralNetwork } from "../scripts/neural-network.js";
       import { initSectionNavigation } from "../scripts/section-nav.js";
       import { initSpotlight } from "../scripts/spotlight.js";
 
-      const SIDEBAR_FOOTER_REVEAL_DELAY = DEFAULT_DURATION + 220;
-      const pageState = window as Window & typeof globalThis & {
-        __sidebarFooterRevealed?: boolean;
-      };
       let cleanupPageEffects: Array<() => void> = [];
       let handledInitialPageLoad = false;
 
@@ -152,19 +151,11 @@ const alternateUrls = baseUrl
 
       function initPageEffects() {
         runCleanup();
-        document.body.dataset.sidebarFooterReady = pageState.__sidebarFooterRevealed
-          ? "true"
-          : "false";
+        document.body.dataset.sidebarBrandReady = "false";
+        document.body.dataset.sidebarFooterReady = "false";
         initLogoDecode();
-
-        if (!pageState.__sidebarFooterRevealed) {
-          const footerRevealTimer = window.setTimeout(() => {
-            pageState.__sidebarFooterRevealed = true;
-            document.body.dataset.sidebarFooterReady = "true";
-          }, SIDEBAR_FOOTER_REVEAL_DELAY);
-
-          trackCleanup(() => window.clearTimeout(footerRevealTimer));
-        }
+        document.body.dataset.sidebarBrandReady = "true";
+        document.body.dataset.sidebarFooterReady = "true";
 
         trackCleanup(initEmailCopy());
         trackCleanup(initSpotlight());

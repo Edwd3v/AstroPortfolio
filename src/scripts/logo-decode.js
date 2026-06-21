@@ -6,6 +6,8 @@ export const DEFAULT_DURATION = 1500;
 const FRAME_INTERVAL = 56;
 const START_DELAY = 130;
 const RESOLVE_TIMES = [500, 675, 850, 1025, 1200, 1400];
+const LOGO_MARK_SELECTOR = "[data-logo-mark]";
+const TEXT_LOGO_SELECTOR = "[data-logo-decode]";
 
 function isDebugEnabled(win) {
   try {
@@ -76,7 +78,23 @@ function renderLogoFrame(element, target, elapsedMs, random = Math.random) {
   element.replaceChildren(fragment);
 }
 
-function stabilizeLogo(element, target, win, debug = false) {
+function getRunId(runId) {
+  return String(runId);
+}
+
+function isCurrentRun(element, runId) {
+  return element.dataset.logoDecodeRun === getRunId(runId);
+}
+
+function markRun(element, runId) {
+  element.dataset.logoDecodeRun = getRunId(runId);
+}
+
+function stabilizeLogo(element, target, win, runId, debug = false) {
+  if (!isCurrentRun(element, runId)) {
+    return;
+  }
+
   element.textContent = target;
   element.removeAttribute("aria-label");
   element.dataset.logoDecodeState = "done";
@@ -88,12 +106,62 @@ function stabilizeLogo(element, target, win, debug = false) {
   }
 }
 
-function decodeLogo(element, win, target, duration, debug = false) {
+function activateLogoMark(logoMark, runId) {
+  markRun(logoMark, runId);
+  logoMark.dataset.logoMarkState = "active";
+  logoMark.classList.remove(STABILIZED_CLASS);
+  logoMark.classList.add(DECODING_CLASS);
+}
+
+function stabilizeLogoMark(logoMark, runId) {
+  if (!isCurrentRun(logoMark, runId)) {
+    return;
+  }
+
+  logoMark.dataset.logoMarkState = "done";
+  logoMark.classList.remove(DECODING_CLASS);
+  logoMark.classList.add(STABILIZED_CLASS);
+}
+
+function scheduleLogoMark(logoMark, win, totalDuration, runId) {
+  if (typeof win.setTimeout === "function") {
+    win.setTimeout(() => stabilizeLogoMark(logoMark, runId), totalDuration);
+    return;
+  }
+
+  if (typeof win.requestAnimationFrame !== "function") {
+    stabilizeLogoMark(logoMark, runId);
+    return;
+  }
+
+  const start = win.performance?.now?.() ?? Date.now();
+
+  const tick = (timestamp) => {
+    if (!isCurrentRun(logoMark, runId)) {
+      return;
+    }
+
+    if (timestamp - start < totalDuration) {
+      win.requestAnimationFrame(tick);
+      return;
+    }
+
+    stabilizeLogoMark(logoMark, runId);
+  };
+
+  win.requestAnimationFrame(tick);
+}
+
+function decodeLogo(element, win, target, duration, runId, debug = false) {
   const start = win.performance?.now?.() ?? Date.now();
   let lastFrame = 0;
   let lastDebugFrame = 0;
 
   const tick = (timestamp) => {
+    if (!isCurrentRun(element, runId)) {
+      return;
+    }
+
     const elapsed = timestamp - start;
     const elapsedMs = Math.min(elapsed, duration);
 
@@ -112,28 +180,43 @@ function decodeLogo(element, win, target, duration, debug = false) {
       return;
     }
 
-    stabilizeLogo(element, target, win, debug);
+    stabilizeLogo(element, target, win, runId, debug);
   };
+
+  if (typeof win.setTimeout === "function") {
+    win.setTimeout(() => stabilizeLogo(element, target, win, runId, debug), duration + FRAME_INTERVAL);
+  }
 
   win.requestAnimationFrame(tick);
 }
 
 export function initLogoDecode(doc = document, win = window) {
-  const logos = [...doc.querySelectorAll("[data-logo-decode]")];
+  const logos = [...doc.querySelectorAll(TEXT_LOGO_SELECTOR)];
+  const logoMarks = [...doc.querySelectorAll(LOGO_MARK_SELECTOR)];
 
-  if (!logos.length) {
+  if (!logos.length && !logoMarks.length) {
     return false;
   }
+
+  const runId = (win.__logoDecodeRunId ?? 0) + 1;
+  win.__logoDecodeRunId = runId;
 
   const debug = isDebugEnabled(win);
   const reduceMotion =
     typeof win.matchMedia === "function" && win.matchMedia(MOTION_QUERY).matches;
+  const startDelay = !reduceMotion && typeof win.setTimeout === "function" ? START_DELAY : 0;
 
   if (debug) {
     win.console?.log?.("logo decode loaded", {
       count: logos.length,
+      logoMarks: logoMarks.length,
       reduceMotion,
     });
+  }
+
+  for (const logoMark of logoMarks) {
+    activateLogoMark(logoMark, runId);
+    scheduleLogoMark(logoMark, win, startDelay + DEFAULT_DURATION, runId);
   }
 
   for (const logo of logos) {
@@ -143,10 +226,11 @@ export function initLogoDecode(doc = document, win = window) {
       continue;
     }
 
+    markRun(logo, runId);
     logo.textContent = target;
 
     if (typeof win.requestAnimationFrame !== "function") {
-      stabilizeLogo(logo, target, win, debug);
+      stabilizeLogo(logo, target, win, runId, debug);
       continue;
     }
 
@@ -163,10 +247,10 @@ export function initLogoDecode(doc = document, win = window) {
       });
     }
 
-    const startDecode = () => decodeLogo(logo, win, target, DEFAULT_DURATION, debug);
+    const startDecode = () => decodeLogo(logo, win, target, DEFAULT_DURATION, runId, debug);
 
-    if (!reduceMotion && typeof win.setTimeout === "function") {
-      win.setTimeout(startDecode, START_DELAY);
+    if (startDelay > 0) {
+      win.setTimeout(startDecode, startDelay);
     } else {
       startDecode();
     }
