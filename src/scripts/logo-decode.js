@@ -69,6 +69,34 @@ export function getDecodedCharacters(target, elapsedMs, random = Math.random) {
   });
 }
 
+function getCycleDecodedCharacters(fromValue, toValue, elapsedMs, duration) {
+  const maxLen = Math.max(fromValue.length, toValue.length);
+
+  return [...Array(maxLen)].map((_, i) => {
+    if (fromValue[i] === toValue[i]) {
+      return { character: toValue[i], isResolved: true };
+    }
+
+    const scale = duration / DEFAULT_DURATION;
+    const isResolved = elapsedMs >= getResolveTime(i, maxLen) * scale;
+    return {
+      character: isResolved ? (toValue[i] ?? "") : getRandomGlyph(),
+      isResolved,
+    };
+  });
+}
+
+function renderCycleFrame(element, fromValue, toValue, elapsedMs, duration) {
+  const doc = element.ownerDocument ?? document;
+  const fragment = doc.createDocumentFragment();
+
+  for (const { character, isResolved } of getCycleDecodedCharacters(fromValue, toValue, elapsedMs, duration)) {
+    fragment.append(createCharacterElement(doc, character, isResolved));
+  }
+
+  element.replaceChildren(fragment);
+}
+
 function cycleWithScramble(element, values, win) {
   if (values.length < 2) return null;
 
@@ -85,40 +113,33 @@ function cycleWithScramble(element, values, win) {
     const fromValue = values[fromIdx];
     const toValue = values[toIdx];
 
-    if (reduceMotion) {
-      element.textContent = toValue;
-      element.setAttribute("aria-label", toValue);
-      index = toIdx;
-      handle = win.setTimeout(toggle, CYCLE_INTERVAL);
-      return;
-    }
+    element.classList.remove(STABILIZED_CLASS);
+    element.classList.add(DECODING_CLASS);
 
     const start = win.performance?.now?.() ?? Date.now();
-    const maxLen = Math.max(fromValue.length, toValue.length);
-    const varying = [];
-
-    for (let i = 0; i < maxLen; i++) {
-      if (fromValue[i] !== toValue[i]) varying.push(i);
-    }
+    let lastFrame = 0;
 
     function frame(timestamp) {
       if (!active) return;
       const elapsed = timestamp - start;
+      const elapsedMs = Math.min(elapsed, CYCLE_SCRAMBLE_DURATION);
 
-      if (elapsed >= CYCLE_SCRAMBLE_DURATION) {
-        element.textContent = toValue;
-        element.setAttribute("aria-label", toValue);
-        index = toIdx;
-        handle = win.setTimeout(toggle, CYCLE_INTERVAL);
+      if (timestamp - lastFrame >= FRAME_INTERVAL || elapsedMs === CYCLE_SCRAMBLE_DURATION) {
+        renderCycleFrame(element, fromValue, toValue, elapsedMs, CYCLE_SCRAMBLE_DURATION);
+        lastFrame = timestamp;
+      }
+
+      if (elapsedMs < CYCLE_SCRAMBLE_DURATION) {
+        win.requestAnimationFrame(frame);
         return;
       }
 
-      const chars = [...toValue];
-      for (const i of varying) {
-        chars[i] = getRandomGlyph();
-      }
-      element.textContent = chars.join("");
-      win.requestAnimationFrame(frame);
+      element.textContent = toValue;
+      element.setAttribute("aria-label", toValue);
+      element.classList.remove(DECODING_CLASS);
+      element.classList.add(STABILIZED_CLASS);
+      index = toIdx;
+      handle = win.setTimeout(toggle, CYCLE_INTERVAL);
     }
 
     win.requestAnimationFrame(frame);
