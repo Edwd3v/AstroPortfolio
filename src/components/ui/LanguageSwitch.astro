@@ -27,4 +27,18 @@ const englishLabel = "EN";
   <span class={`language-switch__option ${englishState}`} aria-current={!isSpanish ? "page" : undefined}>
     {englishLabel}
   </span>
-</a>
+  </a>
+
+<style>
+  @keyframes language-switch-entrance {
+    from {
+      opacity: 0;
+      transform: translateY(0.45rem);
+      pointer-events: none;
+    }
+  }
+
+  .language-switch {
+    animation: language-switch-entrance 0.6s ease-out 1.8s both;
+  }
+</style>
