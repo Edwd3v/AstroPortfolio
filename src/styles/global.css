@@ -181,6 +181,7 @@ body > :not(.ambient-background):not(.brand-watermark):not(script) {
 
 body:not([data-sidebar-brand-ready="true"]) [data-logo-decode],
 body:not([data-sidebar-brand-ready="true"]) [data-logo-mark],
+body:not([data-sidebar-brand-ready="true"]) .brand-watermark,
 body:not([data-sidebar-footer-ready="true"]) .sidebar-footer-controls {
   opacity: 0;
   transform: translateY(0.45rem);
@@ -642,6 +643,35 @@ body:not([data-sidebar-brand-ready="true"]) .logo-mark__glow {
   }
 }
 
+@keyframes brand-watermark-entrance {
+  0% {
+    opacity: 0;
+    filter: blur(0.2px) saturate(0.82);
+  }
+
+  15% {
+    opacity: 0.32;
+    filter: blur(0) saturate(1.05)
+      drop-shadow(0 0 1.2rem rgb(108 196 199 / 0.35));
+  }
+
+  35% {
+    opacity: 0.18;
+    filter: blur(0) saturate(0.94)
+      drop-shadow(0 0 0.5rem rgb(108 196 199 / 0.15));
+  }
+
+  60% {
+    opacity: 0.09;
+    filter: blur(0.1px) saturate(0.86);
+  }
+
+  100% {
+    opacity: var(--brand-watermark-opacity-rest);
+    filter: blur(0.2px) saturate(0.82);
+  }
+}
+
 @keyframes brand-watermark-breathe {
   0%,
   100% {
@@ -671,8 +701,9 @@ body:not([data-sidebar-brand-ready="true"]) .logo-mark__glow {
     opacity: 0.34;
   }
 
-  .brand-watermark {
-    animation: none;
+  .brand-watermark-primary,
+  .brand-watermark-reflection {
+    animation: none !important;
   }
 
   [data-logo-decode].is-decoding,
@@ -739,7 +770,8 @@ body:not([data-sidebar-brand-ready="true"]) .logo-mark__glow {
     --brand-watermark-opacity-glow: 0.13;
     --brand-watermark-glow: rgb(108 196 199 / 0.28);
     opacity: var(--brand-watermark-opacity-rest);
-    animation: brand-watermark-breathe 9s ease-in-out infinite;
+    animation: brand-watermark-entrance 1.2s ease-out forwards,
+               brand-watermark-breathe 9s ease-in-out 1.2s infinite;
   }
 
   .brand-watermark-reflection {
@@ -751,7 +783,8 @@ body:not([data-sidebar-brand-ready="true"]) .logo-mark__glow {
     --brand-watermark-glow: rgb(205 204 204 / 0.18);
     opacity: var(--brand-watermark-opacity-rest);
     transform: rotate(180deg);
-    animation: brand-watermark-breathe 12s ease-in-out -3s infinite;
+    animation: brand-watermark-entrance 1.2s ease-out forwards,
+               brand-watermark-breathe 12s ease-in-out calc(-3s + 1.2s) infinite;
   }
 }
 
