@@ -113,15 +113,70 @@ body > :not(.ambient-background):not(.brand-watermark):not(script) {
 }
 
 [data-logo-mark] {
-  display: block;
+  position: relative;
+  display: inline-block;
   transform: translateY(0) scale(1);
   opacity: 1;
-  filter: drop-shadow(0 0 0 rgb(108 196 199 / 0));
+  filter:
+    drop-shadow(0 0 0.45rem rgb(108 196 199 / 0.1))
+    drop-shadow(0 0 0.9rem rgb(108 196 199 / 0.05));
   will-change: filter, opacity, transform;
   transition:
     opacity 180ms ease-out,
     transform 180ms ease-out,
     filter 180ms ease-out;
+}
+
+[data-logo-mark]::before {
+  content: "";
+  position: absolute;
+  inset: 12% 10%;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle, rgb(108 196 199 / 0.17) 0%, rgb(108 196 199 / 0.08) 38%, transparent 74%),
+    radial-gradient(circle at 60% 42%, rgb(255 92 205 / 0.1) 0%, transparent 64%);
+  filter: blur(0.7rem);
+  opacity: 0.34;
+  transform: scale(0.92);
+  transition:
+    opacity 180ms ease-out,
+    transform 180ms ease-out,
+    filter 180ms ease-out;
+  pointer-events: none;
+}
+
+.logo-mark__glow,
+.logo-mark__core {
+  display: block;
+  width: 6rem;
+  height: auto;
+}
+
+.logo-mark__glow {
+  position: absolute;
+  inset: 0;
+  opacity: 0.44;
+  filter:
+    blur(0.42rem)
+    saturate(1.35)
+    brightness(1.32)
+    drop-shadow(0 0 0.35rem rgb(108 196 199 / 0.17))
+    drop-shadow(0 0 0.6rem rgb(255 92 205 / 0.08));
+  transform: scale(1.035);
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.logo-mark__core {
+  position: relative;
+  z-index: 1;
+}
+
+@media (min-width: 1024px) {
+  .logo-mark__glow,
+  .logo-mark__core {
+    width: 7rem;
+  }
 }
 
 body:not([data-sidebar-brand-ready="true"]) [data-logo-decode],
@@ -135,6 +190,11 @@ body:not([data-sidebar-footer-ready="true"]) .sidebar-footer-controls {
 body:not([data-sidebar-brand-ready="true"]) [data-logo-mark] {
   transform: translateY(0.7rem) scale(0.94);
   filter: blur(0.35rem);
+}
+
+body:not([data-sidebar-brand-ready="true"]) [data-logo-mark]::before,
+body:not([data-sidebar-brand-ready="true"]) .logo-mark__glow {
+  opacity: 0;
 }
 
 .logo-decode__char {
@@ -180,8 +240,46 @@ body:not([data-sidebar-brand-ready="true"]) [data-logo-mark] {
   animation: logo-mark-interference 520ms steps(2, end) infinite;
 }
 
+[data-logo-mark].is-decoding::before {
+  opacity: 0.48;
+  filter: blur(0.8rem);
+  transform: scale(1.04);
+}
+
+[data-logo-mark].is-decoding .logo-mark__glow {
+  opacity: 0.5;
+  filter:
+    blur(0.62rem)
+    saturate(1.6)
+    brightness(1.5)
+    drop-shadow(0 0 0.5rem rgb(108 196 199 / 0.23))
+    drop-shadow(0 0 0.9rem rgb(255 92 205 / 0.12));
+  transform: scale(1.04);
+}
+
 [data-logo-mark].is-decoded {
   animation: logo-mark-stabilize 320ms cubic-bezier(0.16, 1, 0.3, 1);
+  filter:
+    drop-shadow(0 0 0.45rem rgb(108 196 199 / 0.16))
+    drop-shadow(0 0 0.9rem rgb(108 196 199 / 0.08))
+    drop-shadow(0 0 1rem rgb(255 92 205 / 0.04));
+}
+
+[data-logo-mark].is-decoded::before {
+  opacity: 0.4;
+  filter: blur(0.7rem);
+  transform: scale(1.01);
+}
+
+[data-logo-mark].is-decoded .logo-mark__glow {
+  opacity: 0.46;
+  filter:
+    blur(0.5rem)
+    saturate(1.48)
+    brightness(1.42)
+    drop-shadow(0 0 0.42rem rgb(108 196 199 / 0.21))
+    drop-shadow(0 0 0.8rem rgb(255 92 205 / 0.09));
+  transform: scale(1.03);
 }
 
 .language-switch {
@@ -585,6 +683,12 @@ body:not([data-sidebar-brand-ready="true"]) [data-logo-mark] {
   [data-logo-mark].is-decoding,
   [data-logo-mark].is-decoded {
     animation: none;
+    filter: none;
+    transform: none;
+  }
+
+  [data-logo-mark]::before,
+  .logo-mark__glow {
     filter: none;
     transform: none;
   }

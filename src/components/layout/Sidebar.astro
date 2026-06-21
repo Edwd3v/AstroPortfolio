@@ -17,14 +17,23 @@ const role = siteConfig.role ?? "Frontend Developer";
   <div class="h-full px-6 lg:px-10 pt-40 pb-10 flex flex-col justify-between">
     <div class="space-y-8">
       <div class="space-y-5">
-        <img
-          src={principalLogo.src}
-          alt="Edwd3v logo"
-          class="h-auto w-24 lg:w-28"
-          loading="eager"
-          decoding="async"
-          data-logo-mark
-        />
+        <div class="logo-mark" data-logo-mark>
+          <img
+            src={principalLogo.src}
+            alt=""
+            class="logo-mark__glow"
+            loading="eager"
+            decoding="async"
+            aria-hidden="true"
+          />
+          <img
+            src={principalLogo.src}
+            alt="Edwd3v logo"
+            class="logo-mark__core"
+            loading="eager"
+            decoding="async"
+          />
+        </div>
         <p
           class="font-heading text-5xl lg:text-6xl tracking-[0.18em] uppercase text-text/95"
           data-logo-decode
