@@ -72,7 +72,8 @@ const alternateUrls = baseUrl
       <style>
         [data-logo-decode],
         [data-logo-mark],
-        .sidebar-footer-controls {
+        .sidebar-footer-controls,
+        #main {
           opacity: 1;
           pointer-events: auto;
           transform: none;
@@ -122,6 +123,20 @@ const alternateUrls = baseUrl
         <main id="main" class="px-4 md:px-4 pt-12 md:pt-16">
           <slot />
         </main>
+
+        <style>
+          #main {
+            animation: main-entrance 0.6s ease-out 1.8s both;
+          }
+
+          @keyframes main-entrance {
+            from {
+              opacity: 0;
+              transform: translateY(0.45rem);
+              pointer-events: none;
+            }
+          }
+        </style>
       </div>
     </div>
 
@@ -154,7 +169,9 @@ const alternateUrls = baseUrl
         document.body.dataset.sidebarBrandReady = "false";
         document.body.dataset.sidebarFooterReady = "false";
         initLogoDecode();
-        document.body.dataset.sidebarBrandReady = "true";
+        requestAnimationFrame(() => {
+          document.body.dataset.sidebarBrandReady = "true";
+        });
         document.body.dataset.sidebarFooterReady = "true";
 
         trackCleanup(initEmailCopy());
